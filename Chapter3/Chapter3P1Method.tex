@@ -13,6 +13,19 @@ Our simulation framework is summarised in Figure~\ref{fig:methodFramework}.
 The method we propose uses a physics-based approach to the MR acquisition process in order to simulate MRI datasets.
 The motion artifacts are introduced during the acquisition of the signal, making our simulations more realistic than other approaches where datasets were corrupted by applying geometric transformations in image space (see Section \ref{chapterlabel2sec2}).
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[angle=0,width=1\textwidth, keepaspectratio]{images/mrf/methodFramework}
+    \caption{Image space simulation pipeline of a magnetic resonance fingerprinting experiment.
+    The framework consists of three inputs: the digital phantom, the MR acquisition sequence and the motion trace. 
+    The latter is shown here with dashed lines because it is an optional input parameter. 
+    The open source MRI simulator JEMRIS is used to generate signals for each repetition period.
+    Then, the BART toolbox is used to reconstruct the images.
+    Separately, a dictionary of simulated signals is generated from first principles for a wide range of tissue properties.
+    Finally, the quantitative maps are generated together with their corresponding pattern matching scores.}
+    \label{fig:methodFramework}
+\end{figure}
+
 \hfill
 
 The framework takes three inputs.
@@ -31,19 +44,6 @@ The framework creates two outputs: the quantitative maps and the matching scores
 The former are created by first performing a voxel-wise pattern matching algorithm between all image space signals and all dictionary signals and then choosing the dictionary signal that gives the highest score as the most representative one for the voxel.
 The latter are just the pattern matching scores showing how similar the two signals are.
 More details related to the general MRF framework can be found in Appendix \ref{chapterlabel2sec22}.
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[angle=0,width=1\textwidth, keepaspectratio]{images/mrf/methodFramework}
-    \caption{Image space simulation pipeline of a magnetic resonance fingerprinting experiment.
-    The framework consists of three inputs: the digital phantom, the MR acquisition sequence and the motion trace. 
-    The latter is shown here with dashed lines because it is an optional input parameter. 
-    The open source MRI simulator JEMRIS is used to generate signals for each repetition period.
-    Then, the BART toolbox is used to reconstruct the images.
-    Separately, a dictionary of simulated signals is generated from first principles for a wide range of tissue properties.
-    Finally, the quantitative maps are generated together with their corresponding pattern matching scores.}
-    \label{fig:methodFramework}
-\end{figure}
 
 \hfill
 
