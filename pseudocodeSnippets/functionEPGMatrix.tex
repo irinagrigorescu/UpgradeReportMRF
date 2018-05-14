@@ -1,0 +1,149 @@
+\begin{algorithm}
+\setstretch{1}
+    \LinesNumberedHidden
+    \SetKwInOut{Input}{Input}
+    \SetKwInOut{Output}{Output}
+
+    \nonl \underline{function epgMATRIX} ($\bm{N, \phi, \alpha, T_R, T_1, T_2, flagDephase}$)\;
+    \Input{
+        $\bm{N}$ number of RF pulses \\
+        $\bm{\phi}$ an array of N RF phase angles (in deg) \\
+        $\bm{\alpha}$ an array of N RF flip angles (in deg) \\
+        $\bm{T_R}$ an array of N repetition times (in ms) \\
+        $\bm{T_1}$ the longitudinal relaxation time (in ms) \\
+        $\bm{T_2}$ the transverse relaxation time (in ms) \\
+        $\bm{flagDephase}$ a flag set to 0 or 1. 1 for performing dephasing (FISP) and 0 for not performing (bSSFP) \\}
+    \Output{
+    $\bm{\Xi_F} (2N-1 \times N)$ the evolution matrix of the transverse states \\
+    $\bm{\Xi_Z} ( N \times N)$ the evolution matrix of the longitudinal states}
+    
+    \nonl \phantom{lala}
+    
+    %% Step 1
+    \texttt{(eM1.) Transform degrees to radians for both phase and flip angles: } 
+    \begin{flalign*}
+    \phi \gets deg2rad(\phi) \text{ and   }
+    \alpha \gets deg2rad(\alpha) 
+    \end{flalign*}
+    
+    %% Step 2
+    \texttt{(eM2.) Precompute relaxation parameters: } 
+    \begin{flalign*}
+    E_1 \gets
+    \begin{bmatrix}
+        e^{-T_{R1} / T_1} \\
+        e^{-T_{R2} / T_1} \\
+        \dots \\
+        e^{-T_{RN} / T_1} \\
+    \end{bmatrix}_{(N \times 1)} \text{ and   }
+    E_2 \gets
+    \begin{bmatrix}
+        e^{-T_{R1} / T_2} \\
+        e^{-T_{R2} / T_2} \\
+        \dots \\
+        e^{-T_{RN} / T_2} \\
+    \end{bmatrix}_{(N \times 1)} 
+    \end{flalign*}
+    
+    %% Step 3
+    \texttt{(eM3.) Initialize matrices}
+    \begin{flalign*}
+    \Xi_F & \gets O_{(2N-1 \times N)}; \text{ and   } 
+    \Omega^{-RF} \gets 
+    \begin{bmatrix}
+        0 &  \\
+        0 & O_{(3 \times N)} \\
+        1 &  
+    \end{bmatrix}_{(3 \times N+1)} \\
+    \Xi_Z  & \gets O_{(N \times N)};
+     \text{ and   }
+    \Omega^{+RF}  \gets O_{(3 \times N)}; 
+    \end{flalign*}
+    
+    
+    \caption{Function that performs an EPG simulation of a FISP or bSSFP sequence on a single isochromat of $T_1$ and $T_2$}
+    \label{alg:epgMATRIX}
+\end{algorithm}
+
+\begin{algorithm}
+\setstretch{1}
+    \LinesNumberedHidden
+
+    %% Step 4
+    \nonl \texttt{(eM4.) Go through each TR block} \\
+    \nonl \For{$p \in [1, N]$} {
+        %% Step 4.1
+        \nonl \texttt{(eM4.1.) Apply RF pulse to the pre RF pulse state matrix }
+        \begin{flalign*}
+            \bm{\Omega^{+RF}}_{i=1,3 | j=1,p} \gets \bm{T}(\phi_p, \alpha_p)  \,\, \bm{\Omega^{-RF}}_{i=1,3 | j=1,p}
+        \end{flalign*}
+        
+        %% Step 4.2
+        \nonl \texttt{(eM4.2.) Store the state matrix in the evolution matrices} \\
+        
+            %% Step 4.2.1
+            \nonl \quad \quad \texttt{(eM4.2.1) Store the dephasing transverse magnetization ($\widetilde{F}_+$) in the evolution matrix:} \\
+            \nonl \quad \quad \texttt{copy first line of state matrix in the evolution matrix at column p, above and including}\\
+            \nonl \quad \quad \texttt{the middle ($N^{th}$) line:} 
+            \nonl \[ \bm{\Xi}_{\bm{F} \, (i=N,N-p+1 | j=p)}  \gets \bm{\Omega^{+RF}}_{i=1 | j=1,p} \]
+            
+            %% Step 4.2.2
+            \nonl \quad \quad \texttt{(eM4.2.2) Store the rephasing transverse magnetization ($\widetilde{F}_-^*$) in the evolution matrix:}\\
+            \nonl \quad \quad \texttt{copy second line of state matrix in the evolution matrix at column $p \neq 1$, below and }\\
+            \nonl \quad \quad \texttt{excluding the middle ($N^{th}$) line:} 
+            \nonl \[ \bm{\Xi}_{\bm{F} \, (i=N+1,N+1+(p-2) | j=p, p!=1)}  \gets (\bm{\Omega^{+RF}}_{i=2 | j=2,p})^* \]
+        
+            %% Step 4.2.3
+            \nonl \quad \quad \texttt{(eM4.2.3) Store the longitudinal magnetization ($\widetilde{Z}$) in the evolution matrix:}\\
+            \nonl \quad \quad \texttt{copy third line of state matrix in the evolution matrix at column p:} 
+            \nonl \[ \bm{\Xi}_{\bm{Z} \, (i=N,N-p+1 | j=p)}  \gets \bm{\Omega^{+RF}}_{i=3 | j=1,p} \]
+        
+        %% Step 4.3
+        \nonl \texttt{(eM4.3.) Do relaxation}\\
+            
+            %% Step 4.3.1
+            \nonl \quad \quad \texttt{(eM4.3.1) $T_2$ relaxation on all transverse states: }
+            \nonl \[ \bm{\Omega^{-RF}}_{(i=1,2 | j=1,p)} \gets\bm{E_2}(p) \, \bm{\Omega^{+RF}}_{(i=1,2 | j=1,p)} \]
+            
+            %% Step 4.3.2
+            \nonl \quad \quad \texttt{(eM4.3.2) $T_1$ relaxation on all longitudinal states of $k \neq 0$: }
+            \nonl \[ \bm{\Omega^{-RF}}_{(i=3 | j=2,p)} \gets \bm{E_1}(p) \, \bm{\Omega^{+RF}}_{(i=3 | j=2,p)} \]
+            
+            %% Step 4.3.3
+            \nonl \quad \quad \texttt{(eM4.3.3) $T_1$ recovery on longitudinal states of $k == 0$: }
+            \nonl \[ \bm{\Omega^{-RF}}_{(i=3 | j=1)} \gets \bm{E_1}(p) \, \bm{\Omega^{+RF}}_{(i=3 | j=1)}  + 1 - \bm{E_1}(p); \]
+        
+    \nonl }
+
+    
+\end{algorithm}
+
+
+\begin{algorithm}
+\setstretch{1}
+    \LinesNumberedHidden
+    
+    %% Step 4
+    \nonl \texttt{(eM4.) Go through each TR block (cont'd)} \\
+    \nonl \For{$p \in [1, N]$} 
+    {
+        %% Step 4.4
+        \nonl \texttt{(eM4.4.) Perform dephasing for current TR block} \\
+        \nonl \If{flagDephase set to 1} 
+        { 
+            %% Step 4.4.1
+            \nonl \texttt{(eM4.4.1) The shift operator acts on the transverse magnetization by right shifting the first row of the state matrix $\widetilde{F}_k \rightarrow \widetilde{F}_{k+1}$ : }
+            \nonl \[ \bm{\Omega^{-RF}}_{(i=1 | j=2,p+1)}  \gets \bm{\Omega^{-RF}}_{(i=1, | j=1,p)}; \] 
+            %% Step 4.4.2
+            \nonl \texttt{(eM4.4.2) The shift operator acts on the transverse magnetization by left shifting the second row of the state matrix $\widetilde{F}_{-k} \rightarrow \widetilde{F}_{-(k-1)}$ : }
+            \[ \bm{\Omega^{-RF}}_{(i=2 | j=1,p)}  \gets \bm{\Omega^{-RF}}_{(i=2, | j=2,p+1)}; \] 
+            %% Step 4.4.3
+            \nonl \texttt{(eM4.4.3) By applying a gradient the $\widetilde{F}_{-1}$ turned into a rephased state called $\widetilde{F}_{-0}$ which gives the new $\widetilde{F}_0$ as: $\widetilde{F}_0 = (\widetilde{F}_{-0})^*$: }
+            \nonl \[ \bm{\Omega^{-RF}}_{(i=1 | j=1)}  \gets (\bm{\Omega^{-RF}}_{(i=2, | j=1)})^*; \]  
+        \nonl }
+    \nonl }
+        
+    %% Step 5
+    \nonl \texttt{(eM5.) RETURN the evolution matrices } $\Xi_F$ and $\Xi_Z$ \;    
+
+\end{algorithm}

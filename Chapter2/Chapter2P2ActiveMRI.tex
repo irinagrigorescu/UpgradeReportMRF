@@ -1,0 +1,717 @@
+\section{Active MRI Simulators}
+\label{chapterlabel2secMRISIMULATORS}
+
+In this section of the survey we review the current state-of-the-art in MRI simulation systems as freely available software tools that are active today.
+Among all the simulators presented so far, 5 are still available and can be downloaded from their dedicated websites.
+This review will focus on their most desirable features, while also presenting their limitations.
+Table~\ref{table:tableMRISimulators} summarizes our findings, while the following paragraphs delve into the details of each simulator.
+
+\hfill
+
+\begin{table}[h!]
+\centering
+ \begin{tabular}{||c | c c c c c ||} 
+ \hline
+ Key Features & \textbf{P} & \textbf{J} & \textbf{O} & \textbf{ML} & \textbf{SB} \\ [0.5ex] 
+ \hline\hline
+ % % %
+ \begin{tabular}{@{}c@{}c@{}c@{}}\textbf{Operating System}\\Linux\\Windows\\Mac OS\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\\phantom{-}\\\phantom{-}\\$\checkmark$\end{tabular} \\
+ \hline
+ % % %
+ \begin{tabular}{@{}c@{}c@{}c@{}}\textbf{Programming Language}\\C++\\MATLAB\\Objective-C\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\phantom{-}\\$\checkmark$\\\phantom{-}\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\phantom{-}\\$\checkmark$\\$\checkmark$\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\phantom{-}\\$\checkmark$\\\phantom{-}\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\phantom{-}\\$\checkmark$\\$\checkmark$\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\phantom{-}\\\phantom{-}\\\phantom{-}\\$\checkmark$\end{tabular} \\
+ \hline
+ % % %
+ \textbf{Open-Source} & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & \phantom{-} \\
+ \hline
+ % % %
+ \begin{tabular}{@{}c@{}c@{}}\textbf{Parallelisation}\\CPU\\GPU\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\end{tabular}  \\
+ \hline
+ % % %
+ \begin{tabular}{@{}c@{}}\textbf{Sequence Design}\\\textbf{GUI}\end{tabular} & \phantom{-} & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
+ \hline
+ % % %
+ \begin{tabular}{@{}c@{}}\textbf{Coil Design}\\\textbf{GUI}\end{tabular} & \phantom{-} & $\checkmark$ & \phantom{-} & $\checkmark$ & \phantom{-} \\
+ \hline
+  % % %
+ \begin{tabular}{@{}c@{}c@{}}\textbf{Multi-RF}\\Receiving\\Transmitting\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\\phantom{-}\\\phantom{-}\end{tabular} & 
+ \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\\phantom{-}\\\phantom{-}\end{tabular}  \\
+ \hline
+ 
+ % % %
+ \textbf{K-space Visualisation} & \phantom{-} & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
+ \hline
+ % % %
+ \textbf{Motion} & $\checkmark$ & $\checkmark$ & \phantom{-} & $\checkmark$ & $\checkmark$ \\
+ \hline
+ % % %
+ \begin{tabular}{@{}c@{}}\textbf{Multi-pool}\\\textbf{exchange model}\end{tabular} & \phantom{-} & $\checkmark$ & \phantom{-} & $\checkmark$ & \phantom{-} \\
+ \hline
+ % % %
+ \textbf{DW-MRI} & $\checkmark$ & \phantom{-} & \phantom{-} & \phantom{-} & \phantom{-} \\
+ \hline
+ % % %
+ \textbf{fMRI} & $\checkmark$ & \phantom{-} & $\checkmark$ & \phantom{-} & \phantom{-} \\
+ \hline
+  % % %
+ \textbf{Last Update} & Nov'17 & Mar'18 & Nov'16 & Jul'17 & Mar'10 \\
+ \hline
+\end{tabular}
+\caption{Summary of key features of the current active MRI simulators, where \textbf{P} - POSSUM, \textbf{J} - JEMRIS, \textbf{O} - ODIN, \textbf{ML} - MRiLab, \textbf{SB} - SpinBench}
+\label{table:tableMRISimulators}
+\end{table}
+
+\hfill
+
+% % % POSSUM
+\subsection{POSSUM}
+\textbf{POSSUM}\footnote{\url{https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/POSSUM}}, or \textit{Physics-Oriented Simulated Scanner for Understanding MRI}, is a software program that creates simulated MRI and fMRI images \cite{Drobnjak2006} \cite{Drobnjak2010}.
+POSSUM is part of FSL\footnote{\url{https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FSL}} (FMRIB's Software Library), a comprehensive library of analysis tools for fMRI, MRI and DTI brain imaging data.
+POSSUM is written in C++ and comes equipped with both a graphical user interface and command line tools for the user to interact with the simulator.
+The main developers of this project are Ivana Drobnjak and Mark Jenkinson, and the last update made was in November 2017 when Mark Graham released a POSSUM extension capable of producing realistic diffusion-weighted MR datasets \cite{Graham2016}.
+
+\hfill
+
+\subsubsection{Key features and limitations}
+The most important features POSSUM has to offer are:
+\begin{itemize}
+    
+    \item It is an open-source software package that can be downloaded and installed on any of the most popular operating systems available (Mac OS, Linux, Windows) as part of the FSL software library: \url{https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation}.
+    
+    \item It provides a graphical user interface for choosing the input object, setting the sequence parameters ($T_R$, $T_E$, gradient directions, field-of-view, matrix size, etc.), choosing the $B_0$ field strength and inhomogeneities, the motion type, the $T_2^*$ time course and spatial modulation (for fMRI studies) and the signal noise.
+    
+    \item It uses parallelisation techniques, through the Message Parsing Interface (MPI) programming standard, to speed up the computational process.
+    
+    \item It can simulate MR signals starting from an input object that can be any segmented anatomical voxel model or any collection of tissue templates. %More specifically, the input object can be a 4D volume where the $4^{th}$ dimension is a tissue type.
+    
+    \item It is capable of producing realistic simulated MRI, fMRI and DW-MRI datasets.
+    
+    \item It can simulate spin history effects, motion during readout periods and the interaction with $B_0$ inhomogeneities, by tracking and updating the magnetisation vector through time for every object voxel.
+    
+    \item It is capable of simulating spatially nonlinear heterogeneous magnetic fields that are also changing in time (except RF excitation period).
+    
+\end{itemize}
+
+\hfill
+
+Although a powerful and versatile simulator, POSSUM has the following limitations:
+\begin{itemize}
+    
+    \item It uses the hard-pulse approximation, where RF pulses are modelled as instantaneous rotations through an angle as they are considered short enough to not allow for relaxation during this event. 
+    
+    \item Relaxation is not modelled during the RF pulse.
+    
+    \item It cannot model the effect of gradient spoiling as an event which forms a distribution of dephased isochromats, thus effectively not allowing for refocusing in subsequent RF pulses.
+    
+    \item It does not have a dedicated pulse sequence development tool. New pulse sequences have to be created by explicitly programming them.
+    
+\end{itemize}
+
+\hfill
+
+\subsubsection{Implementation details}
+
+\textbf{Inputs.} POSSUM takes as inputs a variety of image or matrix data.
+These data represent different object and scanner related properties and are summarised below.
+\begin{itemize}
+    
+    \item \textbf{Anatomical Object}: The object is a collection of rectangular volume elements of dimensions $(L_x, L_y, L_z)$.
+    These object voxels consist of a mixture of different materials or tissues which are considered to be uniformly distributed across the object voxel.
+    
+    \item \textbf{Tissue Specific Parameters}: The tissue specific parameters (longitudinal relaxation time $T_1$, transverse relaxation time $T_2^*$ and proton density $\rho$) are specified for each tissue type in the object.
+    These values are considered to be constant across every object voxel.
+    
+    \item \textbf{Motion}: Motion can be specified through a 7 column matrix representing the time (in seconds), translations in x, y and z directions (in metres), and rotations in x, y and z directions about the centre of the volume (in radians).
+    The motion values in between the two consecutive time points are interpolated.
+    
+    \item \textbf{Pulse Sequence}: The pulse sequence can be specified through a 8 column matrix representing time (in seconds), RF pulse properties such as: RF angle (in radians), RF frequency bandwidth (in Hz) and RF centre frequency (in Hz), signal readout (binary value), and gradients in x, y and z directions (in T/m).
+    The pulse sequence can also be created through a dedicated tool which is part of the POSSUM framework called \texttt{pulse}.
+    Two types of sequences are available: an EPI sequence and a GE sequence, for which the user needs to specify the sequence specific properties (RF pulse angle, echo time, repetition time, k-space matrix size and image resolution).
+    
+    \item \textbf{$B_0$ inhomogeneities}: Inhomogeneities in the main magnetic field can be included in the simulation by providing a set of 3D images representing the $B_0$ inhomogeneities (in Tesla or ppm).
+    POSSUM also offers the possibility to create these images through the use of a dedicated tool called \texttt{b0calc}.
+    This tool needs as input a 3D binary image which states where tissue or air exist.
+    
+    \item \textbf{Activation}: The BOLD signal can be included in the simulation through the use of 4D volumes representing each voxel's time-series of $T_2^*$ changes.
+    
+    \item \textbf{Slice Profile}: The shape of the RF pulse in frequency space can be fed into the simulation through a 2-column matrix representing the amplitude values for every frequency.
+    
+\end{itemize}
+
+\hfill
+
+\textbf{Outputs.} The POSSUM MRI simulator can offer the user a variety of outputs.
+These are summarised below.
+\begin{itemize}
+    
+    \item \textbf{Signal}: POSSUM provides the raw signal in terms of real and imaginary channels for every requested readout point.
+    
+    \item \textbf{K-Space}: The k-space matrix (magnitude and phase) can be retrieved by using a dedicated tool called \texttt{signal2image} which requires the raw signal as input and the sequence type used.
+    
+    \item \textbf{Image}: The final image (magnitude and phase) can be retrieved using the same tool as before (\texttt{signal2image}) on the raw signal.
+    
+\end{itemize}
+
+\hfill
+
+\textbf{Solver.} At the heart of POSSUM is a Bloch equation solver which solves the equation for all object voxels and all tissue types.
+The total signal at time $t$ is then calculated as a sum over all the magnetisation vectors from all the object voxels \cite{Drobnjak2006}:
+\begin{equation}
+    S(t) = \sum_{j \in \Lambda} \sum_{\vec{r}_0 \in \Omega} s_j (\vec{r}_0, t)
+\end{equation}
+where $\Omega$ is the collection of object voxels, $\Lambda$ is the collection of tissues, $\vec{r}_0$ is the centre of the object voxel and $s_j(\vec{r}_0, t)$ is the signal arising from the $j^{th}$ tissue type of the object voxel whose centre is $\vec{r}_0$.
+The signal $s_j(\vec{r}_0, t)$ is calculated analytically and it depends on the proportion of the tissue type, the dimensions of the object voxel, the magnitude of the transverse magnetisation immediately after the last RF pulse, the transverse relaxation effects, gradient induced dephasing, $B_0$ inhomogeneities and motion.
+A detailed explanation can be found in \cite{Drobnjak2006}.
+
+% In the rotating reference frame the closed form solutions during relaxation or signal acquisition are:
+% \begin{flalign*}
+%     M_z(\vec{r}, t) & = e^{-(t-t_0)/T_1} M_z(\vec{r},t_0) + (1 - e^{-(t-t_0)/T_1}) M_0 \\
+%     M_{xy}(\vec{r}, t) & = e^{-(t-t_0)/T_2^*} \lvert M_{xy}(\vec{r},t_0) \rvert e^{- i \phi(\vec{r},t)}
+% \end{flalign*}
+
+% More specifically, the signal in time for each object voxel is solved analytically.
+% \begin{flalign*}
+%     S_j(r_0,t) = \, & p(j) L_x L_y L_z \lvert M_{xy}(t_0) \rvert exp\Bigg(- \int_{t_0}^{t} \frac{1}{T_2^*(t)} dt \Bigg) \\
+%                  &  sinc(F_x) sinc(F_y) sinc(F_z) \\
+%                  &  exp \Bigg( - i \gamma \int_{t_0}^{t} \Big( \vec{G}(t) \cdot (R(t) \vec{r}_0 + T(t) ) + \widetilde{B}_p (\vec{r}_0,t) \Big) dt \Bigg)
+% \end{flalign*}
+% where 
+% $j$ is the $j^{th}$ tissue type, 
+% $p(j)$ is the proportion of the $j^{th}$ tissue type present in the object voxel,
+% $r_0$ is the centre of the object voxel, 
+% $(L_x, L_y, L_z)$ are the voxel dimensions,
+% $t_0$ is the time of the last RF pulse,
+% $M_{xy}(t_0)$ is the transverse magnetisation immediately after the last RF pulse,
+% $F_x = \frac{1}{2} \gamma L_x \int_{t_0}^t (\vec{G}(t) R_x(t) + \widetilde{G}^p_x(\vec{r}_0,t))dt$,
+% $\vec{G}(t)$ is the gradient applied at time $t$
+
+\hfill
+
+\textbf{Details of features.}
+\begin{itemize}
+    
+    \item \textbf{Motion}: In POSSUM, motion is modelled as a change of position in the scanner's hardware. 
+    More specifically, the object remains static, while the scanner moves relative to it.
+    This allows for the closed form solutions of the Bloch equation to be used.
+    More details are found in \cite{Drobnjak2006}.
+    
+    \item \textbf{DW-MRI}: POSSUM is able to produce realistic DW-MRI data sets by introducing diffusion weighting, eddy current-induced gradients and utilizing a spin echo sequence.
+    This extension and its details are found in \cite{Graham2016}.
+    
+    \item \textbf{fMRI}: POSSUM can simulate fMRI data sets by introducing $T_2^*$ variation for every object voxel separately.
+    More details are found in \cite{Drobnjak2006}.
+
+\end{itemize}
+
+\hfill
+
+% % % JEMRIS
+\subsection{JEMRIS}
+\textbf{JEMRIS}\footnote{\url{http://www.jemris.org/index.html}}, or \textit{Juelich Extensible MRI Simulator}, is a versatile, open-source, multi-purpose MRI simulator which can be used for both educational and research purposes.
+JEMRIS is a object-oriented C++ software tool developed to achieve performance as well as extensibility.
+It relies on four external libraries: \textit{CVODE} - a variable time-stepping integrator for ordinary differential equations and is used for numerically solving the Bloch equations, \textit{MPI} - to parallelise the problem, \textit{Xerces} - to parse inputs written in the general-purpose markup language XML and \textit{GiNaC} - to perform symbolic calculations. 
+It provides three MATLAB based graphical user interfaces for creating pulse sequences, for designing the layout of both transmit and receive coil arrays and for executing an MRI simulation.
+
+\hfill
+
+The main developers for this project are Tony Stocker, the project founder, Daniel Pflugfelder and Kaveh Vahedipour.
+JEMRIS was last updated in March 2018 when simulation of flow was added.
+Most notably, JEMRIS was used to assess the accuracy of carotid plaques MRI \cite{Nieuwstadt2014} and to simulated advanced angiography sequences \cite{Fortin2016}.
+
+\hfill
+
+% % % 
+\subsubsection{Key features and limitations}
+The most important aspects of JEMRIS are:
+\begin{itemize}
+    
+    \item It is open-source and can be installed on either Mac OS, Linux or Windows: \url{http://www.jemris.org/ug_downl.html}.
+    
+    \item It provides an easy to use MATLAB GUI for creating arbitrarily complex MRI sequences.
+    
+    \item It allows for user-defined analytical forms for both gradient shapes and RF pulse shapes. 
+    
+    \item It comes equipped with the possibility to visually inspect the k-space trajectory.
+    
+    \item It is capable of producing realistic simulated MRI datasets and single voxel diffusion experiments.
+    
+    \item It allows the user to design and simulate experiments involving multi-transmit or multi-receive coils.
+    
+    \item It integrates an open-source framework called \textit{Pulseq} \cite{Layton2017} which allows the user to export a sequence created in JEMRIS to a real MR scanner.
+    
+    \item It can simulate flow in arbitrary complex geometries \cite{Fortin2016}.
+    
+\end{itemize}
+
+\hfill
+
+Although a powerful MRI simulator, JEMRIS is not without limitations:
+\begin{itemize}
+    
+    \item It cannot simulate function (such as fMRI), perfusion or diffusion-weighted images.
+    
+    \item It can become slow when simulating large spin systems or highly discretised input objects. 
+    
+\end{itemize}
+
+\hfill
+
+% % % 
+\subsubsection{Implementation details}
+
+\textbf{Inputs.} The inputs to a JEMRIS simulation are summarised below.
+
+\begin{itemize}
+    
+    \item \textbf{Anatomical Object \& Tissue Specific Parameters}: JEMRIS incorporates both the anatomical object and the tissue specific parameters into one single input.
+    This takes the form of a \textit{HDF5}\footnote{\url{https://support.hdfgroup.org/HDF5/whatishdf5.html}} structure consisting of five 3D matrices (proton density $\rho$, longitudinal relaxation time $T_1$, transverse relaxation times $T_2$ and $T_2^*$ and inhomogeneities in the main magnetic field $\Delta B$) and one scalar value representing the resolution of the object.
+    If not provided, $T_2^*$ can also be simulated by adding small off-resonance frequency values to the simulated isochromats sampled from a Lorentzian distribution. 
+
+    \item \textbf{Motion}: Bulk motion is specified similarly to POSSUM (see above), where a 7 column matrix describes, for a given time point (in milliseconds), the x, y and z translations (in millimetres) and the x, y and z rotations (in degrees). 
+    Values between two consecutive time points are interpolated. 
+    Single voxel \textbf{diffusion} simulations can also be performed in JEMRIS. 
+    
+    \item \textbf{Pulse Sequence}: In JEMRIS the pulse sequence can either be created through a dedicated GUI or directly by describing its components in an XML file.
+    The sequence is represented as a left-right ordered tree structure, where nodes represent loops and leaves represent pulses.
+    This allows for a high flexibility in designing the sequence.
+    Moreover, as JEMRIS uses the GiNaC library for symbolic calculations, pulses can be specified through arbitrarily complex user-defined equations.
+    Thus, a spiral gradient or a Gaussian-shaped RF pulse can be specified analytically.
+    The XML file describing the pulse sequence is then parsed by the software through the C++ Xerces library and converted into a C++ sequence tree object.
+    In simulations, this C++ object is traversed in order and each leaf is played out.
+    
+    \item \textbf{Radiofrequency Coils}: RF-receive or RF-transmit coils sensitivity maps can be specified in a JEMRIS simulation. 
+    The sensitivity maps can be created through the Coil configuration GUI where one can either choose a Biot-Savart loop or analytically specify the sensitivity profile.
+    When a JEMRIS simulation is run for an array of receive coils, signals will be generated for each coil separately.
+    For an array of transmit coils, in the simulation the user needs to specify for each RF pulse which channel of the array it is going to be used.
+    
+    \item \textbf{Gradient Coils}: Non-linear gradients can be simulated in JEMRIS by analytically specifying their spatial dependence.
+    Eddy currents can also be included in a simulation through analytically specifying the gradients' temporal dependence.
+    Off-resonance effects from concomitant fields can also be simulated in JEMRIS.
+    
+\end{itemize}
+
+
+\hfill
+
+\textbf{Outputs.} The outputs produced by a JEMRIS simulation are:
+\begin{itemize}
+    
+    \item \textbf{Signal}: JEMRIS provides the x,y,z values for the net magnetisation at each readout point. 
+    
+    \item \textbf{K-Space}: The k-space matrix (magnitude and phase) can be retrieved through the dedicated simulation GUI.
+    
+    \item \textbf{Image}: The final image (magnitude and phase) can be retrieved using the same GUI as for the k-space.
+    
+\end{itemize}
+
+\hfill
+
+\textbf{Solver.} The JEMRIS simulator user the Bloch equation 
+%individually at every position in the input object 
+in cylindrical coordinates $(M_r, \phi, M_z)$:
+
+\begin{flalign*}
+    \frac{d}{dt} \begin{pmatrix} M_r \\ 
+    \phi \\
+    M_z \end{pmatrix} = & \begin{pmatrix} cos \phi & sin \phi & 0 \\ 
+    - \frac{sin \phi}{M_r} & \frac{cos \phi}{M_r} & 0 \\
+    0 & 0 & 1 \end{pmatrix} \\
+    & \cdot \begin{bmatrix} \begin{pmatrix} -1/T_2 & \gamma B_z & - \gamma B_y \\
+    -\gamma B_z & -1/T_2 & \gamma B_z \\
+    \gamma B_y & -\gamma B_x & -1/T_1 \end{pmatrix} \cdot 
+    \begin{pmatrix} M_r \, cos \phi \\
+    M_r \, sin \phi \\
+    M_z
+    \end{pmatrix} + 
+    \begin{pmatrix} 0 \\
+    0 \\
+    M_0/T_1 \end{pmatrix}
+    \end{bmatrix}
+\end{flalign*}
+
+The Bloch equation is solved for every position in the input object using the CVODE library, a variable time-stepping integrator for ODEs \cite{Stocker2010}.
+The signal is then calculated for each receiver coil $n$ by integrating over the coil volume $V$:
+\begin{flalign*}
+    S_n(t) \propto \int_V d^3 r C_n(\vec{r}) M_r(\vec{r}, t) e^{i \phi(\vec{r}, t)}
+\end{flalign*}
+where $C_n(\vec{r})$ represents the sensitivity map of the $n^{th}$ receiver.
+
+%The magnetic field in the rotating frame is modelled as a sum between the applied gradient fields ($\vec{G}$), arbitrary non-linear gradient fields ($\B_{NLG}$), off-resonance fields ($\Delta B_0$) and the $B_1$ fields of the RF transmit coils.
+
+\hfill
+
+\textbf{Details of features.}
+\begin{itemize}
+    
+    \item \textbf{Motion}: In JEMRIS, motion is modelled as a change of position in the input object.
+    Translations and rotations are specified for different time points during the sequence, while the position between two consecutive time points is interpolated. 
+    
+    \item \textbf{K-space visualisation}: The JEMRIS sequence developer GUI offers the possibility to visualize and inspect the k-space trajectory of the readout and to plot the gradient moments.
+
+\end{itemize}
+
+\hfill
+
+% % % ODIN
+\subsection{ODIN}
+\textbf{ODIN}\footnote{\url{http://od1n.sourceforge.net/}}, or \textit{Object-Oriented Development Interface for NMR}, is a software framework used to develop and simulate MRI experiments.
+ODIN is written in C++ and was last updated in November 2016.
+ODIN has an object-oriented design, thus being a modular and flexible software tool.
+It comes equipped with two main GUIs: \textit{ODIN} - for developing, testing, visualising and simulating MRI sequences, and \textit{Pulsar} - for generating and simulating arbitrarily complex RF pulses.
+The main developer for this project is Thies Jochimsen, who is also the project founder.
+To date, ODIN has proved to be a valuable MRI simulator as its sequence programming interface has been advantageous in developing functional magnetic resonance imaging (fMRI) applications \cite{Schafer2004}.
+
+\hfill
+
+The most important aspects of ODIN are:
+\begin{itemize}
+
+    \item It is an open-source package that can be installed on either Mac OS, Linux or Windows: \url{http://od1n.sourceforge.net/download.html}.
+    
+    \item Besides allowing the user to create its own pulse sequences, ODIN comes equipped with a comprehensive list of readily available ones, such as: diffusion tensor imaging (DTI), echo planar imaging (EPI), EPI-based Periodically Rotated Overlapping ParallEL Lines with Enhanced Reconstruction (PROPELLER) and even flow-compensated FLASH sequence for Susceptibility Weighted Imaging (SWI).
+    
+    \item Besides allowing the user to create its own pulse shapes, ODIN comes equipped with a comprehensive list of readily available ones, such as: slice-selective pulses (SINC, Gauss), 
+    adiabatic pulses (SECH, WURST) and 2D pulses with various excitation shapes and different trajectories.
+    
+    \item It allows the user to visualise the k-space trajectory.
+    
+\end{itemize}
+
+\hfill
+
+However, ODIN also suffers from the following limitations:
+\begin{itemize}
+    
+    \item It cannot simulate diffusion weighted MR datasets.
+    
+    \item It uses the hard-pulse approximation, where RF pulses are modelled as instantaneous rotations through an angle and shaped RF pulses are considered as sequences of hard pulses.
+    
+    \item It does not have a dedicated pulse sequence programming GUI. Although ODIN argues that new pulses can be easily created by programming them, a graphical user interface would speed up this process.
+    
+\end{itemize}
+
+\hfill
+
+% % % 
+\subsubsection{Implementation details}
+
+\textbf{Inputs.} The inputs to ODIN are:
+
+\begin{itemize}
+    
+    \item \textbf{Anatomical Object \& Tissue Specific Parameters}: 
+    The input object is a collection of relaxation constants ($T_1$ and $T_2$), frequency offsets ($\omega$) and proton density values.
+    Additionally, the input object can contain diffusion coefficients ($D$) for Bloch-Torrey simulations.
+    These values are a function of spatial position and are constant across a voxel of dimensions $(L_x, L_y, L_z)$, covering a frequency range of covering a frequency range $L_{\omega}$.
+    
+    \item \textbf{Pulse Sequence}: In ODIN the pulse sequence can be either selected from a list of predefined sequences or can be programmed using the dedicated object oriented API.
+    
+    \item \textbf{Radiofrequency Coils}: ODIN accepts as inputs the sensitivity maps of an array of either receive or transmit coils.
+    These maps can be generated through a dedicated command line tool that come with the software tool.
+    
+\end{itemize}
+
+
+\hfill
+
+\textbf{Outputs.} The outputs produced by ODIN are:
+\begin{itemize}
+    
+    \item \textbf{Signal}: The raw data signal (real and imaginary channels) can be retrieved.
+    
+    \item \textbf{Image}: The final images  (magnitude  and phase) can be retrieved for every coil used in the simulation.
+    Moreover, when multiple receiver coils are used, the user can also choose to reconstruct the final image by combining all channels in the coil array.
+    
+\end{itemize}
+
+\hfill
+
+\textbf{Solver.} The ODIN MRI simulator uses the solution 
+to the Bloch or Bloch-Torrey equation with piecewise constant fields to iteratively calculate the evolution of all isochromats in the input object.
+In order to increase simulation efficiency and to simulate self-diffusion, the ODIN solver calculates the evolution of the magnetization vector at a certain position and for a certain frequency, while also calculating the evolution in its immediate vicinity.
+This is done by calculating the intra-voxel magnetization gradients by means of the partial derivatives of the magnetization vector with respect to position and frequency.
+This allows the extrapolation of the magnetisation vector at different locations, while also reducing the computational steps.
+
+\hfill
+
+\textbf{Details of features.}
+\begin{itemize}
+    
+    \item \textbf{fMRI}: ODIN allows for simulation of fMRI datasets by supporting time varying input objects.
+    
+    \item \textbf{GRAPPA}: ODIN can reconstruct images using parallel imaging techqniques.
+    More specifically, ODIN allows for GRAPPA reconstructions.
+    After specifying the acceleration factor, the acquired k-space can be filled in an undersampled fashion, with auto-calibration lines.
+    
+\end{itemize}
+
+\hfill
+
+% % % MRILAB
+\subsection{MRILAB}
+\textbf{MRILAB}\footnote{\url{http://mrilab.sourceforge.net/}} is a rapid and versatile numerical MRI simulator. 
+The front-end of MRILAB (main console, design and visualisation tools) is written in MATLAB, while the computational kernels are implemented in C++.
+MRILAB comes equipped with three graphical user interfaces: a sequence design GUI, a coil design GUI and a magnet design GUI which can be used to describe the main static field's inhomogeneities.
+The main developer for this project is Fang Liu who is a medical imaging research scientist at the Department of Radiology, University of Wisconsin-Madison, United States.
+MRILAB was last updated in July 2017 when support for a multi-pool exchange tissue model was added.
+To date, MRILAB was used to confirm the accuracy of modified cross-relaxation imaging (mCRI) for mapping myelin in neural tissues and to study the limitations of simplified modeling with single-component simulations for gagCEST \cite{Liu2017}.
+
+\hfill
+
+The most important aspects of MRILAB are:
+\begin{itemize}
+
+    \item It is an open-source package that can be installed on either Mac OS, Linux or Windows: \url{https://github.com/leoliuf/MRiLab}.
+    
+    \item It provides a dedicated toolbox to analyze RF pulses, to design the MR sequence and to configure multiple transmitting or receiving coils.
+    
+    \item It offers both GPU acceleration and multi-threaded CPU parallel computation.
+    
+    \item It can achieve high simulation accuracy through simulating highly discretised spin evolutions at small time intervals.
+    
+    \item It is specialised on simulations of imaging sets based on generalised multi-pool exchange models.
+    % unlike others who do single-voxel regime
+    
+\end{itemize}
+
+\hfill
+
+MRILAB has the following limitations:
+\begin{itemize}
+    
+    \item It achieves spoiling of the transverse magnetisation through a zeroing event which is not sufficient to model real experiment where complete spoiling is not desired.
+    
+    \item It cannot simulate diffusion weighted MRI datasets.
+    
+    \item The programming model that makes use of the GPU cores used in MRILAB is CUDA 2.0. This means that MRILAB does not benefit from the latest features of CUDA 9.x that could speed up the simulation even further and also achieve higher accuracy.
+    
+\end{itemize}
+
+\hfill
+
+% % % 
+\subsubsection{Implementation details}
+
+\textbf{Inputs.} The inputs to an MRILAB simulation are:
+
+\begin{itemize}
+    
+    \item \textbf{Anatomical Object \& Tissue Specific Parameters}: The virtual object used as input to an MRILAB simulation is a MATLAB structure consisting of the following properties:
+    gyromagnetic ratio (in $rad/s/T$), chemical shift (in $Hz/T$), 
+    number of voxels in x, y and z directions (called \textsc{XDim}, \textsc{YDim} and \textsc{ZDim}),
+    voxel resolution in x, y and z directions, 
+    number of spin species (called \textsc{TypeNum}),
+    a 4D matrix (of size: \textsc{YDim $\times$ XDim $\times$ ZDim $\times$ TypeNum}) representing the proton density at each position in the object, 
+    a 4D matrix (of the same size as before) representing the $T_1$ relaxation times at each position in the object, 
+    a 4D matrix (of the same size as before) representing the $T_2$ relaxation times at each position in the object,
+    a 4D matrix (of the same size as before) representing the $T_2^*$ relaxation times at each position in the object and 
+    2 optional properties that can be used for computing the specific absorption rate (SAR).
+    In addition, MRILAB comes equipped with a number of pre-existing objects for the user to experiment with.
+    
+    \item \textbf{Motion}: Motion can be included in an MRILAB simulation and it consists of bulk translation and rotations of the input object.
+    These can be specified through the dedicated GUI or by writing an XML file where, depending on the type of motion (translation/rotation), certain properties need to be specified. 
+    For translations, the following attributes are needed:
+    the motion starting time,
+    the motion ending time,
+    the sampling interval for the motion,
+    a vector in 3D space describing the translation direction
+    and an equation of translation with respect to time (e.g. `$2*t$', `$t+200e-3$', etc.).
+    For rotations, the following attributes are needed:
+    the starting time,
+    the ending time,
+    the motion sampling interval,
+    a vector in 3D space describing the rotation axis and
+    an equation of rotation with respect to time (e.g. `$2*t$', `$sin(0.1*t)$', etc.).
+    
+    \item \textbf{Pulse Sequence}: MRILAB offers a few predefined pulse sequences that can be used in simulations.
+    These predefined MRI pulse sequences include: 
+    a 3D multishot Fast Spin Echo,
+    different gradient echo sequences (a 3D GRE with Cartesian, radial or spiral readout, a 3D multishot EPI),
+    a 3D inversion recovery sequence with Cartesian readout, 
+    a 3D spin echo sequence with Cartesian readout,
+    a 3D SPGR sequence with magnetisation transfer saturation and a few others.
+    Moreover, MRILAB has a dedicated sequence design GUI for the user to create its own sequences or edit the predefined ones.
+    
+    \item \textbf{$B_0$ inhomogeneities}: Inhomogeneities in the main magnetic field can be included in an MRILAB simulation.
+    This input can be created through a dedicated magnet design GUI offered with MRILAB by choosing from either a linear $\Delta B_0$ field or a Gaussian $\Delta B_0$ field.
+    Moreover, the software allows the user to create their own $\Delta B_0$ fields through symbolic equations (e.g. `$2*X.*Y$', `$2*sin(X)$', etc.) or to import a pre-existing $\Delta B_0$ field data.
+    
+    \item \textbf{Gradient Coils}: MRILAB offers the possibility to construct a gradient field to be used in simulations.
+    This field can be created through a gradient design GUI by choosing from either a linear field (where gradient field vectors need to be specified for x, y and z directions) or a symbolic field (where symbolic equations need to be specified in x, y and z directions).
+    As before, user gradient field data can also be included in the simulations.
+    
+    \item \textbf{Radiofrequency Coils}: MRILAB can simulate an experiment with multiple RF-receive or RF-transmit coils.
+    The coils sensitivity maps can be created through a dedicated coil design GUI.
+    There are 2 types of predefined coils that can be used: a Biot-Savart coil circle and a Biot-Savart coil rectangle.
+    These 2 types can be used to generate an array of coils placed at different positions in the 3D space.
+    A user specified coil can also be included in simulations by providing a MATLAB structure consisting of the $B_1$ and $E_1$ fields data and the x, y and z position of the coil centre.
+    
+\end{itemize}
+
+\hfill
+
+\textbf{Outputs.} The outputs produced by MRILAB are:
+\begin{itemize}
+    
+    \item \textbf{Signal}: After a simulation is complete, the acquired MR signal is stored as an array consisting of the x (real) component and the y (imaginary) components.
+    
+    \item \textbf{K-space}: K-space locations are also stored and they consist of the $k_x$, $k_y$ and $k_z$ location of the trajectory.
+    
+    \item \textbf{Image}: The final image (real, imaginary, magnitude and phase) can be retrieved after an MRILAB simulation is complete.
+    Additionally, MRILAB includes a `gridding' module which can be used to reconstruct signals which were simulated with non-Cartesian readouts.
+    
+\end{itemize}
+
+\hfill
+
+\textbf{Solver.} The MRILAB software is based on a discrete Bloch-equation solver.
+It simulates the isochromats evolution with small discrete time steps by means of rotation and exponential scaling matrices. 
+In addition, the numerical Bloch equation solver can include multiple exchanging water and macromolecular pools for simulating more advanced quantitative MRI methods such as magnetisation transfer and chemical exchange saturation-transfer techniques.
+
+\hfill
+
+\textbf{Details of features.}
+\begin{itemize}
+    
+    \item \textbf{Motion}: Motion is modelled in MRILAB as discrete movements (rotations and/or translations) of the input object.
+    
+    \item \textbf{Multi-pool exchange model}: The MRILAB software can perform MRI simulations based on a generalised multi-pool exchange tissue model. 
+    The tissue is represented by several free and bound proton pools undergoing the magnetization exchange.
+    The response of a multi-pool spin system to an MRI pulse sequence is then simulated using the finite differential Bloch-McConnell equation in the rotating frame.
+    
+\end{itemize}
+
+\hfill
+
+% % % SpinBENCH
+\subsection{SpinBench}
+\textbf{SpinBench}\footnote{\url{http://www.heartvista.com/spinbench/}} is a software tool designed for the rapid prototyping and analysis of MRI experiments.
+SpinBench is written in Objective-C, was last updated in March 2010 and can only run on Mac OS X version 10.5 (Leopard) or newer.
+SpinBench is mainly useful as a teaching tool for courses covering MRI spin physics.
+It is made up of a comprehensive set of graphical user interfaces for developing, testing, visualising and simulating MRI sequences. 
+Its main developers are William Overall and John Pauly from the Department of Electrical Engineering at Stanford University, United States.
+
+The most important aspects of SpinBench are:
+\begin{itemize}
+
+    \item It comes equipped with many tutorials and examples, thus making it an easy to use software environment for teaching MRI.
+    
+    \item Everything in SpinBench is done through an intuitive graphical user interface, thus allowing for easy prototyping and analyzing a wide range of MR pulse sequences and experiments.
+    
+    \item The experiment can be played out and updated in real-time as the user changes the parameters.
+    
+    \item It can be used to visualise spin dynamics.
+    
+\end{itemize}
+
+\hfill
+
+However, SpinBench has the following limitations:
+\begin{itemize}
+    
+    \item It only works on a Mac OS platform and its source code is not open-source.
+    
+    \item It can only run on a personal computer so it therefore does not scale to more realistic simulations which would need a cluster environment or a GPU platform to run on.
+    
+\end{itemize}
+
+\hfill
+
+% % % 
+\subsubsection{Implementation details}
+
+\textbf{Inputs.} The inputs to SpinBench are:
+
+\begin{itemize}
+    
+    \item \textbf{Anatomical Object \& Tissue Specific Parameters}: The input to a SpinBench simulation can be set up through the software GUI by choosing simple, predefined 1D or 2D objects. 
+    For these objects the user can specify the overall size, the $T_1$, $T_2$ relaxation times, the proton density and the off-resonance frequency of the isochromats.
+    
+    \item \textbf{Motion}: Bulk motion can be simulated by specifying the isochromats start position and its velocity in x, y and z directions.
+    
+    \item \textbf{Pulse Sequence}: In SpinBench the pulse sequences can be designed through the GUI by linking together RF pulses and gradient waveforms of predefined and customisable shapes.
+    Moreover, SpinBench offers the possibility to code your own pulses in Javascript.
+    
+\end{itemize}
+
+\hfill
+
+\textbf{Outputs.} The outputs produced by SpinBench are:
+\begin{itemize}
+    
+    \item \textbf{Signal}: SpinBench plots the signal (magnitude and phase) or the x,y,z values of the net magnetisation in real time during the simulation.
+    
+    \item \textbf{Image}: The final image (magnitude and phase) can also be visualised at any time point during the simulation.
+    
+\end{itemize}
+
+\hfill
+
+\textbf{Solver.} The SpinBench software is based on a multi-threaded Bloch-equation simulator which computes the signal independently for each value in the input object.
+SpinBench is not open-source and more details about the Bloch based implementation are not available.
+
+\hfill
+
+% % % % % 
+The five simulators presented in this section are the current state-of-the-art in MRI simulation systems.
+These simulators are also freely available and can be downloaded from their dedicated websites.
+Each one of them has different strengths and weaknesses as each was developed with a certain methodological question in mind.
+In summary, 
+POSSUM was initially developed as an fMRI simulator (\cite{Drobnjak2006}) and has recently become a DW-MRI simulator (\cite{Graham2016}), 
+JEMRIS was focused on providing a modular and easy to use pulse sequence development tool (\cite{Stocker2010}), 
+ODIN was created as an object oriented software tool capable of being executed on different measurement devices (\cite{Jochimsen2004}),
+MRILAB was created to simulate responses from multi-pool spin models of arbitrary configurations (\cite{Liu2017})
+and
+SpinBench was created as an easy to use platform for educational purposes (\cite{Overall2007}).
+These different reasons for creating an MRI simulation system have also had an influence on their current capabilities (see Table~\ref{table:tableMRISimulators}).
+It is therefore our belief that a single generalised framework for an ideal MRI simulator that leverages the advantages of all the simulators available should be created.
+This framework will serve as a guideline for the MRI simulation community.
+
+
+% In this section of the survey we review the current state-of-the-art in MRI simulation systems as open source software tools that are active today.
+% Among all the simulators presented so far, 5 are still available and can be downloaded from their dedicated websites.
+% This review will focus on their most desirable features, while also presenting their limitations.
+
+% \hfill
+
+% A highly desirable feature for a realistic MRI simulator is the possibility to simulate motion during the MR acquisition process.
+% The reason is that movement artefacts are ubiquitous to MRI and come as a result of a complicated interplay between the type of motion, the pulse sequence, the acquisition strategy and the imaged object.
+% Motion causes \textit{blurring}, \textit{ghosting}, signal loss and even appearance of undesired strong signals \cite{Zaitsev2015} in the images.
+% Out of all active simulators, four of them simulate rigid-body motion during acquisition. 
+% These simulators are called POSSUM \cite{Drobnjak2006}, JEMRIS \cite{Stocker2010}, MRiLab \cite{Liu2013} and SpinBench \cite{Overall2007}.
+% However, SpinBench \cite{Overall2007} is currently only available for Mac OS systems.
+
+% \hfill
+
+% Another highly desirable feature for an MRI simulator is its user friendliness.
+% All available simulators offer a graphical user interface (GUI) for the users to experiment with.
+% However, some of these MR simulation systems were developed with a specific methodological question in mind.
+% For example, POSSUM \cite{Drobnjak2010} was created as a realistic functional MRI (fMRI) simulator and has been recently upgraded to allow for simulation of diffusion weighted MR datasets \cite{Graham2016}.
+% Although very powerful and accurate, this simulator has become limited to a handful of pulse sequences.
+% We argue that it is important for an MRI simulator to be highly customisable in an user friendly way.
+% This allows the users to experiment with different pulse sequences, create their own input objects and even coil configurations.
+% Among available simulators, JEMRIS \cite{Stocker2010} offers a pulse sequence design GUI which is modular enough to allow for any type of sequence to be rapidly implemented, while also allowing the user to analytically define the pulse gradient shapes.
+
+% \hfill
+
+% A third desirable feature is the availability of multi-RF receiving and transmitting coils, as they have become a standard in clinical MRI scanners \cite{Harvey2009}.
+% The former, coupled with parallel imaging reconstruction algorithms allow for faster scans, while the latter can help with patient specific homogenization of the $B_1$ field.
+% Therefore, these two are desirable features to have in a realistic MRI simulator.
+% Out of all the active players, JEMRIS \cite{Stocker2010}, MRiLab \cite{Liu2013} and ODIN \cite{Jochimsen2004} provide multicoil acquisitions. 
+% Additionally, JEMRIS \cite{Stocker2010} and MRiLab \cite{Liu2013} offer the possibility to graphically construct the coil configuration or to load a user defined one.
+
+% \hfill
+
+% Finally, MRI simulations are computationally expensive.
+% It is therefore important to allow for parallel implementations that can run either on a personal computer or on a cluster system.
+% However, parallel approaches are either limited to the hardware specifications or to having an available cluster system.
+% A different approach which allows for very fast simulations is through massively parallel computer hardware such as the Graphics Processing Units (GPUs).
+% The current MRI simulator which has this feature is MRiLab \cite{Liu2013}.
+
+% \hfill
+
+% These five MRI simulators are currently available to be downloaded and used.
+% However, as mentioned above, all of these exhibit limitations which can either inhibit an accurate representation of a real MRI scan or are too narrowly focused on a single methodological question without the possibility to be extended to other applications.
+% To overcome these limitations we propose the introduction of a generalised framework for an ideal MRI simulator that brings together the advantages of all the simulators available.
+% In the following section we will therefore present this framework.
+
+% %application programming interface (API) that brings together the advantages of all the simulators available.

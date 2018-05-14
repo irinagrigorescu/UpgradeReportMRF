@@ -1,0 +1,14 @@
+
+In this work we showed a proof-of-concept image space simulation pipeline of a magnetic resonance fingerprinting experiment.
+Our method used a physics-based approach to the MR acquisition process in order to simulate the MRI datasets.
+Moreover, we investigated the impact of in-plane rigid motion applied at various time points during the scan on the final quantitative maps.
+In our approach, the motion artifacts were introduced during the acquisition of the signal which made our simulations more realistic than other approaches where datasets were corrupted by applying geometric transformations in image space (see Section \ref{chapterlabel2sec2}).
+
+\hfill
+
+Our investigation showed that MRF is prone to errors due to motion.
+Depending on the type of motion and the moment when it occurs, it can affect the final maps differently.
+However, motion is not necessarily restricted to in-plane movements.
+Through-plane motion can happen during a real scan and it could have a different impact on the $T_1$ and $T_2$ maps.
+Moreover, a real scan cannot use a fully sampled spiral readout due to hardware constraints, but uses a variable density spiral readout with multiple interleaves.
+This is a limitation of our approach, but we aim to cover it in future work.

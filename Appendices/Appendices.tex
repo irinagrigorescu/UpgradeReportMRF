@@ -1,0 +1,63 @@
+\addcontentsline{toc}{chapter}{Appendices}
+
+% The \appendix command resets the chapter counter, and changes the chapter numbering scheme to capital letters.
+%\chapter{Appendices}
+\appendix
+% % % % % % % % 
+% % % % % % % % MRI background
+% % % % % % % % 
+\chapter{Principles of Magnetic Resonance Imaging}
+\label{appendixlabelBackgroundMRI}
+\input{Appendices/BackgroundMRI} 
+
+% % % % % % % % 
+% % % % % % % % MRF background
+% % % % % % % % 
+\chapter{Magnetic Resonance Fingerprinting}
+\label{appendixlabelBackgroundMRF}
+\input{Appendices/BackgroundMRF} 
+
+% % % % % % % % 
+% % % % % % % % Phantom Values
+% % % % % % % % 
+\chapter{$T_1$ and $T_2$ relaxation times of the digital phantom}
+\label{appendixlabelPhantom}
+% % % % Include Table
+\input{Appendices/PhantomValues} 
+
+% % % % % % % % 
+% % % % % % % % Motion maps
+% % % % % % % % 
+\chapter{Motion corrupted quantitative maps}
+\label{appendixlabelMotion}
+% % % % Motion corrupted Quantitative maps 
+\input{Appendices/MotionQuantitativeMaps}
+
+% % % % % % % % 
+% % % % % % % % Pseudocode for bSSFP
+% % % % % % % % 
+\chapter{Pseudocode for Generating the bSSFP Dictionary}
+\label{appendixlabel1}
+% % % % Create dictionary
+\input{pseudocodeSnippets/functionCreateDictionaryNew} 
+% % % % Sequence Block
+\input{pseudocodeSnippets/functionSequenceBlockNew} 
+% % % % Create off res
+\input{pseudocodeSnippets/functionCreateRoffres1New}
+\input{pseudocodeSnippets/functionCreateRoffres2New}
+% % % % Create relaxation matrices
+\input{pseudocodeSnippets/functionCreateDNew}
+
+% % % % % % % % 
+% % % % % % % % Pseudocode for FISP
+% % % % % % % % 
+\chapter{Pseudocode for Generating the FISP Dictionary}
+\label{appendixlabel2}
+% % % % EPG Matrix
+\input{pseudocodeSnippets/functionEPGMatrix} 
+
+% description of document, e.g. type faces, TeX used, TeXmaker, packages and things used for figures. Like a computational details section.
+% e.g. http://tex.stackexchange.com/questions/63468/what-is-best-way-to-mention-that-a-document-has-been-typeset-with-tex#63503
+
+% Side note:
+%http://tex.stackexchange.com/questions/1319/showcase-of-beautiful-typography-done-in-tex-friends

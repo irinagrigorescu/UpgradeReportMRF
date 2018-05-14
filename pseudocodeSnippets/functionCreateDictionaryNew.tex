@@ -1,0 +1,94 @@
+\begin{algorithm}
+\setstretch{1}
+    \LinesNumberedHidden
+    \SetKwInOut{Input}{Input}
+    \SetKwInOut{Output}{Output}
+
+    \nonl \underline{function createDictionary} ($\bm{matProps, seqProps}$)\;
+    \Input{
+        $\bm{matProps}$ a (structure) with $\bm{T_1, T_2, \Delta f}$ fields in (ms, ms, kHz) \\
+        \hspace*{0.4cm} representing the $T_1$ and $T_2$ relaxation times and the \\
+        \hspace*{0.4cm} off-resonance frequency of the entire \\
+        \hspace*{0.4cm} set of material properties \\
+        $\bm{seqProps}$ a (structure) with $\bm{RF: (FA, PhA), T_R, RO}$ fields \\
+        \hspace*{0.4cm} representing the RF pulse, repetition time and \\
+        \hspace*{0.4cm} read out time of the entire N-block sequence \\
+        \hspace*{0.4cm} where $\bm{RF}$ is a structure with $FA$ and $PhA$ \\
+        \hspace*{0.4cm} representing the flip angles and \\
+        \hspace*{0.4cm} phase angles of the RF pulses in degrees}
+    \Output{$\bm{dictionaryMRF}_{(M \times N \times 3)}$ the $x,y,z$ components of the magnetic moment vector at all N read-out points and for every combination of material properties, where $M = N_{T_1} \times N_{T_2} \times N_{\Delta f}$ is the number of tissue properties}
+    
+    \nonl \phantom{lala}
+    
+    %% Step 1
+    \texttt{(cD1.) Precompute RF pulse matrices: } 
+    \begin{flalign*}
+    R_{RF} \gets 
+    \begin{bmatrix}
+        R_{z}(\phi_1) R_{x}(-\alpha_1) R_{z}(-\phi_1) \\
+        R_{z}(\phi_2) R_{x}(-\alpha_2) R_{z}(-\phi_2) \\
+                        \dots                         \\
+        R_{z}(\phi_N) R_{x}(-\alpha_N) R_{z}(-\phi_N)
+    \end{bmatrix}_{(N \times 3 \times 3)}
+    \end{flalign*}
+    
+    %% Step 2
+    \texttt{(cD2.) Retrieve set of material properties: } 
+    \begin{flalign*}
+    \text{\texttt{materialTuples}} & \gets
+    \begin{bmatrix}
+        T_{1_{ijk}} & T_{1_{ijk}} & \dots & T_{1_{ijk}} \\
+        T_{2_{ijk}} & T_{2_{ijk}} & \dots & T_{2_{ijk}} \\
+        \Delta f_{ijk} & \Delta f_{ijk} & \dots & \Delta f_{ijk} \\
+    \end{bmatrix}_{(3 \times M)} \\
+    & \text{ with } i \in [1, N_{T_1}], j \in [1, N_{T_2}], k \in [1, N_{\Delta f}] \text{ (nested looping)}
+    \end{flalign*}
+    
+    \fontsize{8pt}{8pt}\selectfont
+    \caption{Function that creates the entire dictionary}
+    \label{alg:createDictionary}
+\end{algorithm}
+
+\begin{algorithm}
+\setstretch{1}
+    \LinesNumberedHidden
+
+    %% Step 3
+    \nonl \texttt{(cD3.) Initialize magnetic moment vector matrix} \\
+    \nonl $\bm{M} \gets repmat([0; 0; 1], [1,M]);$
+
+    %% Step 4
+    \nonl \texttt{(cD4.) Go through each TR block} \\
+    \nonl \For{$i \in [1, N]$} {
+        %% Step 4.1
+        \nonl \texttt{(cD4.1.) Create rotation matrices for off-resonance effects}
+        \begin{flalign*}
+            [R_{offRes1}, beta] &\gets \text{\texttt{createRoffres1(materialTuples, seqProps, i)}} \\
+            R_{offRes2} &\gets \text{\texttt{createRoffres2(materialTuples, beta)}} 
+        \end{flalign*}
+        
+        %% Step 4.2
+        \nonl \texttt{(cD4.2.) Create relaxation matrices}
+        \begin{flalign*}
+            [D, D_z] &\gets \text{\texttt{createD(materialTuples, seqProps, i)}}
+        \end{flalign*}
+        
+        %% Step 4.3
+        \nonl \texttt{(cD4.3.) Calculate $M_{next}$ and $M_{RO}$ for current TR block}
+        \begin{flalign*}
+            [\bm{M, M_{RO}}] \gets \text{\texttt{sequenceBlock($\bm{M}, R_{RF}(i), R_{offRes1}, R_{offRes2}, D, D_z$)}}
+        \end{flalign*}
+        
+        %% Step 4.4
+        \nonl \texttt{(cD4.4.) Store $M_{RO}$ for current TR block}
+        \begin{flalign*}
+            dictionaryMRF(i) \gets \bm{M_{RO}}
+        \end{flalign*}
+    \nonl }
+
+    %% Step 5
+    \nonl \texttt{(cD5.) RETURN} $dictionaryMRF$ \;    
+    
+    \fontsize{8pt}{8pt}\selectfont
+\end{algorithm}
+

@@ -1,0 +1,50 @@
+\begin{algorithm}
+\setstretch{1}
+    \LinesNumberedHidden
+    \SetKwInOut{Input}{Input}
+    \SetKwInOut{Output}{Output}
+
+    \nonl \underline{function createRoffres1} ($\bm{materialTuples, seqProps, seqID}$)\;
+    \Input{
+        $\bm{materialTuples}$ a ($3 \times M$) matrix with all $\bm{T_1, T_2, \Delta f}$ \\
+        \hspace*{0.4cm} combinations for each line \\
+        $\bm{seqProps}$ a (structure) with $\bm{RF: (FA, PhA), T_R, RO}$ fields \\
+        \hspace*{0.4cm} representing the RF pulse, repetition time and read out time \\
+        \hspace*{0.4cm} of the entire N-block sequence where $\bm{RF}$ is a structure with \\
+        \hspace*{0.4cm} $FA$ and $PhA$ representing the flip angles and \\
+        \hspace*{0.4cm} phase angles of the RF pulses in degrees \\
+        $\bm{seqID}$ the current sequence block ID}
+    \Output{
+        $\bm{R_{offres1}}$ the off-resonance matrix $(3 \times M)$ containing the \\
+        \hspace*{0.4cm} pre-calculated cosine values for all off-resonance angles \\
+        $\bm{beta}$ the off-resonance angles matrix $(1 \times M)$ containing the \\
+        \hspace*{0.4cm} pre-calculated angle values of all off-resonance angles}
+    
+    \nonl \phantom{lala}
+    
+    %% Step 1
+    \texttt{(cR1.) Calculate off-resonance angles: } 
+    \begin{flalign*}
+    beta \gets 2 \pi \phantom{a} TR_{seqID}  
+    \begin{bmatrix}
+        \Delta f_{1} & \Delta f_{2} & \dots & \Delta f_{M}
+    \end{bmatrix}_{(1 \times M)}
+    \end{flalign*}
+    
+    %% Step 2
+    \texttt{(cR2.) Create off resonance matrix: } 
+    \begin{flalign*}
+    \text{\texttt{R$_{offRes1}$}} & \gets
+    \begin{bmatrix}
+	    cos(beta) \\
+        cos(beta) \\
+         \bm{1}
+    \end{bmatrix}_{(3 \times M)}
+    \end{flalign*}
+    
+    %% Step 3
+    \texttt{(cR3.) RETURN } \texttt{R$_{offRes1}$} and \texttt{beta} \;
+    
+    \caption{Function that creates the $R_{offres1}$ $(3 \times M)$ matrix}
+    \label{alg:createRoffres1}
+\end{algorithm}

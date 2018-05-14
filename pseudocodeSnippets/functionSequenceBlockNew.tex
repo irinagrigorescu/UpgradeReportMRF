@@ -1,0 +1,89 @@
+\begin{algorithm}
+\setstretch{1}
+    \LinesNumberedHidden
+    \SetKwInOut{Input}{Input}
+    \SetKwInOut{Output}{Output}
+
+    \nonl \underline{function sequenceBlock} $(\bm{M_{prev}, R_{RF}, R_{offRes1}, R_{offRes2}, D, D_z})$\;
+    \Input{
+    $\bm{M_{prev}}$ a $(3 \times M)$ matrix storing the $x,y,z$ components of the \\
+    \hspace*{0.4cm} magnetic moment vector for the entire set of tissue \\
+    \hspace*{0.4cm}  properties before the current sequence block, \\
+    $\bm{R_{RF}}$ a $(3 \times 3)$ matrix used for flipping the magnetic moment \\
+    \hspace*{0.4cm} vector as a result of the application of the RF pulse, \\
+    $\bm{R_{offRes1}}$ a $(3 \times M)$ matrix used to simulate off-resonance effects, \\
+    $\bm{R_{offRes2}}$ a $(3 \times M)$ matrix used to simulate off-resonance effects, \\
+    $\bm{D}$ a $(3 \times M)$ matrix used to simulate relaxation effects and \\
+    $\bm{D_z}$ a $(3 \times M)$ matrix used to simulate relaxation effects}
+    \Output{$\bm{M_{next}}$ a $(3 \times M)$ matrix storing the $x,y,z$ components of the \\
+    \hspace*{0.4cm} magnetic moment vector for the entire set of tissue \\
+    \hspace*{0.4cm} properties before the next sequence block}
+    
+    \phantom{lala}
+    
+    %% Step 1
+    \texttt{(sB1.) Do RF pulse: } 
+    $ M_{next_{(3 \times M)}} \gets R_{RF_{(3 \times 3)}} \, M_{prev_{(3 \times M)}} =  
+    R_{RF_{(3 \times 3)}}
+    \begin{bmatrix}
+        x_{1} & x_{2} & \dots & x_{M} \\
+        y_{1} & y_{2} & \dots & y_{M} \\
+        z_{1} & z_{2} & \dots & z_{M}
+    \end{bmatrix}_{(3 \times M)} $ \\
+    
+    %% Step 2
+    \texttt{(sB2.) Do off-resonance: } 
+    \begin{flalign*}
+    M_{next_{(3 \times M)}} \gets & R_{offRes1_{(3 \times M)}} \, \odot \, M_{next_{(3 \times M)}} + R_{offRes2_{(3 \times M)}} \, \odot \, \text{permuteLines12}(M_{next_{(3 \times M)}}) = \\
+    & \begin{bmatrix}
+	    \phantom{-}\cos(\beta_{1}) & \phantom{-}\cos(\beta_{2}) & \dots & \phantom{-}\cos(\beta_{M}) \\
+        \phantom{-}\cos(\beta_{1}) & \phantom{-}\cos(\beta_{2}) & \dots & \phantom{-}\cos(\beta_{M}) \\
+               1                   &        1                   & \dots &        1
+    \end{bmatrix}_{(3 \times M)} \odot 
+    \begin{bmatrix}
+        x_{1} & x_{2} & \dots & x_{M} \\
+        y_{1} & y_{2} & \dots & y_{M} \\
+        z_{1} & z_{2} & \dots & z_{M}
+    \end{bmatrix}_{(3 \times M)}
+    + \\
+    & \begin{bmatrix}
+	    -\sin(\beta_{1})           & -\sin(\beta_{2})           & \dots & -\sin(\beta_{M}) \\
+        \phantom{-}\sin(\beta_{1}) & \phantom{-}\sin(\beta_{2}) & \dots & \phantom{-}\sin(\beta_{M}) \\
+               0                   &        0                   & \dots &        0
+    \end{bmatrix}_{(3 \times M)} \odot 
+    \begin{bmatrix}
+        y_{1} & y_{2} & \dots & y_{M} \\
+        x_{1} & x_{2} & \dots & x_{M} \\
+        z_{1} & z_{2} & \dots & z_{M}
+    \end{bmatrix}_{(3 \times M)}
+    \end{flalign*}
+    
+    %% Step 3
+    \texttt{(sB3.) Do relaxation: } 
+    \begin{flalign*}
+    M_{next_{(3 \times M)}} & \gets D_{_{(3 \times M)}} \, \odot \, M_{next_{(3 \times M)}} \, + \, D_{z_{(3 \times M)}} \\
+    & \begin{bmatrix}
+	    E_{2_{1}} & E_{2_{2}} & \dots & E_{2_{M}} \\
+        E_{2_{1}} & E_{2_{2}} & \dots & E_{2_{M}} \\
+        E_{1_{1}} & E_{1_{2}} & \dots & E_{1_{M}}
+    \end{bmatrix}_{(3 \times M)} \odot
+    \begin{bmatrix}
+        x_{1} & x_{2} & \dots & x_{M} \\
+        y_{1} & y_{2} & \dots & y_{M} \\
+        z_{1} & z_{2} & \dots & z_{M}
+    \end{bmatrix}_{(3 \times M)} + \\
+    & \begin{bmatrix}
+    	0 & 0 & \dots & 0 \\
+        0 & 0 & \dots & 0 \\
+        1-E_{1_{1}} & 1-E_{1_{2}} & \dots & 1-E_{1_{M}}
+    \end{bmatrix}_{(3 \times M)}
+    \end{flalign*}
+    
+    %% Step 3
+    \texttt{(sB4.) RETURN } $M_{next_{(3 \times M)}}$ \;
+    
+    \caption{Vectorised sequence block function which calculates the magnetisation vector components at the end of a sequence block for the entire set of tissue properties of size \texttt{M}. Note: $\odot$ denotes component-wise multiplication}
+    \label{alg:sequenceBlock}
+\end{algorithm}
+
+

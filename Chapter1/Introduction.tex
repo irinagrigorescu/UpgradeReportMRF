@@ -1,0 +1,134 @@
+\chapter{Introduction}
+\label{chapterlabel1}
+\epigraph{``Begin at the beginning," the King said gravely, ``and go on till you come to the end: then stop."}{--- \textup{Lewis Carroll}, Alice in Wonderland}
+
+\textbf{TODO: start with the point from the title}
+
+\hfill
+
+Magnetic resonance imaging (MRI) is a non-invasive imaging technique based on the physical phenomena of nuclear magnetic resonance (NMR).
+MRI has many applications in the biomedical sciences such as the study of anatomy, pathology and even function.
+In a clinical environment, MRI is often preferred over other imaging modalities as it provides several unique advantages.
+Among these advantages, MRI offers high resolution images, very good soft tissue contrast, and does not use ionizing radiation.
+In addition, it can provide images with arbitrary orientation, as well as true three dimensional images.
+Unlike other imaging modalities, the MRI process can be sensitised to a wide range of morphological and physiological parameters, such as flow, perfusion, blood oxygenation, and many others.
+
+\hfill
+
+MRI has a few potential drawbacks. 
+First, MR images are generally qualitative, where the contrast between different tissue types is the primary source of information for characterizing anatomy or pathology. 
+However, the MR research community is determined to overcome this limitation by developing pure quantitative approaches which can measure tissue properties.
+One recently developed quantitative MRI approach called Magnetic Resonance Fingerprinting (MRF) has shown great potential in simultaneously quantifying a range of different tissue properties in one acquisition.
+Secondly, the MR imaging process is sensitive to movement.
+This is because the time required for the majority of MR sequences to collect the data necessary to produce an image is longer than most types of physiological motion, such as involuntary patient motion, cardiac motion, respiratory motion, vessel pulsation, pulsatile flow and cerebrospinal fluid flow.
+This limitation becomes extremely important in quantitative approaches where both accuracy and precision are needed.
+
+\hfill
+
+One way to investigate how motion affects an MR scan is by doing experimental work.
+This, however, is time consuming and, more importantly, often hard to control the precise nature of the motion being tested.
+The alternative is to simulate the entire MRI pipeline together with a motion model. 
+The advantage over experimental work is that simulation provides a controlled way of studying how motion impacts the final images.
+More importantly, in the case of an MR Fingerprinting experiment, a realistic simulation framework provides a way of understanding how different types of motion affect the quantification of tissue properties.
+
+% % % % % % % % % % % % % % % % 
+\section{Statement of Problem}\label{chapterlabel1sec1}
+There is a need to have a realistic MRI simulation framework to accurately and precisely investigate the nature of commonly occurring MRI artefacts.
+
+\subsection{Simulation Systems}
+A simulation system could model the full MR acquisition process producing realistic images from a computational representation of a tissue or phantom and the MR scanning parameters.
+An MRI simulator allows full control over the simulation parameters thus enabling the understanding of how different artefacts will affect the MR images.
+Moreover, an MRI simulation framework can be further used to investigate how these artefacts impact the quantification of tissue properties in more advanced MR sequences such as magnetic resonance fingerprinting.
+
+\subsection{Limitations of existing simulation systems}
+Current MR simulation systems lack support for a number of key features that prevent the simulation of more advanced MRI sequences with the realism required. 
+More specifically, existing systems exhibit at least one of the following problems:
+
+\begin{enumerate}
+    \item \textit{There is no support for the fast imaging with steady state precession (FISP) sequence.}
+    This type of rapid multi-pulse sequence is the current state-of-the-art in MR Fingerprinting acquisitions.
+    However, in currently available simulation systems the spoiling gradient associated with this sequence is either treated as a zeroing event or, if the object is discretized finely enough, such simulations would take an unrealistically long time to produce images.
+    Therefore, there are currently no simulation systems that offer an out-of-the-box solution for this type of sequence.
+    
+    % \item Accurate simulations of fast multi-pulse steady-state sequences with gradient spoiling are currently not feasible. \\
+    % Due to their inherent need for a very large number of isochromats, the current systems which allow for such simulations would take an unrealistically long time to produce images.
+    
+    \item \textit{There is little support for very fast simulations through the use of Graphics Processing Units (GPUs).}
+    Current technological advancements in the computer architecture community allows for very fast computational approaches through the use of massively parallel computer hardware.
+    However, most MR simulators rely on CPU based parallelisation techniques.
+    Although faster than sequential approaches, CPU based techniques are still a few orders of magnitude slower than GPUs.
+    This, coupled with the need for an accurate simulation of a gradient spoiling event, shows that the current systems are not well suited for finely discretised digital objects. \\
+    %(mrilab is cuda 2.0, more recently is 9.0; also not as customisable as you'd like)
+
+    \hfill
+
+	Moreover, in case of Magnetic Resonance Fingeprinting, the following major limitation exists: \\
+
+    \item \textit{There is currently no available simulation system that models the full process of MRI acquisition during an MRF experiment.}
+    MR acquisition relies on a series of magnetic fields being applied over a sample in order to spatially encode it into Fourier space.
+    After this step, a reconstruction algorithm is used to retrieve an image representing the object.
+    However, many of the artefacts known to the process of MR can happen during acquisition.
+    The failure to faithfully model this process can prevent the realistic investigation of many commonly occurring artefacts.
+\end{enumerate}
+
+% % % % % % % % % % % % % % % % 
+\section{PhD Contribution}\label{chapterlabel1sec2}
+
+The main aim of my PhD project is to develop a Magnetic Resonance Imaging simulation framework capable of producing MR datasets in an accurate and timely manner.
+Moreover, I aim to use this MRI simulator to investigate the impact of motion in a novel quantitative MRI protocol known as Magnetic Resonance Fingerprinting.
+I will achieve this by making the following contributions:
+
+%The main aim of my PhD project is to develop a magnetic resonance imaging simulation framework and to demonstrate its application on a novel quantitative MRI protocol known as magnetic resonance fingerprinting (MRF).
+%Towards this goal, I have developed an initial proof-of-concept image space simulation pipeline of an MRF experiment.
+%Moreover, I have investigated the impact of in-plane rigid motion applied at various time points during the scan on the final quantitative maps.
+%This chapter is therefore focused on describing the relevant methodology for implementing the proposed framework and on presenting the key results and conclusions following this investigation.
+
+\begin{enumerate}
+	\item \textit{Upgrade an existing simulator to enable the simulation of advanced Magnetic Resonance Imaging experiments.}
+	POSSUM \cite{Drobnjak2006} is a state-of-the-art open source MRI simulation tool that allows for rapid and accurate reproductions of magnetic resonance imaging datasets.
+	Recently, is has been successfully extended to reproduce realistic diffusion-weighted datasets \cite{Graham2016}.
+	By upgrading it to allow for GPU parallelisation and an easily extensible programming interface, POSSUM will be able to realistically perform simulations of more advanced MRI acquisitions.
+	Moreover, this simulator will become freely available for anyone to use and design their own experiments. 
+	This contribution tackles limitations 1 and 2.
+	
+	\item \textit{Demonstrate its application on a novel quantitative MRI protocol known as Magnetic Resonance Fingerprinting (MRF).}
+	Starting with 2013, MRF has caught the attention of many MR enthusiasts who aim to make this imaging modality quantitative.
+	This technique has shown a lot of promise in providing simultaneous measurements of multiple parameters of interest, such as the tissue relaxation times, the spin density and others, using a single acquisition protocol.
+	As it is slowly paving its way into the radiology departments, it has become timely to allow for accurate and reliable simulations of the sequence, thus enabling the MRF community to further improve it.
+	This contribution tackles limitation 3.
+
+	\item \textit{Investigate the impact of motion on the quantitative maps produced by an MRF experiment.}
+	Motion during a magnetic resonance imaging scan is one of the most frequent sources of artefacts in MRI \cite{Zaitsev2015}. 
+	This is because the time required for the majority of MR sequences to collect the signal is longer than most types of physiological movements.
+	This limitation of MRI, coupled with the need for accuracy and precision in quantitative approaches, makes this investigation not just timely, but also needed.
+
+\end{enumerate}
+
+% % % % % % % % % % % % % % % % 
+\section{Thesis Outline}\label{chapterlabel1sec5}
+
+My thesis consists of the following chapters:
+\begin{itemize} 
+	\item First, \textbf{\textit{Chapter \ref{chapterlabel1}}} introduces the problem statement and explains the motivation and importance of this PhD project.
+
+	\item Second, \textbf{\textit{Chapter \ref{chapterlabel2}}} presents the current state-of-the-art in MRI and MRF simulation systems, thus forming a comprehensive literature review.
+
+	\item Third, \textbf{\textit{Chapter \ref{chapterlabel3}}} demonstrates an initial proof-of-concept image space simulation pipeline of a magnetic resonance fingerprinting (MRF) experiment.
+	
+	\item Fourth, \textbf{\textit{Chapter \ref{chapterlabel4}}} provides the overall conclusions for this piece of work and discusses the future work that needs to be done to finalise the PhD project.
+
+	\item Finally, in \textbf{\textit{Appendix \ref{appendixlabelBackgroundMRI}}} and \textbf{\textit{Appendix \ref{appendixlabelBackgroundMRF}}} the relevant theoretical background for both MRI and MRF are presented;
+	\textbf{\textit{Appendix \ref{appendixlabelPhantom}}} contains a table with the $T_1$ and $T_2$ relaxation times used in the input object for our simulations;
+	in \textbf{\textit{Appendix \ref{appendixlabelMotion}}} supplementary results can be found;
+	while in \textbf{\textit{Appendix \ref{appendixlabel1}}} and \textbf{\textit{Appendix \ref{appendixlabel2}}} pseudocode for the MRF dictionary generation is shown.
+
+\end{itemize}
+
+
+
+
+
+
+
+
+

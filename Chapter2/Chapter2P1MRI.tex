@@ -1,0 +1,427 @@
+%\section{Magnetic Resonance Imaging Simulation Systems}
+\section{MR Simulation: a general overview of past and current simulation systems}
+\label{chapterlabel2sec1}
+%: a review of past and recent simulation systems}
+
+% Magnetic resonance imaging (MRI) is a non-invasive imaging technique based on the physical phenomena of nuclear magnetic resonance (NMR).
+% MRI has many applications in the biomedical sciences such as the study of anatomy, pathology and even function.
+% In a clinical environment, MRI is often preferred over other imaging modalities as it provides several unique advantages.
+% Among these advantages, MRI offers high resolution images, very good soft tissue contrast, and does not use ionizing radiation.
+% In addition, it can provide images with arbitrary orientation, as well as true three dimensional images.
+
+% \hfill
+
+% %MRI is an incredibly versatile imaging technique.
+% %The MR signal can be sensitised to a wide range of morphological and physiological parameters, such as flow, perfusion, blood oxygenation, and many others.
+% MRI has three distinct features that make it stand out among other diagnostic imaging modalities.
+% First, MRI is an incredibly versatile imaging technique, allowing the MR signal to be sensitised to a wide range of morphological and physiological parameters.
+% For this reason, MRI requires an increased level of understanding of the underlying physics to acquire and analyze the images.
+% Second, the optimisation of an MRI pulse sequence is time consuming and does not exhaustively search the entire parameter space. 
+% This process often involves phantoms, animals or human volunteers, and is based on an iterative process of parameter modification until the desired contrast and other image characteristics are found.
+% Third, the quality of an MR image is dependent on the interaction between the patient and the hardware, or on the scanner hardware itself \cite{Graves2013}.
+% It is therefore extremely important to understand the sources of image artifacts in order to eliminate them and avoid false diagnoses.
+
+% \hfill
+
+Numerical simulations of MR experiments have been around since the 1980s when Bittoun et al. published ``A computer algorithm for the simulation of any nuclear magnetic resonance (NMR) imaging method'' \cite{Bittoun1984}.
+Following on their footsteps, many others have since then developed MRI simulation systems for a variety of reasons.
+%One way to account for these important features and limitations is to build a software system capable of simulating the MRI process.
+%Such simulators have been used for a number of purposes.
+First, an MRI simulator that presents the same interface as a real scanner can be used as a training tool for physicists and clinicians.
+Second, the parameter space can be exhaustively searched in a controlled way to create new sequences or to optimise existing ones.
+And third, as MR imaging artifacts are often hard to avoid, a simulator could provide the ground truth for correction algorithms.
+% In general, these software tools have been developed with a particular methodological question in mind.
+
+\hfill
+
+% %To date, a number of MRI physics simulators have been proposed for the reasons explained above.
+%In order to develop an all purpose MRI physics simulator, few assumptions regarding the underlying physics should be made and all the main building blocks that make up a real MRI protocol should be integrated in the simulation system.
+In its most general form, numerical simulation of an MRI experiment is a demanding task. 
+This is due to the fact that many aspects of an MR experience need to be simulated in order to obtain realistic results.
+From a high level perspective, such an experience can be described by a four stage pipeline.
+First, \textbf{the object} that is being imaged (a phantom, an animal model or the body part of a human volunteer) is securely placed in the bore of the main magnet; second, \textbf{the pulse sequence} (the complete description of what the MR scanner should be doing) is being set up to activate the MR hardware; third, \textbf{the hardware} of the MRI scanner (the main magnet, gradient coils, radio frequency transmission and reception coils) acts upon the sample being imaged by exciting it with a collection of magnetic fields; and finally, \textbf{the reconstruction algorithm} (fast Fourier transform, parallel imaging reconstruction techniques, gridding, etc.) retrieves the final image.
+
+\hfill
+
+In this section, we focus on giving a brief description of how the current literature deals with simulating the MRI experience based on the four components described above.
+%Next, we present the current state-of-the-art in MRI simulation systems as freely available software tools that are active today.
+%Finally, we look at the more specific case of a Magnetic Resonance Fingerprinting experiment and how the current literature has simulated this novel sequence.
+
+\hfill
+
+% % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % % 
+\subsection{Object}
+
+The object being imaged in an MRI scan or protocol is the first component of the MR experience pipeline.
+%As the object needs to be simulated, 
+There are three main criteria that are sufficient to fully describe it for the purpose of MRI simulation.
+Firstly, the object needs to be \textbf{represented geometrically}. 
+Secondly, the \textbf{tissue specific parameters} of interest to NMR need to be specified.
+Lastly, the \textbf{change in position} that is ubiquitous to any real sample needs to be specified.
+These three criteria are treated in different ways by different currently available simulators. 
+It is the purpose of this section to present an overview of these differences.
+
+% % % % % % % % % % % % % % % % % % % % % % % % 
+\hfill
+
+\large \textbf{Geometric Representation} \normalsize
+
+There are many ways a three dimensional object can be represented in a computer, ranging from an unstructured set of 3D point samples (point cloud), to a connected set of 2D polygons (mesh), and even more complex representations such as hierarchical tree structures (octrees).
+However, the most common object representation found in MRI simulation systems is a uniform grid of volumetric samples (voxels).
+%The reason behind this is that most biomedical imaging systems such as MRI or CT use the same representation.
+%The reason behind this is that this type of geometric representation is computationally efficient and therefore preferred in the MRI simulation world.
+
+\hfill
+
+This geometric representation has been adopted as early as 1984 when Bittoun et al. \cite{Bittoun1984} simulated one dimensional objects.
+Following their steps, Stewart et al. \cite{Stewart1986} extended this approach to 2D objects, while Summers et al. \cite{Summers1986} and Olsson et al. \cite{Olsson1995} moved towards 3D objects.
+The most recent MRI simulation systems by 
+Yoder et al. \cite{Yoder2004}, 
+Benoit-Cattin et al. \cite{Benoit-Cattin2005}, 
+Baum et al. \cite{Baum2011}, 
+Jochimsen et al. \cite{Jochimsen2004} \cite{Jochimsen2006}, 
+Drobnjak et al. \cite{Drobnjak2006} \cite{Drobnjak2010}, 
+Stocker et al. \cite{Stocker2010}, 
+Xanthis et al. \cite{Xanthis2014} and 
+Liu et al. \cite{Liu2013} \cite{Liu2014} \cite{Liu2016} use the same piecewise constant representation of the 3D input object.
+%In all of these studies, the MR signal is generated by solving the Bloch equation at each point in the object.
+%This approach becomes computationally demanding for high-resolution objects.
+
+\hfill
+
+%A more computationally efficient representation was presented in the simulation systems developed by 
+A different representation was chosen by
+Kwan et al. \cite{Kwan1997} \cite{Kwan1999}
+where tissue templates \cite{Collins1995} were used instead.
+These templates are three-dimensional anatomical images of distinct tissue types (e.g. one template of grey matter, another of white matter and a third of cerebro-spinal fluid (CSF)). 
+However, this approach is restrictive in terms of object voxel properties as it does not allow for different object voxels to experience different susceptibility induced magnetic field inhomogeneities, so several artefacts due to rigid body motion or magnetic inhomogeneities cannot be modelled.
+
+% % % % % % % % % % % % % % % % % % % % % % % % 
+\hfill
+
+\large \textbf{Tissue Specific Parameters} \normalsize
+
+Tissue specific parameters refer to the set of chemical and physical characteristics of the object being imaged that are important to NMR.
+These tissue properties influence the behaviour of the nuclei of interest which, in turn, affect the MRI signal.
+In MR simulations, the parameters that are generally used are the relaxation times $T_1$ and $T_2$, the spin density $\rho$ and the magnetic susceptibility of different tissue types.
+%In MRI, the signal depends on a range of chemical and physical characteristics of the object being imaged.
+
+\hfill
+
+The most common set of tissue specific parameters 
+%used to characterize the input object that is 
+found in the MRI simulation literature is composed of the proton density and the relaxation times.
+%The image contrast in most MR imaging protocols used in clinics today is given by 
+%For this reason, most MRI simulators use these three quantities to characterize each voxel in their object.
+Both early simulator systems such as those created by
+Bittoun et al. \cite{Bittoun1984},
+Ortendahl et al. \cite{Ortendahl1984},
+Riederer et al. \cite{Riederer1984},
+Bobman et al. \cite{Bobman1985},
+Lufkin et al. \cite{Lufkin1986},
+Stewart et al. \cite{Stewart1986},
+Summers et al. \cite{Summers1986},
+Petersson et al. \cite{Petersson1993},
+Torheim et al. \cite{Torheim1994}, 
+Olsson et al. \cite{Olsson1995},
+Brenner et al. \cite{Brenner1997},
+Kwan et al. \cite{Kwan1997} and
+more recent ones such as those created by
+Yoder et al. \cite{Yoder2004},
+Hacklander et al. \cite{Hacklander2005},
+Benoit-Cattin et al. \cite{Benoit-Cattin2005},
+Jochimsen et al. \cite{Jochimsen2004},
+Overall et al. \cite{Overall2007},
+Stocker et al. \cite{Stocker2010} and
+Xanthis et al. \cite{Xanthis2014}
+give values for the spin density, the longitudinal relaxation time $T_1$ and the transverse relaxation time $T_2$ to each element in the input object.
+
+\hfill
+
+% Similarly, 
+%  use the same three tissue properties to define their object voxels.
+However, Benoit-Cattin et al. \cite{Benoit-Cattin2005} 
+and Stocker et al. \cite{Stocker2010} also introduce $T_2^*$ relaxation.
+While the former computes this value by weighting the signal with the effect introduced by intra-voxel inhomogeneities, the latter simulates it by adding small Lorentzian distributed random off-resonance frequency terms to each simulated isochromat.
+On the other hand, Liu et al. \cite{Liu2014} use both $T_2$ and $T_2^*$ maps for the input object, while 
+Drobnjak et al. \cite{Drobnjak2006} use only $T_2^*$ values.
+ 
+\hfill
+
+Another important property is the magnetic susceptibility of different tissue types.
+This property is related to the different molecular environments in which the nuclei can be found.
+These different environments can shield the hydrogen protons from the full effects of an externally applied magnetic field, thus causing them to precess at different frequencies than expected.
+This phenomenon causes the `chemical shift' artefact.
+To date, MRI simulation systems developed by
+Yoder et al. \cite{Yoder2004}, 
+Drobnjak et al. \cite{Drobnjak2006}, 
+Stocker et al. \cite{Stocker2010}, 
+Kwan et al. \cite{Kwan1999}, 
+Benoit-Cattin et al. \cite{Benoit-Cattin2005}, 
+Xanthis et al. \cite{Xanthis2014} and 
+Liu et al. \cite{Liu2013} 
+have modelled this effect by 
+introducing a frequency offset for a particular tissue type.
+
+% \hfill
+
+% Finally, interfaces of materials with different magnetic susceptibilities, such as tissue-air interfaces, can cause distortions in the main magnetic field.
+% This phenomenon has been included in early simulators by 
+% Bittoun et al. \cite{Bittoun1984}, and in more recent ones by
+% Kwan et al. \cite{Kwan1999},
+% Yoder et al. \cite{Yoder2004},
+% Benoit-Cattin et al. \cite{Benoit-Cattin2005},
+% Drobnjak et al. \cite{Drobnjak2010},
+% Stocker et al. \cite{Stocker2010} and
+% Xanthis et al. \cite{Xanthis2014}.
+
+% % % % % % % % % % % % % % % % % % % % % % % % 
+\hfill
+
+\large \textbf{Motion} \normalsize
+
+Motion is ubiquitous to any real life object and so the sample being imaged in an MRI experiment is never completely stationary.
+Moreover, the time required for the majority of MR sequences to collect the necessary data is much longer than most types of physiological motion, including respiratory motion, vessel pulsation, CSF flow and even involuntary patient motion, which makes MRI particularly sensitive to this.
+
+\hfill
+
+Bulk motion is one important type of motion that can lead to slice misalignment, blurring of object edges, ghosting, loss of information or undesired strong signals \cite{Zaitsev2015}.
+Drobnjak et al. \cite{Drobnjak2006}, Stocker et al. \cite{Stocker2010} and Jochimsen et al. \cite{Jochimsen2004} simulate rigid body motion at any time point during an MRI sequence, including during the acquisition process.
+A different type of bulk motion that can be simulated is flow.
+This type of motion is important in MRI because it can offer more subtle contrasts that can be used to image blood vessels and arteries.
+Petterson et al \cite{Petersson1993} incorporate flow in their k-space formalism approach as a phase shift in the signal, while 
+Fortin et al. \cite{Fortin2016} simulate arbitrarily complex fluid motion by extending an already existing simulator called JEMRIS \cite{Stocker2010}.
+
+\hfill
+
+Diffusion, or microscopic motion, is a more subtle type of movement.
+This type of motion can be exploited through specialised pulse sequences to probe the underlying tissue microstructure.
+While there is substantial work on simulating the diffusion signal arising from a single voxel (e.g. Camino \cite{Cook2006} and JEMRIS \cite{Stocker2010}),
+full-brain images with diffusion contrast are more limited.
+Nevertheless, a few examples exist.
+Among them, Perrone et al. \cite{Perrone2016} produce realistic diffusion-weighted images, but they do not faithfully model the physics of MR acquisition,
+while Graham et al. \cite{Graham2016} combine the simulation of the MR image acquisition process with a model-based representation of diffusion in order to produce realistic DW-MR images.
+
+\hfill
+
+Finally, a different type of miscroscopic motion involves the movement of spins between two or more macromolecular environments.
+This type of motion can be used to generate MR images with more interesting contrasts.
+For example, Chemical-Exchange Saturation-Transfer (CEST) techniques exploit this phenomenon to enable imaging certain compounds at concentrations that are too low to directly be detected through conventional imaging.
+In terms of simulations, these phenomena require different molecular pools (free and bound) to be simulated, together with an exchange model.
+This type of simulations are accounted for by Liu et al. \cite{Liu2017}.
+
+\hfill
+
+% % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % % 
+\subsection{Pulse Sequence}
+
+The MRI pulse sequence is the second component of the MR experience pipeline.
+A pulse sequence is a series of magnetic fields used in conjunction with data acquisition to produce MR images. 
+By playing out the magnetic fields in a certain way, this `recipe' allows for differentiation of tissues in the images, or for sensitization of the MR signal to diffusion, flow or perfusion.
+%Pulse sequences rely on a number of parameters to be set for the required contrast.
+In the MRI simulation literature, there are two main approaches to how a pulse sequence can be defined.
+Firstly, some MRI simulation systems offer a \textbf{predefined list of sequences} for the user to select from.
+%Here, users are instructed to provide values for the most important sequence parameters such as: echo time, repetition period, inversion time and RF pulse flip angle.
+Secondly, other simulation systems offer the users the possibility to \textbf{design their own sequences}.
+%In this case users can either: provide an input file with a full description of the pulse sequence events at discretised time points, use the available tutorials and specialised application programming interfaces (API) to create their own sequences, or use the dedicated graphical user interface (GUI) module to develop pulse sequences.
+Based on these two approaches, this section presents an overview of how different simulators treat the MRI pulse sequence.
+
+% % % % % % % % % % % % % % % % % % % % % % % % 
+\hfill
+
+\large \textbf{Predefined Sequences} \normalsize
+
+The most common readily available sequences in the MR simulation literature are the classic spin-echo and gradient-echo.
+These types of sequences require that the user specifies two sequence specific parameters: $T_E$ (echo time) and $T_R$ (repetition time).
+This is available in early MRI simulators developed by Ortendahl et al \cite{Ortendahl1984}, Riederer et al \cite{Riederer1984}, Bobman et al \cite{Bobman1985}, Lufkin et al \cite{Lufkin1986}, Torheim et al \cite{Torheim1994}, Simmons et al \cite{Simmons1996} and Hacklander et al \cite{Hacklander2005}.
+Additionally, Ortendahl et al \cite{Ortendahl1984}, Torheim et al \cite{Torheim1994}, Simmons et al \cite{Simmons1996}, Torheim et al \cite{Torheim1994} and Hacklander et al \cite{Hacklander2005} include a third parameter, the $T_I$ (inversion time), to simulate inversion-recovery sequences.
+Another important sequence parameter to be specified is the RF pulse flip angle. 
+This feature is available in MRI simulators starting with 2005 \cite{Benoit-Cattin2005}.
+
+\hfill
+
+More complex sequences, such as \textit{PROPELLER-EPI}, \textit{TrueFISP}, \textit{multi-slice MDEFT} and \textit{fully flow-compensated FLASH} sequences, among others, are readily available through the simulation system developed by Jochimsen et al \cite{Jochimsen2004}.
+As before, the user can input values for the most important sequence parameters such as: echo time, repetition period and RF pulse flip angle.
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % 
+\hfill
+
+\large \textbf{Design your own Sequences} \normalsize
+
+Another approach to pulse sequence development is to allow the user to create their own.
+Currently, there are three ways this can be accomplished.
+Firstly, users are instructed to provide an input file with a full description of the pulse sequence events at discretised time points.
+This approach is found in MRI simulators such as those created by Drobnjak et al \cite{Drobnjak2006} and Xanthis et al \cite{Xanthis2014}.
+Secondly, users can take advantage of tutorials and specialised application programming interfaces (API) to create their own sequences.
+This approach is found in the MRI simulation system developed by Jochimsen et al \cite{Jochimsen2004}, where an easily extensible programming class structure is provided.
+Finally, users can benefit from the existence of GUI modules dedicated to pulse sequence development.
+This can be found in simulators developed by Stocker et al. \cite{Stocker2010}, Xanthis et al \cite{Xanthis2014}, Jochimsen et al \cite{Jochimsen2004} and Liu et al \cite{Liu2013}.
+%Moreover, Xanthis et al \cite{Xanthis2014}, Jochimsen et al \cite{Jochimsen2004} and Liu et al \cite{Liu2013} model more complicated RF pulse shapes such as sinc shaped, Gauss shaped, rectangular and adiabatic. 
+%Finally, ODIN \cite{Jochimsen2004} also allows for composite pulse shapes by concatenating predefined ones.
+
+\hfill
+
+% % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % % 
+\subsection{Scanner Hardware}
+
+The scanner hardware is the third component of the MR experience pipeline that needs to be simulated.
+The main hardware components of a real MRI machine are: 
+the main magnet bore which establishes the static magnetic field $B_0$, 
+the gradient coils which cause controlled changes in the amplitude of the field,
+the radiofrequency coils which are used to both receive and transmit magnetic fields,
+the RF amplifier which is used to increase the power of the RF pulses,
+the analog to digital converter which digitizes the received signal,
+the RF shield which acts as a Faraday cage to trap the magnetic field lines inside the room, and
+the computer console which is used by the investigator to view the results.
+
+\hfill
+
+For simulation purposes, three of these components can fully describe this step of the MRI experience pipeline.
+These are: \textbf{the main magnet}, \textbf{the gradient coils} and \textbf{radiofrequency coils}.
+These three components are treated differently by different currently available simulators.
+It is the purpose of this section to present an overview of these differences.
+
+% % % % % % % % % % % % % % % % % % % % % % % % 
+\hfill
+
+\large \textbf{Magnet} \normalsize
+
+All MR scanners come equipped with a high field magnet.
+In terms of field strength, the most widely available clinical scanners are the 1.5T and 3T fields, while in a research environment they can go up to 11.7T for humans and up to 23T for spectroscopy studies \cite{Morrow2000}.
+In all cases, an important aspect of the static magnetic field is that it needs to be kept as homogeneous as possible through the imaged object.
+For this, shim coils are used to adjust the homogeneity of the field \cite{Romeo1984}.
+
+\hfill
+
+From an MR simulation perspective, it is important to have the option of choosing the preferred field strength.
+Indeed, early simulator systems such as those created by
+Bittoun et al. \cite{Bittoun1984},
+Ortendahl et al. \cite{Ortendahl1984},
+Riederer et al. \cite{Riederer1984},
+Bobman et al. \cite{Bobman1985},
+Lufkin et al. \cite{Lufkin1986},
+Stewart et al. \cite{Stewart1986},
+Summers et al. \cite{Summers1986},
+Petersson et al. \cite{Petersson1993},
+Torheim et al. \cite{Torheim1994}, 
+Olsson et al. \cite{Olsson1995},
+Brenner et al. \cite{Brenner1997} and
+Kwan et al. \cite{Kwan1997} allow for changing the static magnetic field strength $B_0$.
+Similarly, more recent simulators such as those created by
+Yoder et al. \cite{Yoder2004},
+Hacklander et al. \cite{Hacklander2005},
+Benoit-Cattin et al. \cite{Benoit-Cattin2005},
+Jochimsen et al. \cite{Jochimsen2004},
+Drobnjak et al. \cite{Drobnjak2006},
+Overall et al. \cite{Overall2007},
+Stocker et al. \cite{Stocker2010},
+Liu et al. \cite{Liu2013} and 
+Xanthis et al. \cite{Xanthis2014} allow for the same flexibility.
+
+\hfill
+
+Another important aspect of the main magnetic field is the presence of magnetic field inhomogeneities.
+These types of distortions are simulated as deviations in the magnetic flux from the ideally homogeneous magnetic field.
+In general, these main-field inhomogeneities are given as an arbitrary function of position, which can be specified either analytically or numerically.
+Such inhomogeneities are simulated in 
+Brenner et al. \cite{Brenner1997}, in
+Liu et al. \cite{Liu2013} and in
+Stocker et al. \cite{Stocker2010}.
+%In addition, Drobnjak et al. \cite{Drobnjak2010} simulates the effects of time-varying magnetic fields by extending on their previous work with a model for changing magnetic fields at very high-resolution time-scales.
+
+% % % % % % % % % % % % % % % % % % % % % % % % 
+\hfill
+
+\large \textbf{Gradient Coils} \normalsize
+
+Gradient coils are part of the MR scanner hardware and are used to change the amplitude of the main magnetic field in a controlled way.
+These spatial variations in the main magnetic field can then be used 
+to either Fourier encode the imaged object, 
+to spoil the transverse magnetisation, or even
+to sensitize the MR signal to molecular diffusion.
+
+\hfill
+    
+In practice, the MR scanner's gradient coils have two important properties: their maximum strength and the `rise time'.
+The latter is a constraint imposed on the hardware and it is defined as the time it takes for a gradient field to go from 0 to its maximum allowed strength.
+Both of these properties are modelled in simulation systems developed by Drobnjak et al. \cite{Drobnjak2006}, Xanthis et al. \cite{Xanthis2014} and Stocker et al. \cite{Stocker2010}.
+
+\hfill
+
+Another property of the gradients is how the amplitude of the field varies through time.
+For most clinically available MR imaging sequences, the gradient fields are kept constant in time, or are turned on and off rapidly.
+From an imaging point of view, this enables a Cartesian Fourier encoding.
+Linear gradients are used in MRI simulators developed by
+Benoit-Cattin et al. \cite{Benoit-Cattin2005},
+Jochimsen et al. \cite{Jochimsen2004},
+Drobnjak et al. \cite{Drobnjak2006},
+Overall et al. \cite{Overall2007},
+Stocker et al. \cite{Stocker2010},
+Liu et al. \cite{Liu2013} and 
+Xanthis et al. \cite{Xanthis2014}.
+However, in recent years, non-linearly shaped gradients have become popular due to their fast imaging capabilities.
+These types of gradient shapes are simulated by 
+Jochimsen et al. \cite{Jochimsen2004}, 
+Overall et al. \cite{Overall2007} and
+Stocker et al. \cite{Stocker2010}.
+
+\hfill
+
+Other properties of the gradient coils are the additional unwanted fields that cause image artifacts.
+These include concomitant gradient fields which can appear from the fact that the temporally switching gradient field is accompanied by small terms on the orthogonal components.
+These time-varying fields are important in MRI because they cause additional phase accumulation, which must be compensated for to avoid image artifacts.
+Stocker et al. \cite{Stocker2010} can model these fields in their simulation system.
+
+\hfill
+
+Finally, gradient fields may suffer from inhomogeneities, the presence of which can result in image distortions.
+In terms of simulations, Summers et al. \cite{Summers1986} showed that their presence during the phase encoding step of a sequence can produce errors which will propagate throughout the whole image.
+Moreover, Stocker et al. \cite{Stocker2010} showed how unwanted nonlinear gradient fields result in a distorted image.
+
+% % % % % % % % % % % % % % % % % % % % % % % % 
+\hfill
+
+\large \textbf{Radiofrequency Coils} \normalsize
+
+The third important hardware component of any MR scanner are the radio frequency coils.
+These coils are used to either transmit magnetic fields, receive magnetic fields, or both.
+%Roughly speaking, RF coils come in two different flavours: volume and surface coils.
+%Volume coils provide a homogeneous field across a large volume and are used for whole-body imaging.
+%Volume coils are great for transmitting, but less ideal when used for small regions of interest.
+%The reason behind this has to do with their large field of view which will receive not only signal, but also noise.
+%On the other hand, surface coils have a high RF sensitivity over a small region of interest.
+%Moreover, surface coils have a lower penetration depth than volume coils.
+%Surface coils can be coupled in an array to combine the benefits of smaller coils with those of larger ones.
+
+\hfill
+
+Most MRI simulation systems assume homogeneous RF fields across the sample.
+However, in practice, RF coils have spatially varying sensitivity patterns.
+This phenomenon is simulated by Stocker et al. \cite{Stocker2010}, Xanthis et al. \cite{Xanthis2014} and Hacklander et al. \cite{Hacklander2005} for both transmitting and receiving RF coils.
+Additionally, it is often the case that multiple coils are used to either transmit or simultaneously receive signals.
+Jochimsen et al \cite{Jochimsen2004}, Liu et al \cite{Liu2014} and Stocker et al \cite{Stocker2010} offer this feature in their MRI simulators.
+
+\hfill
+
+% % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % % 
+\subsection{Reconstruction}
+
+Image reconstruction is the last component of an MRI experience pipeline.
+In conventional approaches where the k-space matrix is fully sampled and populated in a Cartesian way, a simple inverse fast Fourier transform is applied to yield an image.
+However, with an increasing need for faster scans, more sophisticated methods such as parallel imaging techniques are now incorporated in clinical MRI scanners.
+These methods rely on different types of reconstruction algorithms who generally fall under 3 categories: image domain parallel imaging (PI), such as SENSitivity Encoding (SENSE) type algorithms; k-space domain PI, such as GeneRalized Auto-calibrating Partially Parallel Acquisition (GRAPPA) type algorithms; or hybrid forms such as Array Spatial Sensitivity Encoding Technique (ASSET) and Auto-calibrating Reconstruction for Cartesian Imaging (ARC) \cite{Deshmane2012}.
+Among all the MR simulators presented so far, only ODIN \cite{Jochimsen2004} implements a parallel imaging reconstruction algorithm (GRAPPA).
+
+\hfill
+
+Regarding non-cartesian approaches as presented in Section \ref{chapterlabel2sec13}, only MRiLab \cite{Liu2017} reports having a `gridding' module (see Appendix \ref{MRIgridding}).
+In general, other simulators make use of dedicated reconstruction tools such as the Berkeley Advanced Reconstruction Toolbox (BART) \cite{Lustig2016} are used for this step.

@@ -1,0 +1,35 @@
+\begin{algorithm}
+\setstretch{1}
+    \LinesNumberedHidden
+    \SetKwInOut{Input}{Input}
+    \SetKwInOut{Output}{Output}
+
+    \nonl \underline{function createRoffres2} ($\bm{materialTuples, beta}$)\;
+    \Input{
+        $\bm{materialTuples}$ a ($3 \times M$) matrix with all $\bm{T_1, T_2, \Delta f}$ \\
+        \hspace*{0.4cm} combinations for each line  \\
+        $\bm{beta}$ the off-resonance angles matrix $(1 \times M)$ containing the \\
+        \hspace*{0.4cm} pre-calculated angle values of all off-resonance angles}
+    \Output{
+        $\bm{R_{offres2}}$ the off-resonance matrix $(3 \times M)$ containing the \\
+        \hspace*{0.4cm} pre-calculated sine values for all off-resonance angles}
+    
+    \nonl \phantom{lala}
+    
+    %% Step 1
+    \texttt{(cR1.) Create off resonance matrix: } 
+    \begin{flalign*}
+    \text{\texttt{R$_{offRes2}$}} & \gets
+    \begin{bmatrix}
+	    -sin(-beta) \\
+        \phantom{-}sin(-beta) \\
+         \bm{0}
+    \end{bmatrix}_{(3 \times M)}
+    \end{flalign*}
+    
+    %% Step 2
+    \texttt{(cR2.) RETURN } \texttt{R$_{offRes2}$}  \;
+    
+    \caption{Function that creates the $R_{offres2}$ $(3 \times M)$ matrix}
+    \label{alg:createRoffres2}
+\end{algorithm}

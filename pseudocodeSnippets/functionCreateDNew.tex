@@ -1,0 +1,52 @@
+\begin{algorithm}
+\setstretch{1}
+    \LinesNumberedHidden
+    \SetKwInOut{Input}{Input}
+    \SetKwInOut{Output}{Output}
+
+    \nonl \underline{function createD} ($\bm{materialTuples, seqProps, seqID}$)\;
+    \Input{
+        $\bm{materialTuples}$ a ($3 \times M$) matrix with all $\bm{T_1, T_2, \Delta f}$ \\
+        \hspace*{0.4cm} combinations for each line \\
+        $\bm{seqProps}$ a (structure) with $\bm{RF: (FA, PhA), T_R, RO}$ fields \\
+        \hspace*{0.4cm} representing the RF pulse, repetition time and read out time of \\
+        \hspace*{0.4cm} the entire N-block sequence where $\bm{RF}$ is a structure with \\
+        \hspace*{0.4cm} $FA$ and $PhA$  representing the flip angles and \\
+        \hspace*{0.4cm} phase angles of the RF pulses in degrees \\
+        $\bm{seqID}$ the current sequence block ID}
+    \Output{
+        $\bm{D}$ the relaxation matrix $(3 \times M)$ containing the pre-calculated \\
+        \hspace*{0.4cm} relaxation values for all $T_1$s and $T_2$s \\
+        $\bm{D_z}$ the relaxation matrix $(3 \times M)$ containing the pre-calculated \\
+        \hspace*{0.4cm} relaxation values for all $T_1$s}
+    
+    \nonl \phantom{lala}
+    
+    %% Step 1
+    \texttt{(cD1.) Create the relaxation matrix $D$: } 
+    \begin{flalign*}
+    D \gets 
+    \begin{bmatrix}
+    	exp(-TR_{seqID} \, / \, [ T_{2_{1}}  \, T_{2_{2}} \, \dots T_{2_{M}} ] ) \\
+        exp(-TR_{seqID} \, / \, [ T_{2_{1}}  \, T_{2_{2}} \, \dots T_{2_{M}} ] ) \\
+        exp(-TR_{seqID} \, / \, [ T_{1_{1}}  \, T_{1_{2}} \, \dots T_{1_{M}} ] ) 
+    \end{bmatrix}_{(3 \times M)}
+    \end{flalign*}
+    
+    %% Step 2
+    \texttt{(cD2.) Create the relaxation matrix $D_z$: } 
+    \begin{flalign*}
+    D_z = 
+    \begin{bmatrix}
+    	\bm{0} \\
+        \bm{0} \\
+        1 - exp(-TR_{seqID} \, / \, [ T_{1_{1}}  \, T_{1_{2}} \, \dots T_{1_{M}} ] ) 
+    \end{bmatrix}_{(3 \times M)}
+    \end{flalign*}
+    
+    %% Step 3
+    \texttt{(cD3.) RETURN } \texttt{D} and \texttt{D$_z$} \;
+    
+    \caption{Function that creates the relaxation matrices: $D$ $(3 \times M)$ and $D_z$ $(3 \times M)$}
+    \label{alg:createD}
+\end{algorithm}
