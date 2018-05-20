@@ -63,11 +63,20 @@ This section presents an overview of the methods used for creating the database 
 
 \hfill
 
-\large \textbf{bSSFP Dictionary} \normalsize
-The bSSFP dictionary generation is based on the original implementation of the MRF sequence, where Ma et al. \cite{Ma2013} used an inversion-recovery balanced steady state free-precession (bSSFP) sequence (see Figure~\ref{fig:sequencebSSFP}). 
+% \large \textbf{bSSFP Dictionary} \normalsize
+\subsubsection{bSSFP Dictionary}
+
+The bSSFP dictionary generation is based on the original implementation of the MRF sequence, where Ma et al. \cite{Ma2013} used an inversion-recovery balanced steady state free-precession sequence (see Figure~\ref{fig:sequencebSSFP}). 
 The bSSFP sequence is a type of rapid multi-pulse gradient-echo pulse sequence. 
 It is called `rapid' because the repetition time $T_R$ is shorter than both the longitudinal ($T_1$) and the transverse ($T_2$) relaxation times of most known tissue types.
 Moreover, it uses balanced (fully rewound) gradients in every direction, thus effectively recovering the transverse magnetisation at the end of each $T_R$ period.
+
+\hfill
+
+bSSFP sequences are known to be highly sensitive to inhomogeneities in the main magnetic field. 
+These inhomogeneities are caused by susceptibility variations or poor magnet shimming and give rise to `banding artifacts' in the final images \cite{Hargreaves2012}.
+In spite of this, bSSFP-type sequences are used clinically today and are known commercially as: True-FISP, FIESTA, Balanced-FFE or True SSFP \cite{Hargreaves2012}.
+These sequences are known to yield the highest signal among all the other rapid gradient-echo sequences and give a contrast of $T_2/T_1$ \cite{Scheffler2003}.
 
 \begin{figure}[ht]
     \centering
@@ -79,6 +88,8 @@ Moreover, it uses balanced (fully rewound) gradients in every direction, thus ef
 
 \hfill
 
+\large \textbf{Assumptions} \normalsize
+
 To model the behaviour of a magnetisation vector with known relaxation times and proton density values in an MRF-bSSFP sequence, we made the following assumptions:
 
 \begin{enumerate}
@@ -86,41 +97,47 @@ To model the behaviour of a magnetisation vector with known relaxation times and
 
     \item The effect of applying an RF pulse of flip angle $\alpha$ and phase angle $\phi$ was considered to be significantly shorter than the relaxation times $T_1$ and $T_2$ and was modelled as happening instantaneously.
     This allowed us to represent its effect as a rotation through the flip angle $\alpha$ about a chosen axis (e.g. the $x$-axis) and a change of coordinate system through the phase angle $\phi$ about the $z$-axis.
-    This is detailed in Appendix~\ref{background:rfpulse}.
+    This is called the "hard pulse approximation" and is detailed in Appendix~\ref{background:rfpulse}.
     
     \item The imaging gradients in this sequence are considered to be fully balanced (all the gradients have zero zeroth moment over each repetition period).
-    Thus, any effect induced by the gradients before the readout happens is subsequently reversed by the rewinding gradients.
+    Thus, any effect induced by the gradients is subsequently reversed by the rewinding gradients before the readout happens.
     We therefore neglected the effect of gradients on the magnetisation vector.
 
 \end{enumerate}
 
-In order to simulate the magnetisation dynamics in this multi-pulse sequence, we first described the effect of a single, arbitrarily chosen, $T_R$ block on a known magnetisation vector (see Figure~\ref{fig:sequencebSSFPOneBlock}).
-
 \hfill
+
+\large \textbf{Single Block Dynamics} \normalsize
+
+In order to simulate the magnetisation dynamics in this multi-pulse sequence, 
+%we first describe the effect of a single, arbitrarily chosen, $T_R$ block on a known magnetisation vector (see Figure~\ref{fig:sequencebSSFPOneBlock}).
+we begin with the description of a single, arbitrarily chosen, $T_R$ block on a known magnetisation vector (see Figure~\ref{fig:sequencebSSFPOneBlock}).
+We define the magnetisation vector immediately prior to the $i^{th}$ RF pulse as:
+\begin{equation}
+    M^{-}_i \equiv \big[ M^-_{x_i} \, \,  M^-_{y_i} \, \, M^-_{z_i} \big]^T
+\end{equation}
+and immediately after the $i^{th}$ RF pulse as:
+\begin{equation}
+    M^{+}_i \equiv \big[ M^+_{x_i} \, \,  M^+_{y_i} \, \, M^+_{z_i} \big]^T
+\end{equation}
 
 \begin{figure}[ht]
     \centering
     \includegraphics[angle=0,width=0.75\textwidth, keepaspectratio]{images/mrf/sequencebSSFPOneBlock}
     \caption{The figure shows a simplified version of an arbitrarily chosen repetition period block from the bSSFP sequence above.
     The magnetisation vector immediately prior to the $i^{th}$ RF pulse is denoted by $\vec{M}^-_i$ and the magnetisation vector immediately after the $i^{th}$ RF pulse is denoted by $\vec{M}^+_i$.
-    The second magnetisation vector is formed as a result of the application of the $i^{th}$ RF pulse with flip angle $\alpha(i)$ on the $\vec{M}^-_i$ vector.
+    The second magnetisation vector is formed as a result of the application of the $i^{th}$ RF pulse with flip angle $\alpha_i$ and phase angle $\phi_i$ on the $\vec{M}^-_i$ vector.
     Similarly, $\vec{M}^-_{i+1}$ and $\vec{M}^+_{i+1}$ are the magnetisation vectors immediately before and after the $(i+1)^{th}$ RF pulse.
-    Moreover, the relationship between $\vec{M}^+_{i}$ and $\vec{M}^-_{i+1}$ is given by: $ \vec{M}^-_{i+1} = \vec{M}^+_{i}(t = TR(i))$, where $t \in [0, TR(i)]$ }
+    %The relationship between $\vec{M}^+_{i}$ and $\vec{M}^-_{i+1}$ is given by: $ \vec{M}^-_{i+1} = \vec{M}^+_{i}(t = TR(i))$, where $t \in [0, TR(i)]$ 
+    }
     \label{fig:sequencebSSFPOneBlock}
 \end{figure}
 
-Let us first define the magnetisation vector immediately prior to the $i^{th}$ RF pulse:
-\begin{equation}
-    M^{-}_i \equiv \big[ M^-_{x_i} \, \,  M^-_{y_i} \, \, M^-_{z_i} \big]^T
-\end{equation}
-and immediately after the $i^{th}$ RF pulse:
-\begin{equation}
-    M^{+}_i \equiv \big[ M^+_{x_i} \, \,  M^+_{y_i} \, \, M^+_{z_i} \big]^T
-\end{equation}
-\textbf{RF Pulse event.} The effect of an instantaneous RF pulse with flip angle $\alpha_i$ and phase angle $\phi_i$ links the two vectors through rotation matrices:
-\begin{equation}
+\textbf{RF Pulse.} 
+The effect of an instantaneous RF pulse with flip angle $\alpha_i$ and phase angle $\phi_i$ links the two vectors through rotation matrices (see Appendix~\ref{app:rfpulse}):
+\begin{equation}\label{eq:rfpulseequationbssfp}
     \begin{split}
-        M^{+}_i & = R_{z}(-\phi_i) R_{x}(-\alpha_i) R_{z}(\phi_i) M^{-}_i  \\
+        M^{+}_i & = R_{z}(\phi_i) R_{x}(-\alpha_i) R_{z}(-\phi_i) M^{-}_i \\
         \text{where:}         & \\
         & R_x(\alpha) = 
             \begin{bmatrix}
@@ -137,22 +154,25 @@ and immediately after the $i^{th}$ RF pulse:
     \end{split}
 \end{equation}
 
-\textbf{Relaxation event.} Next, as the effect induced by the gradients can be neglected, the magnetisation vector will begin the process of returning to its equilibrium state.
-This phenomenon is governed by the $T_1$ and $T_2$ relaxation times of the tissue being modelled and can be described using matrix notation.
-To fully describe the process there are two matrices involved; the diagonal matrix $D$:
+\hfill
 
+\textbf{Relaxation.} 
+Next, the magnetisation vector will begin the process of returning to its equilibrium state.
+This phenomenon is governed by the $T_1$ and $T_2$ relaxation times of the tissue being modelled and can be described using matrix notation (more details in Appendix~\ref{chapterlabel2sec1Bloch}).
+In the rotating reference frame (after demodulating with the Larmor frequency $\omega_0$), this phenomenon can be described as:
+
+\begin{equation}
+    M^{+}_i (t)  = D(t) M^{+}_i (0) + C(t)
+\end{equation}
+where
 \begin{equation}
     D ( t ) = \left[
     \begin{array}{c c c}
           E_2(t) &     0      &     0 \\
-           0      & E_2(t) &     0 \\
-           0      &     0      & E_1(t)
+          0      & E_2(t) &     0 \\
+          0      &     0      & E_1(t)
     \end{array}
-    \right]
-\end{equation}
-
-and the column matrix $C$:
-\begin{equation}
+    \right] \, \, \text{,  } \, 
     C ( t ) = \left[
     \begin{array}{c}
         0 \\
@@ -161,38 +181,56 @@ and the column matrix $C$:
     \end{array}
     \right]
 \end{equation}
-where $E_1(t) \equiv e^{-t/T_1}$ and $E_2(t) \equiv e^{-t/T_2}$.
-These equations have been previously defined in Section~\ref{chapterlabel2sec1Bloch}.
-In the rotating reference frame (after demodulating with the Larmor frequency $\omega_0$), this process can therefore be described as:
-\begin{equation}
-    M^{+}_i (t)  = D(t) M^{+}_i (0) + C(t)
-\end{equation}
-By choosing $t = T_{E_i}$ or $t = T_{R_i}$, we can calculate the magnetisation vector components at readout time $T_E$ after the $i^{th}$ RF pulse, or at the end of the $i^{th}$ repetition period.
+
+and where $E_1(t) \equiv e^{-t/T_1}$, $E_2(t) \equiv e^{-t/T_2}$ and
+$t \in [0, T_R(i)]$.
 
 \hfill
 
-\textbf{Off-resonance event.} However, if there are any spatially invariant static field inhomogeneities $\Delta B$ present, the phase of the magnetisation vector will change over a given repetition time period. 
+\textbf{Off-resonance.} 
+In the case where static field inhomogeneities $\Delta B$ are present, the phase of the magnetisation vector will change over a given repetition time period. 
 This phase will be determined by $\beta(t) = \gamma \Delta B t = \Delta \omega t = 2\pi \Delta \nu t$ during any $T_R$ block.
 To model the behaviour of phase accrual, we use a rotation about the $z$ axis of the magnetisation vector.
 This can be mathematically represented as:
+
 \begin{equation}
     M^{+}_i (t)  = R_z(\beta(t)) M^{+}_i (0)
 \end{equation}
-where the rotation matrix $R_z$ has been previously described and $\beta(t) = 2\pi \, \, \Delta \nu \, \, t$ is the accumulated phase due to off-resonance frequency $\Delta \nu$ at time $t$ during the $i^{th}$ repetition period. 
-Again, we can choose $t = T_{E_i}$ or $t = T_{R_i}$ to calculate the magnetisation vector components at the echo time or at the end of a repetition period, respectively.
+
+where the rotation matrix $R_z$ has been previously described.
+%and $\beta(t) = 2\pi \, \, \Delta \nu \, \, t$ is the accumulated phase due to off-resonance frequency $\Delta \nu$ at time $t$ during the $i^{th}$ repetition period. 
+%Again, we can choose $t = T_{E_i}$ or $t = T_{R_i}$ to calculate the magnetisation vector components at the echo time or at the end of a repetition period, respectively.
 
 \hfill
 
-\textbf{Linking the events.} These three events, RF pulse, relaxation and off-resonance effects, fully describe the magnetisation dynamics of a spin ensemble with equilibrium magnetisation $M_0$, relaxation constants $T_1$ and $T_2$, and with off-resonance frequency $\Delta \nu$.
-These events can now be linked together to calculate the magnetisation vector at time $t$ after the $i^{th}$ RF pulse:
+\large \textbf{Multiple Blocks Dynamics} \normalsize
+
+The extension from single block simulations to multi-pulse simulations is straightforward.
+The resulting magnetisation vector at the end of the $i^{th}$ repetition period becomes the magnetisation vector immediately prior to the $(i+1)^{th}$ RF pulse, where the process is repeated with the sequence properties corresponding to the following block:
+
 \begin{equation}
-    M^{+}_i (t) = D(t) R_z(\beta(t)) \big( R_{z}(\phi_i) R_{x}(-\alpha_i) R_{z}(-\phi_i) M^{-}_i \big) + C(t)
+    M^{-}_{i+1} = D\big(T_R(i)\big) R_z\big(\beta(T_R(i))\big) \big( R_{z}(\phi_i) R_{x}(-\alpha_i) R_{z}(-\phi_i) M^{-}_i \big) + C\big(T_R(i)\big)
 \end{equation}
 
-\textbf{Dictionary.} However, the dictionary is made up of signals generated for a wide range of tissue properties.
-More specifically, every signal can be labeled with a `tissue tuple':
+where $M^{-}_1 = M_0 \hat{x}$ and $i \in [1, N_{RF pulses}]$.
+
+\hfill
+
+% The magnetisation vector components at echo time can be calculated for every $T_R$ block and the signal for a single tissue type in a multi-pulse sequence can be retrieved.
+% These events can now be linked together to calculate the magnetisation vector at time $t$ after the $i^{th}$ RF pulse:
+
+% These three events, RF pulse, relaxation and off-resonance effects, fully describe the magnetisation dynamics of a spin ensemble with equilibrium magnetisation $M_0$, relaxation constants $T_1$ and $T_2$, and with off-resonance frequency $\Delta \nu$.
+% These events can now be linked together to calculate the magnetisation vector at time $t$ after the $i^{th}$ RF pulse:
+% \begin{equation}
+%     M^{+}_i (t) = D(t) R_z(\beta(t)) \big( R_{z}(\phi_i) R_{x}(-\alpha_i) R_{z}(-\phi_i) M^{-}_i \big) + C(t)
+% \end{equation}
+
+\large \textbf{Dictionary} \normalsize
+
+In order to create a dictionary of signals in a multi-pulse bSSFP sequence, the previously described process is repeated for a range of tissue properties.
+More specifically, every signal is associated with a `tissue tuple':
 $(T_{1_j}, T_{2_j}, \Delta f_{j})$, with $j \in [1, M]$, where $M$ is the total number of tuples.
-Therefore, to create the dictionary, the process needs to be repeated for each tissue type.
+Hence, the dictionary is basically creating a function relationship between tissue properties and signals.
 
 \hfill
 
@@ -210,11 +248,11 @@ For this, we start by defining a $3 \times M$ matrix for the $M_x, \, M_y, \, M_
 
 To flip the magnetisation vector for all the tissue types, we precompute the RF pulse matrix for the current repetition period:
 \begin{equation}
-        R_{RF_i} = R_{z}(\phi_i) R_{x}(-\alpha_i) R_{z}(-\phi_i)
+        R_{\phi_i}(\alpha_i) = R_{z}(\phi_i) R_{x}(-\alpha_i) R_{z}(-\phi_i)
 \end{equation}
 and then apply this to our previously defined $3 \times M$ matrix of magnetisation vector components:
 \begin{equation}
-    M^{+}_i(0) = R_{RF_i} \, \, M^{-}_i
+    M^{+}_i(0) = R_{\phi_i}(\alpha_i) \, \, M^{-}_i
 \end{equation}
 
 For the off-resonance effects, we split the process in two.
@@ -248,7 +286,7 @@ where $\odot$ denotes component-wise multiplication, and:
         M^{+}_{iy_1}(0) & M^{+}_{iy_2}(0) & \dots & M^{+}_{iy_M}(0) \\
         M^{+}_{iz_1}(0) & M^{+}_{iz_2}(0) & \dots & M^{+}_{iz_M}(0)
     \end{bmatrix} \\
-    = & \, \, R_{RF_i} \, \, M^{-}_i \text{ (as previously defined)}
+    = & \, \, R_{\phi_i}(\alpha_i) \, \, M^{-}_i \text{ (as previously defined)}
 \end{split}
 \end{equation}
 
@@ -302,129 +340,155 @@ Pseudocode for the created algorithms can be found in Appendix~\ref{appendixlabe
 
 \hfill
 
-\large \textbf{FISP Dictionary} \normalsize
-More recently, Jiang et al. \cite{Jiang2015} used an inversion-recovery fast imaging with steady state precession (FISP) sequence (see Figure~\ref{fig:sequenceFISP}). 
-Similar to bSSFP, FISP is also a type of rapid multi-pulse gradient-echo sequence which uses short repetition times.
-In contrast to the previous sequence, FISP uses an unbalanced gradient in one or multiple gradient directions, thus `spoiling' the transverse magnetization prior to the next RF pulse. 
+\subsubsection{FISP Dictionary} 
+
+The FISP dictionary generation is based on a more recent implementation of the MRF sequence, where Jiang et al. \cite{Jiang2015} used an inversion-recovery fast imaging with steady-state precession sequence (see Figure~\ref{fig:sequenceFISP}).
+Similar to bSSFP, FISP is also a type of rapid multi-pulse gradient-echo sequence.
+However, in contrast with the previous sequence, FISP uses an unbalanced gradient in one or multiple gradient directions, thus `spoiling' the transverse magnetization prior to the next RF pulse \cite{Hargreaves2012}.
 Gradient spoiling does not effectively null the transverse magnetization, so then both the longitudinal and the transverse magnetization will contribute to the signal in the next cycle.
 
 \begin{figure}[ht]
     \centering
     \includegraphics[angle=0,width=1\textwidth, keepaspectratio]{images/mrf/sequenceFISP}
-    \caption{Simplified version of a fast imaging with steady state precession (FISP) sequence. It contains an unbalanced `spoiler' gradient in each each repetition period.}
+    \caption{The figure shows a simplified version of an inversion recovery fast imaging with steady state precession sequence. 
+    Unlike bSSFP, a FISP sequence contains an unbalanced `spoiler' gradient in each each repetition period.
+    Otherwise, all other gradients are fully balanced in every direction.}
     \label{fig:sequenceFISP}
 \end{figure}
 
 \hfill
 
-FISP-type sequences are used in Magnetic Resonance Fingerprinting due to their fast imaging characteristics and their immunity to banding artefacts commonly seen in fully balanced steady state sequences. 
-These banding artefacts are present due to inhomogeneities in the main magnetic field caused by susceptibility variations or poor magnet shimming. 
+FISP-type sequences are used in MR imaging due to their fast imaging characteristics and their immunity to the banding artefacts commonly seen in fully balanced steady state sequences. 
+%As with bSSFP, the signal in these types of sequences is a function of $T_2/T_1$ \cite{Hargreaves2012}. 
+%FISP-type sequence yield a lower signal than in bSSFP and 
+Commercially, FISP-type sequences are known as: FE, FFE, GRASS, GRE, FISP, FAST \cite{Hargreaves2012}.
+These sequences are known to yield a lower signal magnitude than balanced sequences, while keeping a similar signal contrast of $T_2/T_1$ \cite{Hargreaves2012}.
 
 \hfill
 
-In terms of simulating the behaviour of a magnetisation vector with known relaxation times and proton density values in an MRF-FISP sequence, single isochromat Bloch equations are no longer feasible.
+\large \textbf{Assumptions} \normalsize
+
+In order to simulate the behaviour of a magnetisation vector with known relaxation times and proton density values in an MRF-FISP sequence, single isochromat Bloch equations are no longer applicable.
 Due to the presence of a strong dephasing gradient and repetition times shorter than the transverse relaxations of most tissue types \big($T_R \leq T_2$\big), the transverse magnetisation will not be destroyed, but completely dephased across a voxel.
-To model this, Bloch equations can be used, but a large number of isochromats needs to be simulated to achieve accuracy.
-For this, a different approach was used, called the Extended Phase Graph formalism \cite{Hennig1988} \cite{Hennig1991}.
+To model this, an algorithm called the Extended Phase Graph formalism \cite{Hennig1988} \cite{Hennig1991} was used.
+This algorithm works under certain assumptions which we enumerate here:
+%Bloch equations can be used, but a large number of isochromats needs to be simulated to achieve accuracy.
+% For this, a different approach was used, called the Extended Phase Graph formalism \cite{Hennig1988} \cite{Hennig1991}.
+
+\begin{enumerate}
+
+    \item The object for which we are modelling the magnetisation dynamics in the multi-pulse sequence is considered to be motionless.
+
+    \item The tissue we are modelling is represented by a single voxel with uniform density of magnetisation, characterised by a single set of relaxation parameters.
+    
+    \item The 1D voxel has dimension in the same direction as the applied gradient, where one edge of the voxel is considered to be the `isocentre', such that the amount of dephasing induced by the application of the gradient is ranging from $[0, 2\pi]$. 
+
+    \item The `spoiling' gradient used in this sequence has the same amplitude and duration in every repetition period.
+    Thus, the gradient induces the same amount of dephasing across the voxel during
+    each of its applications.
+    %a fixed time period $\Delta t$ at the end of each repetition period.
+    
+    \item The effect of applying an RF pulse of flip angle $\alpha$ and phase angle $\phi$ was considered to be significantly shorter than the relaxation times $T_1$ and $T_2$ and was modelled as happening instantaneously.
+    This allowed us to represent its effect as a rotation through the flip angle $\alpha$ about a chosen axis (e.g. the $x$-axis) and a change of coordinate system through the phase angle $\phi$ about the $z$-axis.
+    This is called the hard pulse approximation and is detailed in Appendix~\ref{background:rfpulse}.
+
+\end{enumerate}
 
 \hfill
 
-\textbf{Extended Phase Graph Formalism.} The EPG algorithm \cite{Hennig1988} \cite{Hennig1991} \cite{Weigel2015} is a tool used to simulate signals obtained from a wide variety of MRI pulse sequences.
-Similar to the Bloch equations approach, EPG characterizes a given sequence through the effects of RF pulses, relaxation constants, and dephasing due to gradients or inhomogeneities in the main magnetic field.
-However, unlike the classic Bloch equations approach, EPG describes a spin system as a discrete set of phase states (or, `configuration states') \cite{Hennig1988}.
+\large \textbf{Single Block Dynamics} \normalsize
+
+In order to simulate the magnetisation dynamics in this multi-pulse sequence, 
+we begin with the description of a single $T_R$ block on a known isochromat.
+To simplify things even further, we begin with the thermal equilibrium case, where the spin ensemble is fully relaxed and each individual isochromat is lying on the direction of the main magnetic field (here considered to be $\hat{z}$).
+We call this state in which the spin system is found a $\bm{Z_0}$ configuration \cite{Weigel2015} \cite{Scheffler1999} \cite{Hennig1991}.
+This configuration is represented pictorially in Figure~\ref{fig:Z0F0states} a).
 
 \hfill
 
-To understand how EPG works, we will first define the total magnetisation $M$ at thermal equilibrium as a normalised column vector $B = [0 \, 0 \, 1]^T$.
-$B$ contains the coefficients for the $M_x$, $M_y$ and $M_z$ components of the total magnetisation M.
-At any time point during a multi-pulse experiment, one can calculate the total magnetisation by summing over a collection of spins which are described by their corresponding x,y,z components.
-However, to be accurate, this requires a large spin ensemble.
+The effect of applying an ideal $\pi/2$ excitation pulse on this configuration is to `flip' the entire isochromat ensemble in the transverse plane into a new configuration known as the $\bm{F_0}$ state \cite{Weigel2015} \cite{Scheffler1999} \cite{Hennig1991} (see Figure~\ref{fig:Z0F0states} b)).
+The $\bm{F_0}$ configuration represents coherent transverse magnetisation.
+Similarly, a $\pi/2$ pulse applied on the $\bm{F_0}$ configuration can restore the $\bm{Z_0}$ longitudinal state.
 
 \hfill
-
-\textbf{Substates.} In the EPG formalism the matrix $B$ is expanded to describe \textit{substates}.
-These substates are defined as collection of spins with different $M_x$, $M_y$ and $M_z$ components and are characterised by the net magnetisation of the substate, and the space-dependent phase of the transverse magnetisation of the spin ensemble \cite{Hennig1988}.
-In this framework, the signal intensity at any given time point during the sequence can be calculated by knowing the partitioning of the total magnetisation between the substates, and the net magnetisation in each substate.
-
-\hfill
-
-For a single-voxel multi-pulse FISP experiment let us now consider that the gradient's moment induces the same amount of dephasing across this voxel during a fixed time period $\Delta t$ at the end of each repetition period.
-For an idealised gradient and an idealised voxel with uniform density of magnetisation,
-the amount of dephasing is defined by the interval $[-\pi, \pi]$.
-
-\hfill 
-
-Let us consider that the first RF pulse is an ideal $90^o$ excitation pulse which flips the total magnetisation in the transverse plane.
-Prior to the second RF pulse, due to the presence of the idealised dephasing gradient,
-the spins will accrue different phases, ranging from $-\pi$ in one corner of the voxel, to $+\pi$ in the opposite corner.
-This state in which the transverse magnetisation is now found is called $F_1$ \cite{Hennig1988} \cite{Scheffler1999} and can be conceptually described as an evenly distributed collection of magnetisation vectors over the transverse plane (see Figure~\ref{fig:F1state}). 
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[angle=0,width=0.4\textwidth, keepaspectratio]{images/mrf/F1state}
-    \caption{The $F_1$ state is a magnetisation substate which describes a uniform distribution of magnetisation vectors over the transverse plane, with phases ranging from $-\pi$ to $+\pi$. Figure adapted from \cite{Scheffler1999}.}
-    \label{fig:F1state}
+    \includegraphics[angle=0,width=0.75\textwidth, keepaspectratio]{images/mrf/Z0F0states}
+    \caption{The figure shows a pictorial representation of a single 1D voxel with uniform density of magnetisation.
+    a) $\bm{Z_0}$ is a configuration in which the isochromat ensemble is characterised by coherent longitudinal magnetisation.
+    b) $\bm{F_0}$ is a configuration in which the isochromat ensemble is characterised by coherent transverse magnetisation.
+    In this case, a $(\pi/2)_x$ excitation pulse flips the spin system from the longitudinal plane into the transverse plane and can also flip it back (restore it) into the longitudinal plane.
+    }
+    \label{fig:Z0F0states}
 \end{figure}
 
 \hfill
 
-The application of a second RF pulse will interfere with this state.
-For an arbitrary flip angle $\alpha$ and phase angle $\phi = 0$, the $F_1$ `disk' will be rotated around the RF pulse's axis of rotation.
-The newly formed transverse magnetisation can be described as two dephased states: $F^+_1$ and $F^+_{-1}$, while the longitudinal magnetisation is now known as $Z^+_1$.
-The superscript `+' denotes `immediately after the RF pulse'.
-In the EPG formalism, other states exist and they are denoted as $F_n$, depending on the amount of dephasing experienced.
-This can be seen in Figure~\ref{fig:EPGeffectofgrad}, where the $2^{nd}$ gradient pulse further dephased the $F_1$ state.
-Due to being an idealised gradient and an idealised voxel with uniform density of magnetisation, the amount of dephasing is again defined by the interval $[-\pi, \pi]$.
-This causes the spins to have now accrued phases ranging from $-2 \pi$ to $+2 \pi$.
-The presence of the gradient will therefore `transform' the $F_1^+$ state into a new state we call $F_2$.
-On the other hand, $Z^+_1$ was formed because the RF pulse `flipped' the transverse components of some of the pre-RF pulse magnetisation vectors into the longitudinal plane.
-The formation of the $F_1^+$, $F_{-1}^+$ and $Z_1^+$ states is better understood through the Woessner decomposition \cite{Woessner1961}.
+% % % % % % % % % % % % % % % % % % % % 
+\textbf{The effect of a gradient on the isochromat ensemble} 
+
+Let us now introduce a dephasing gradient in the $\hat{z}$ direction (the 1D voxel's direction) that obeys the assumptions we previously described.
+This gradient induces phase accrual on the isochromat ensemble such that the isochromat found at one edge of the voxel is positioned at the `isocentre', while the isochromat found at the opposite edge experiences $2\pi$ dephasing.
+In fact, the off-resonance frequency increases linearly with the distance from the assumed `isocentre'.
+This can be seen in Figure~\ref{fig:effectOfGradsEPG} where after the first application of the gradient the spin system is now dephased.
+This dephased configuration can be conceptually represented as an evenly distributed collection of magnetisation vectors called $\bm{F_1}$ \cite{Hennig1988} \cite{Scheffler1999}.
+
+\hfill
+
+As stated before, the application of the gradient induces phase accrual in the isochromat ensemble ranging from $[0, 2\pi]$.
+Therefore, each further application of the gradient increases the amount of dephasing experienced by the spin system with multiples of $2\pi$.
+This can be seen in Figure~\ref{fig:effectOfGradsEPG} where each new application of the gradient `shifts' the spin system into a different configuration state.
+These dephased configuration states are called $\bm{F_k}$, where $k$ represents the amount of $2\pi$ dephasing experienced by the spin ensemble.
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[angle=0,width=0.8\textwidth, keepaspectratio]{images/mrf/EPGeffectofgrad}
-    \caption{A second RF pulse will `split' the previous $F_1$ configuration into two separate transverse state configurations $F_1^+$ and $F_{-1}^+$, and a longitudinal state $Z_1^+$; this process is best described with the \textit{Woessner decomposition}. During the application of the dephasing gradient, the longitudinal state remains unaffected, while the transverse states are further dephased $F_1^+ \rightarrow F_2$, and rephased $F_{-1}^+ \rightarrow F_0$, respectively. Figure adapted from \cite{Scheffler1999}.}
-    \label{fig:EPGeffectofgrad}
+    \includegraphics[angle=0,width=1\textwidth, keepaspectratio]{images/mrf/effectOfGradsEPG}
+    \caption{Pictorial representation of an isochromat ensemble experiencing an ideal instantaneous $(\pi/2)_x$ RF pulse and dephasing induced by a gradient.
+    This spin system is found in a 1D voxel whose dimension in along the same direction as the applied gradient (here, the $\hat{z}$ direction is considered) and which is positioned such that one edge of the voxel is at the `isocentre'. The isochromats found at the opposite edge accrue a phase of $2\pi$ after the application of this gradient.
+    Every time the gradient is applied the spin system dephases further into a new configuration here represented as discrete states: $\bm{F_k}$.}
+    \label{fig:effectOfGradsEPG}
 \end{figure}
 
 \hfill
 
-\textbf{Woessner decomposition.} The Woessner decomposition describes the behaviour of a complex magnetisation vector $F = M_x + i M_y$ subject to an RF pulse of arbitrary flip angle $\alpha$ and phase angle $\phi$.
-As stated before, the effect of an RF pulse can be written as a rotation matrix, which, when applied to the complex magnetisation vector yields \cite{Haacke1999} \cite{Scheffler1999}:
+% % % % % % % % % % % % % % % % % % % % 
+\textbf{The effect of an RF pulse on the isochromat ensemble} 
 
-\begin{equation}\label{eq:woessner}
-\begin{split}
-    F^+ &= F^- cos^2(\alpha/2) + e^{2i\phi} (F^-)^* sin^2(\alpha/2)  - i e^{i \phi} M_z^- sin(\alpha)  \\
-    M_z^+ &= - i/2 e^{-i \phi} F^- sin(\alpha) + i/2 e^{-i \phi} (F^-)^* sin(\alpha) + M_z^- cos(\alpha) 
-\end{split}
-\end{equation}
-where the superscript \textbf{+} represents immediately `after the RF pulse' and the superscript \textbf{-} represents immediately `before the RF pulse'.
+Next, let's consider the application of an RF pulse of arbitrary flip angle $\alpha$ and phase angle $\phi$ on an isochromat ensemble.
+Equation \ref{eq:rfpulseequationbssfp} tells us that the magnetisation vectors immediately after the RF pulse are related to those immediately prior to the RF pulse through a rotation matrix (relaxation effects are neglected as the RF pulse is assumed to be instantaneous).
+This is written as:
 
-\hfill
-
-To make the transition to fully dephased transverse states $F_n$ and longitudinal states $Z_n$, we need to take into account the fact that an $F_n$ state represents a collection of dephased spins at different spatial positions within the idealised voxel.
-For a one-dimensional voxel, the phase of a spin at position $x$ induced by n identical gradient lobes evolves with $e^{i \, n \, \, \gamma G_x x \, \Delta t }$, where $G_x$ is the amplitude of the gradient and $\Delta t$ is its duration.
-For all positions r in the voxel, the dephased transversal state can be written as a sum over all positions: $ F_n \int_r \, dr \, e^{i \, n \, \, \gamma G r \, \Delta t }$, where the amplitude of the complex number $F_n$ represents the magnitude of this state's population.
-Similarly, the longitudinal state can be described as $ Z_n \int_r \, dr \, e^{i \, n \, \, \gamma G r \, \Delta t }$.
-
-\hfill
-
-\textbf{RF Pulse. } Introducing the complex dephased states in equations \ref{eq:woessner} and transforming into matrix representation, we can write:
-
-\begin{equation}\label{eq:woessnerFn1}
-    \begin{bmatrix}
-        F_n      \\
-        F_{-n}^* \\
-        Z_n
+\begin{equation}
+    \begin{bmatrix} 
+    M_x \\
+    M_y \\
+    M_z
     \end{bmatrix}^+ = 
-    T_{\phi}(\alpha)
-    \begin{bmatrix}
-        F_n      \\
-        F_{-n}^* \\
-        Z_n
-    \end{bmatrix}^- 
+        R_{\phi}(\alpha)
+    \begin{bmatrix} 
+    M_x \\
+    M_y \\
+    M_z
+    \end{bmatrix}^-
 \end{equation}
-where
+where, as before, superscript $+$ denotes `immediately after RF pulse' and superscript $-$ denotes 'immediately before RF pulse'.
+In complex notation, where $M_+ \equiv M_x + i M_y$,  $M_- \equiv M_x - i M_y$ and $M_- = (M_+)^*$ this becomes:
+
+\begin{equation}\label{eq:magnbeforestates}
+    \begin{bmatrix} 
+    M_+ \\
+    M_- \\
+    M_z
+    \end{bmatrix}^+ = 
+        T_{\phi}(\alpha)
+    \begin{bmatrix} 
+    M_+ \\
+    M_- \\
+    M_z
+    \end{bmatrix}^-
+\end{equation}
+where 
 \begin{equation}\label{eq:woessnerFn2}
     T_{\phi}(\alpha) = 
     \begin{bmatrix}
@@ -434,19 +498,86 @@ where
     \end{bmatrix}
 \end{equation}
 
-and the $F^*_{-n}$ state represents the complex conjugate of the $F_n$ state.
+\hfill
+
+A completely dephased isochromat ensemble will be rotated through an angle by the applied instantaneous $(\alpha)_x$ RF pulse. 
+This is seen in Figure~\ref{fig:RFpulseeffect} where we chose $\phi = 0$.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[angle=0,width=1\textwidth, keepaspectratio]{images/mrf/RFpulseeffect}
+    \caption{Pictorial representation of a completely dephased isochromat ensemble experiencing an ideal instantaneous $(\alpha)_x$ RF pulse.}
+    \label{fig:RFpulseeffect}
+\end{figure}
+
+The transition towards configuration states is straight forward, as the complex magnetisation vectors can be easily replaced with the configuration states \cite{Weigel2015} \cite{Hennig1991}.
+Equation \ref{eq:magnbeforestates} becomes:
+\begin{equation}\label{eq:magnbeforestates}
+    \begin{bmatrix} 
+    F_{k} \\
+    F_{-k} \\
+    Z_{k}
+    \end{bmatrix}^+ = 
+        T_{\phi}(\alpha)
+    \begin{bmatrix} 
+    F_{k} \\
+    F_{-k} \\
+    Z_{k}
+    \end{bmatrix}^-
+\end{equation}
+where $F_{-k} = (F_{k})^*$. 
+Expanding this equation into its components yields:
+\begin{equation}\label{eq:woessner}
+\begin{split}
+    F_{k}^+ &= F_{k}^- cos^2(\alpha/2) + e^{2i\phi} F_{-k}^- sin^2(\alpha/2)  - i e^{i \phi} Z_{k}^- sin(\alpha)  \\
+    F_{-k}^+ &=  e^{-2i\phi} F_{k}^- sin^2(\alpha/2) + F_{-k}^- cos^2(\alpha/2) + i e^{-i \phi} Z_{k}^- sin(\alpha) \\
+    Z_{k}^+ &= - i/2 e^{-i \phi} F_{k}^- sin(\alpha) + i/2 e^{-i \phi} F_{-k}^- sin(\alpha) + Z_{k}^- cos(\alpha) 
+\end{split}
+\end{equation}
+This equation is known as the \textbf{Woessner decomposition} and it shows that in the case of an arbitrary RF pulse, the population of isochromats is redistributed among states with the same amount of dephasing $k$ \cite{Hennig1991}.
 
 \hfill
 
-Equations \ref{eq:woessnerFn1} and \ref{eq:woessnerFn2} show that, given an ensemble of spins, an RF pulse with flip angle $\alpha$ and phase angle $\phi$ will redistribute the population into different states.
-For example, different amounts of the pre-RF pulse $F^-_n$ state can now be found in both the post-RF pulse transverse state $F^+_n$ and the longitudinal state $Z_n$.
-The population represented by $F^*_{-n}$ state can be interpreted as an isochromat population whose phase was instantaneously inverted by the RF pulse, and which can be rephased later.
+The $F_{k}$ and $F_{-k}$ states can be thought of as a two counter-rotating isochromat populations \cite{Brown}.
+The formation of the $F_{-k}$ states is better explained through an example where an RF pulse of $\alpha = \pi$ and $\phi = \pi/2$ (rotation about the y-axis) is applied on an $\bm{F_1}$ configuration.
+This yields:
 
-\hfill
+\begin{equation}
+\begin{split}
+    F_{1}^+  &= - F_{-1}^- = 0 \\
+    F_{-1}^+ &= - F_{1}^-  \\
+    Z_{1}^+  &= - Z_{1}^- = 0
+\end{split}
+\end{equation}
+where the $F_{-1}$ and $Z_{1}$ were set to $0$ because they were non-existent prior to the RF pulse application.
+This equation shows that the counter-rotating $F_{-1}$ configuration is now formed as a consequence of applying an $180^o$ refocusing pulse.
+This is the mechanism through which spin echoes are formed and a pictorial example of this happening is shown in Figure~\ref{fig:spinechoinepg}.
 
-\textbf{Dephasing. } In this framework, the dephasing induced by an idealised gradient can be described simply as a transition between two adjacent states.
-More specifically, the application of the $(n+1)^{th}$ gradient lobe of equal size and timing as the previous ones will shift the transverse states from $F_n$ to $F_{n+1}$.
-An example is shown in Figure~\ref{fig:EPGeffectofgrad}.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[angle=0,width=1\textwidth, keepaspectratio]{images/mrf/spinechoinepg}
+    \caption{Pictorial representation of the formation of a spin echo.
+    The first RF pulse flips the distribution of isochromats into the $\bm{F_0}$ configuration.
+    The application of the gradient dephases the spins until the $\bm{F_1}$ configuration is formed.
+    The application of the second RF pulse of flip angle $180^o$ yields the $\bm{F_{-1}}$ configuration.
+    The application of the second gradient rephases the spins until they reach the coherent state $\bm{F_0}$ and an echo is formed.}
+    \label{fig:spinechoinepg}
+\end{figure}
+
+% \hfill
+
+% In case the RF pulse is not $\alpha = \pi/4$
+\begin{equation}
+\begin{split}
+    F_{1}^+  &= F_{1}^- cos^2(\alpha/2) \approx 0.853 F_{1}^- \\
+    F_{-1}^+ &= F_{1}^- sin^2(\alpha/2) \approx 0.147 F_{1}^-   \\
+    Z_{1}^+  &= - i/2 F_{1}^- sin(\alpha)  \approx - 0.353 \, i \, F_{1}^-
+\end{split}
+\end{equation}
+
+% \textbf{Dephasing. } In this framework, the dephasing induced by an idealised gradient can be described simply as a transition between two adjacent states.
+% More specifically, the application of the $(n+1)^{th}$ gradient lobe of equal size and timing as the previous ones will shift the transverse states from $F_n$ to $F_{n+1}$.
+% An example is shown in Figure~\ref{fig:EPGeffectofgrad}.
 
 \hfill
 
@@ -572,6 +703,158 @@ The dictionary is then stored as an $M \times N$ matrix of complex values.
 Pseudocode for the algorithm can be found in Appendix~\ref{appendixlabel2}.
 
 \hfill
+
+% Prior to the second RF pulse, due to the presence of the idealised dephasing gradient,
+% the spins will accrue different phases, ranging from $-\pi$ in one corner of the voxel, to $+\pi$ in the opposite corner.
+% This state in which the transverse magnetisation is now found is called $F_1$ \cite{Hennig1988} \cite{Scheffler1999} and can be conceptually described as an evenly distributed collection of magnetisation vectors over the transverse plane (see Figure~\ref{fig:F1state}). 
+
+% For a single-voxel multi-pulse FISP experiment let us now consider that the gradient's moment induces the same amount of dephasing across this voxel during a fixed time period $\Delta t$ at the end of each repetition period.
+% For an idealised gradient and an idealised voxel with uniform density of magnetisation,
+% the amount of dephasing is defined by the interval $[-\pi, \pi]$.
+
+% \hfill 
+
+
+
+% \begin{figure}[ht]
+%     \centering
+%     \includegraphics[angle=0,width=0.4\textwidth, keepaspectratio]{images/mrf/F1state}
+%     \caption{The $F_1$ state is a magnetisation substate which describes a uniform distribution of magnetisation vectors over the transverse plane, with phases ranging from $-\pi$ to $+\pi$. Figure adapted from \cite{Scheffler1999}.}
+%     \label{fig:F1state}
+% \end{figure}
+
+% \hfill
+
+
+
+% The EPG algorithm \cite{Hennig1988} \cite{Hennig1991} \cite{Weigel2015} is a tool used to simulate signals obtained from a wide variety of MRI pulse sequences \cite{Malik2017}.
+% % EPG has been used for a variety of applications such as:
+% % characterization of RF spoiling in gradient echo sequences (4,5), 
+% % analysis of echo amplitudes in turbo spin echo (TSE) sequences (6–9), 
+% % diffusion effects (12), and 
+% % characterizing signal evolution in sequences used for relaxometry (13–16).
+% Similar to the Bloch equations approach, EPG characterizes a given sequence through the effects of RF pulses, relaxation constants, and dephasing due to gradients or inhomogeneities in the main magnetic field.
+% % However, unlike the previous approach, EPG describes a spin system as a discrete set of phase states (or, `configuration states') \cite{Hennig1988}.
+% % These states appear as a consequence of 
+% To model the behaviour of a spin ensemble with known relaxation times and proton density values in a single-voxel MRF-FISP sequence, the following assumptions were made:
+
+
+
+% \textbf{Extended Phase Graph Formalism} 
+
+% In the following section three key concepts that form the basis for understanding EPG are presented.
+% Next, these concepts are brought together to form the EPG framework.
+
+% \hfill
+
+% % To understand how EPG works, we will first define the total magnetisation $M$ at thermal equilibrium as a normalised column vector $B = [0 \, 0 \, 1]^T$.
+% % $B$ contains the coefficients for the $M_x$, $M_y$ and $M_z$ components of the total magnetisation M.
+% % At any time point during a multi-pulse experiment, one can calculate the total magnetisation by summing over a collection of spins which are described by their corresponding x,y,z components.
+% % However, to be accurate, this requires a large spin ensemble.
+
+% % \hfill
+
+% % In the EPG formalism the matrix $B$ is expanded to describe \textit{substates}.
+% % These substates are defined as collection of spins with different $M_x$, $M_y$ and $M_z$ components and are characterised by the net magnetisation of the substate, and the space-dependent phase of the transverse magnetisation of the spin ensemble \cite{Hennig1988}.
+% % In this framework, the signal intensity at any given time point during the sequence can be calculated by knowing the partitioning of the total magnetisation between the substates, and the net magnetisation in each substate.
+
+% % \hfill
+
+% \textbf{The effect of gradients on a spin ensemble} 
+
+% For a single-voxel multi-pulse FISP experiment let us now consider that the gradient's moment induces the same amount of dephasing across this voxel during a fixed time period $\Delta t$ at the end of each repetition period.
+% For an idealised gradient and an idealised voxel with uniform density of magnetisation,
+% the amount of dephasing is defined by the interval $[-\pi, \pi]$.
+
+% \hfill 
+
+% Let us consider that the first RF pulse is an ideal $90^o$ excitation pulse which flips the total magnetisation in the transverse plane.
+% Prior to the second RF pulse, due to the presence of the idealised dephasing gradient,
+% the spins will accrue different phases, ranging from $-\pi$ in one corner of the voxel, to $+\pi$ in the opposite corner.
+% This state in which the transverse magnetisation is now found is called $F_1$ \cite{Hennig1988} \cite{Scheffler1999} and can be conceptually described as an evenly distributed collection of magnetisation vectors over the transverse plane (see Figure~\ref{fig:F1state}). 
+
+% \begin{figure}[ht]
+%     \centering
+%     \includegraphics[angle=0,width=0.4\textwidth, keepaspectratio]{images/mrf/F1state}
+%     \caption{The $F_1$ state is a magnetisation substate which describes a uniform distribution of magnetisation vectors over the transverse plane, with phases ranging from $-\pi$ to $+\pi$. Figure adapted from \cite{Scheffler1999}.}
+%     \label{fig:F1state}
+% \end{figure}
+
+% \hfill
+
+% The application of a second RF pulse will interfere with this state.
+% For an arbitrary flip angle $\alpha$ and phase angle $\phi = 0$, the $F_1$ `disk' will be rotated around the RF pulse's axis of rotation.
+% The newly formed transverse magnetisation can be described as two dephased states: $F^+_1$ and $F^+_{-1}$, while the longitudinal magnetisation is now known as $Z^+_1$.
+% The superscript `+' denotes `immediately after the RF pulse'.
+% In the EPG formalism, other states exist and they are denoted as $F_n$, depending on the amount of dephasing experienced.
+% This can be seen in Figure~\ref{fig:EPGeffectofgrad}, where the $2^{nd}$ gradient pulse further dephased the $F_1$ state.
+% Due to being an idealised gradient and an idealised voxel with uniform density of magnetisation, the amount of dephasing is again defined by the interval $[-\pi, \pi]$.
+% This causes the spins to have now accrued phases ranging from $-2 \pi$ to $+2 \pi$.
+% The presence of the gradient will therefore `transform' the $F_1^+$ state into a new state we call $F_2$.
+% On the other hand, $Z^+_1$ was formed because the RF pulse `flipped' the transverse components of some of the pre-RF pulse magnetisation vectors into the longitudinal plane.
+% The formation of the $F_1^+$, $F_{-1}^+$ and $Z_1^+$ states is better understood through the Woessner decomposition \cite{Woessner1961}.
+
+% \begin{figure}[ht]
+%     \centering
+%     \includegraphics[angle=0,width=0.8\textwidth, keepaspectratio]{images/mrf/EPGeffectofgrad}
+%     \caption{A second RF pulse will `split' the previous $F_1$ configuration into two separate transverse state configurations $F_1^+$ and $F_{-1}^+$, and a longitudinal state $Z_1^+$; this process is best described with the \textit{Woessner decomposition}. During the application of the dephasing gradient, the longitudinal state remains unaffected, while the transverse states are further dephased $F_1^+ \rightarrow F_2$, and rephased $F_{-1}^+ \rightarrow F_0$, respectively. Figure adapted from \cite{Scheffler1999}.}
+%     \label{fig:EPGeffectofgrad}
+% \end{figure}
+
+% \hfill
+
+% \textbf{Woessner decomposition.} The Woessner decomposition describes the behaviour of a complex magnetisation vector $F = M_x + i M_y$ subject to an RF pulse of arbitrary flip angle $\alpha$ and phase angle $\phi$.
+% As stated before, the effect of an RF pulse can be written as a rotation matrix, which, when applied to the complex magnetisation vector yields \cite{Haacke1999} \cite{Scheffler1999}:
+
+% \begin{equation}\label{eq:woessner}
+% \begin{split}
+%     F^+ &= F^- cos^2(\alpha/2) + e^{2i\phi} (F^-)^* sin^2(\alpha/2)  - i e^{i \phi} M_z^- sin(\alpha)  \\
+%     M_z^+ &= - i/2 e^{-i \phi} F^- sin(\alpha) + i/2 e^{-i \phi} (F^-)^* sin(\alpha) + M_z^- cos(\alpha) 
+% \end{split}
+% \end{equation}
+% where the superscript \textbf{+} represents immediately `after the RF pulse' and the superscript \textbf{-} represents immediately `before the RF pulse'.
+
+% \hfill
+
+% To make the transition to fully dephased transverse states $F_n$ and longitudinal states $Z_n$, we need to take into account the fact that an $F_n$ state represents a collection of dephased spins at different spatial positions within the idealised voxel.
+% For a one-dimensional voxel, the phase of a spin at position $x$ induced by n identical gradient lobes evolves with $e^{i \, n \, \, \gamma G_x x \, \Delta t }$, where $G_x$ is the amplitude of the gradient and $\Delta t$ is its duration.
+% For all positions r in the voxel, the dephased transversal state can be written as a sum over all positions: $ F_n \int_r \, dr \, e^{i \, n \, \, \gamma G r \, \Delta t }$, where the amplitude of the complex number $F_n$ represents the magnitude of this state's population.
+% Similarly, the longitudinal state can be described as $ Z_n \int_r \, dr \, e^{i \, n \, \, \gamma G r \, \Delta t }$.
+
+% \hfill
+
+% \textbf{RF Pulse. } Introducing the complex dephased states in equations \ref{eq:woessner} and transforming into matrix representation, we can write:
+
+% \begin{equation}\label{eq:woessnerFn1}
+%     \begin{bmatrix}
+%         F_n      \\
+%         F_{-n}^* \\
+%         Z_n
+%     \end{bmatrix}^+ = 
+%     T_{\phi}(\alpha)
+%     \begin{bmatrix}
+%         F_n      \\
+%         F_{-n}^* \\
+%         Z_n
+%     \end{bmatrix}^- 
+% \end{equation}
+% where
+% \begin{equation}\label{eq:woessnerFn2}
+%     T_{\phi}(\alpha) = 
+%     \begin{bmatrix}
+%         cos^2(\alpha/2) & e^{2i\phi} sin^2(\alpha/2) & - i e^{i \phi} sin(\alpha) \\
+%         e^{-2i\phi} sin^2(\alpha/2) & cos^2(\alpha/2) & i e^{-i \phi} sin(\alpha) \\
+%         - i/2 e^{-i \phi} sin(\alpha) & i/2 e^{i \phi} sin(\alpha) & cos \alpha
+%     \end{bmatrix}
+% \end{equation}
+
+% and the $F^*_{-n}$ state represents the complex conjugate of the $F_n$ state.
+
+% \hfill
+
+% Equations \ref{eq:woessnerFn1} and \ref{eq:woessnerFn2} show that, given an ensemble of spins, an RF pulse with flip angle $\alpha$ and phase angle $\phi$ will redistribute the population into different states.
+% For example, different amounts of the pre-RF pulse $F^-_n$ state can now be found in both the post-RF pulse transverse state $F^+_n$ and the longitudinal state $Z_n$.
+% The population represented by $F^*_{-n}$ state can be interpreted as an isochromat population whose phase was instantaneously inverted by the RF pulse, and which can be rephased later.
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 \subsection{Image Space Simulation}

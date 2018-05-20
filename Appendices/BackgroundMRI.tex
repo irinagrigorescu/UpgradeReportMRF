@@ -300,7 +300,8 @@ The effective magnetic field will therefore be:
 
 % % 10
 \textbf{On-resonance Condition.} 
-In MRI the applied RF field's frequency $\omega$ is chose such that it matches the Larmor frequency $\omega_0$. This is called the \textit{on-resonance condition} and it leads to the cornerstone equation of motion:
+In MRI the applied RF field's frequency $\omega$ is chose such that it matches the Larmor frequency $\omega_0$. 
+This is called the \textit{on-resonance condition} and it leads to the cornerstone equation of motion:
 \begin{equation}\label{eq:329}
     \Bigg( \frac{d \vec{M}}{dt} \Bigg)' = \omega_1 \vec{M} \times \hat{x}'
 \end{equation}
@@ -309,11 +310,15 @@ where the $B_1$ field is maximally synchronised to tip the spin about the $\hat{
 \hfill
 
 % % 11
-\textbf{RF Pulse.} An on-resonance RF transmit field applied for a finite time is called an \textit{rf pulse}. The magnitude of the $B_1$ field and the amount of time $\tau$ it is turned on can be adjusted to control for the angle of rotation. This angle is called \textit{flip angle} and is related to the other two quantities through the following formula:
+\textbf{RF Pulse.} \label{app:rfpulse}
+An on-resonance RF transmit field applied for a finite time is called an \textit{rf pulse}. 
+The magnitude of the $B_1$ field and the amount of time $\tau$ it is turned on can be adjusted to control for the angle of rotation. 
+This angle is called \textit{flip angle} and is related to the other two quantities through the following formula:
 \begin{equation}\label{eq:331}
     \Delta \theta = \gamma B_1 \tau
 \end{equation}
-For example, a $\pi/2$ flip can be achieved in $1.0 ms$ with a $B_1$ field of $5.9 \mu T$ for hydrogen protons \cite{Haacke1999}. The trajectory of the magnetisation vector undergoing this motion is illustrated in Figure~\ref{fig:ch3spintrajboth}.
+For example, a $\pi/2$ flip can be achieved in $1.0 ms$ with a $B_1$ field of $5.9 \mu T$ for hydrogen protons \cite{Haacke1999}. 
+The trajectory of the magnetisation vector undergoing this motion is illustrated in Figure~\ref{fig:ch3spintrajboth}.
 
 \begin{figure}[ht]
     \centering
@@ -337,7 +342,7 @@ For example, a $\pi/2$ flip can be achieved in $1.0 ms$ with a $B_1$ field of $5
 \hfill
 
 In most MR experiments, the RF pulse has a very short duration (a few milliseconds).
-It is therefore assumed that it happens instantaneously and that there are no relaxation effects during it application.
+It can therefore be assumed that it happens instantaneously and that there are no relaxation effects during it application.
 Mathematically, an instantaneous RF pulse of flip angle $\alpha$ and initial phase $\phi$ can be described with rotation matrices.
 The post-RF pulse magnetisation vector $\vec{M}$ will therefore depend on its pre-RF pulse state $\vec{M}(0)$ by the following equation
 \begin{equation} \label{eq:445}
@@ -355,7 +360,7 @@ which introduces the spin density $\rho_0$.
 
 % % % % % % % % % % % % 
 % % % % % % % % % % % % 
-\subsection{Relaxation}
+\subsection{Relaxation} \label{app:relaxation}
 
 The picture we have painted so far refers to non-interacting spins.
 As expressed in equation \ref{eq:43}, the equation of motion for the magnetisation vector is $\frac{d\vec{M}}{dt} = \gamma \vec{M} \times \vec{B}$  for non-interacting protons. 
