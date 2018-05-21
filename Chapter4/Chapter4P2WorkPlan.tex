@@ -1,21 +1,22 @@
 % % % % % % % % % % % % % % % % 
 \section{Work Plan}\label{chapterlabel4sec2}
 
-The PhD contributions so far demonstrate the value for an MRI simulation framework capable of producing realistic MRI datasets of advanced sequences in an accurate and rapid manner.
-Future work will therefore include:
+These contributions demonstrate the potential value of a simulation system for advanced MRI sequences. Future work will focus on five areas:
+%The PhD contributions so far demonstrate the value for an MRI simulation frame-work capable of producing realistic MRI datasets of advanced sequences in anaccurate and rapid manner. Future work will therefore include:
 
 \begin{enumerate}
-    \item \textit{Write an MRI simulators review paper.}
+    %\item \textit{Write an MRI simulators review paper.}
+    \item \textit{\textbf{An MR simulators review paper}} \\
     So far, we have investigated the current state-of-the art in MRI simulation systems and experimented with 2 of the most popular and active MRI simulators today.
     It is our plan for the future to focus on fleshing out the literature review of this thesis into a review paper.
-    We estimate that this will take 3 months to complete (see first entry in Figure~\ref{fig:ganttChart}). 
-
-	\item \textit{Continue with motion-corrupted MRF experiments.}
+    We estimate that this will take 3 months to complete (see first entry in Figure~\ref{fig:ganttChart}).
+    
+	\item \textit{\textbf{Continue with motion-corrupted MRF experiments}} \\
 	So far, we have investigated how in-plane motion corrupts the MRF quantitative maps.
-	In the future we will investigate through-plane motion and a combination of both in-plane and through-plane motion for the original MRF implementation by Ma et al. \cite{Ma2013}.
+	In the future we aim to investigate through-plane motion and a combination of both in-plane and through-plane motion for the original MRF implementation by Ma et al. \cite{Ma2013}.
 	We estimate 3 months for this to be completed (see second entry in Figure~\ref{fig:ganttChart}).
 	
-	\item \textit{Develop an open-source MRI simulator that will allow for the simulation of advanced MRI sequences.}
+	\item \textit{\textbf{Develop an open-source MRI simulator that will allow for the simulation of advanced MRI sequences}} \\
 	So far, we have implemented a proof-of-concept simulation framework for a Magnetic Resonance Fingerprinting experiment in an open-source simulator called JEMRIS \cite{Stocker2010}.
 	However, in order to mimic a continuous distribution of spins throughout an object voxel, a high number of isochromats is required to generate a smooth image intensity \cite{Shkarin1997}.
 	Moreover, newer MRF implementations rely on an imaging sequence called fast imaging with steady state precession (FISP, see Appendix \ref{MRIFISP}) which requires an even denser collection of spins to be accurate.
