@@ -80,7 +80,7 @@ We have chosen to include the latter because in my experience with simulating \a
 
 \large \textbf{GPU-Based Parallel Approach to the Bloch Equation Solver} \normalsize
 
-The computational kernel of the \ac{mri} simulator is based on the solutions of the Bloch equations at every time point in the pulse sequence and for every isochromat in the input object. 
+The computational kernel of the \ac{mri} simulator will be based on the solutions of the Bloch equations at every time point in the pulse sequence and for every isochromat in the input object. 
 These solutions will provide a temporal evolution of each isochromat's magnetisation vector under the effect of various \ac{rf} pulses, magnetic field gradients and inhomogeneities in the main magnetic field.
 
 \hfill
@@ -106,7 +106,7 @@ $\Delta B$ accounts for off-resonance effects.
 
 \hfill
 
-The evolution of the magnetisation vector is calculated by the computational kernel for every time-step $\Delta t$ in the pulse sequence using scaling and rotation matrices:
+The evolution of the magnetisation vector will be calculated by the computational kernel for every time-step $\Delta t$ in the pulse sequence using scaling and rotation matrices:
 \begin{flalign*}
     \vec{M} (\vec{r}, t+\Delta t) &= (1-E_1) \vec{M}(t=0) + D \, \,  R_{eff} \, \,  \vec{M}(\vec{r},t)
 \end{flalign*}
@@ -123,27 +123,29 @@ $\vec{M}(t=0)$ is the magnetisation vector at the beginning of the sequence, D i
     \right]
 \end{flalign*}
 and $R_{eff} = R_{z}(\phi) R_{y}(-\beta) R_{x}(\alpha) R_{y}(\beta) R_{z}(-\phi)$ is the rotation matrix about the axis of the $\vec{B}_{eff}$ field.
-Here, the $\vec{B}_{eff}$ field can have any orientation in the 3D space as it is characterised by the three angles: $\alpha, \beta$ and $\phi$.
+Here, the $\vec{B}_{eff}$ field can have any orientation in the 3D space as it is characterised by the three $\alpha$, $\beta$ and $\phi$ angles.
 
 \hfill
 
-The simulation computational kernel executes these matrix operations for every time point required and for every isochromat in the object.
-
-
-\hfill
-
-The complex signal $S(t)$ is calculated at every readout time point by summing over the magnetisation vectors of all the excited isochromats in the object.
-
+The simulation computational kernel will execute these matrix operations for every required time point in the sequence and for every isochromat in the object.
+Due to its parallelisable nature, the simulation allows for groups of isochromats to be dealt with independently by the available stream processors.
+The anatomical model will therefore be divided into smaller groups, based on the available resources of the \ac{gpu} card, and the computational kernel will be called for each of them.
+The global memory of the \ac{gpu} will be populated with information about the pulse sequence, such that all available streaming processors can access it.
+The shared memory of the stream processors will be populated with the components of the magnetisation vectors of each isochromat for every readout point.
 
 \hfill
 
-
-we utilized Compute Unified Device Architecture (CUDA) model (Nvidia Inc, Santa Clara, CA, USA) to gain computational power sufficient for manipulation of a large spin matrix of the generalized multi-pool exchange model for a large number of the digital object voxels simultaneously. In MRiLab, GPU runtime setup is optimized based on the object size and GPU card specifications. Namely, several computational blocks are created to allow maximized usage of GPU streaming multi- processers. Each block is configured to contain the maximum possible number of threads (one thread performing calcula- tions for only one voxel) for the block’s register pool of a given CUDA compilation (63 registers/thread in our case, which led to 20-65 blocks with 483-500 threads each in the simulations presented in the paper). GPU global memory is reserved to store object information and current spin status. In each step, the central processing unit (CPU) loads the GPU shared memory of each block with the next pulse sequence segment until the memory is filled or pulse sequence external event is detected. The equations are then solved for the given segment for all voxels assigned to the block’s threads. Upon completion, the GPU blocks are updated with new voxels, and the process continues until ODEs are solved for all voxels. At this point, if the current pulse sequence segment ends by an external event, CPU updates GPU global memory to reflect the changes specified by the event, and the algorithm proceeds to the next sequence segment. The cumulative signal from all the voxels forms a simulated k-space dataset which can be further processed to reconstruct final images using built-in or external image reconstruction modules.
-
-
-
+At the end of every kernel call these values will be transferred back to the \ac{cpu} and they will be summed over the previously computed signals.
+The final complex signal $S(t)$ will be available when the entire simulation is done.
+Finally, thermal noise will be added to the complex-valued signal.
 
 \hfill
+
+The proposed \ac{gpu}-based Bloch equation solver will be used to simulate advanced \ac{mri} sequences.
+To allow for motion simulations, the spatial coordinates of the isochromats will be updated at every calculated time step of the pulse sequence.
+Simple motion models that can be described analytically will be pre-computed on the \ac{cpu} and then stored in the \ac{gpu} global memory.
+More complex motion models are also feasible, although they might increase the required GPU memory space.
+In my future work, I am to investigate these further and come up with the best solutions for the remaining time of my PhD.
 
 % Finally, it is my belief that this generalised framework can serve as a guideline for the \ac{mri} simulation community.
 % This is because it both provides a seamless interface between many required \ac{mri} modules and
