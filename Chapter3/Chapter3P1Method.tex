@@ -165,7 +165,7 @@ In the rotating reference frame (after demodulating with the Larmor frequency $\
     M^{+}_i (t)  = D(t) M^{+}_i (0) + C(t)
 \end{equation}
 where
-\begin{equation}
+\begin{equation}\label{eq:dmatrix}
     D ( t ) = \left[
     \begin{array}{c c c}
           E_2(t) &     0      &     0 \\
@@ -341,6 +341,7 @@ Pseudocode for the created algorithms can be found in Appendix~\ref{appendixlabe
 \hfill
 
 \subsubsection{FISP Dictionary} 
+\label{method:fispdictionary}
 
 The FISP dictionary generation is based on a more recent implementation of the MRF sequence, where Jiang et al. \cite{Jiang2015} used an inversion-recovery fast imaging with steady-state precession sequence (see Figure~\ref{fig:sequenceFISP}).
 Similar to bSSFP, FISP is also a type of rapid multi-pulse gradient-echo sequence.

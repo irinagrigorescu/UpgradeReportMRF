@@ -4,14 +4,14 @@
 
 All Magnetic Resonance Fingerprinting studies rely on a simulation step in order to create the dictionary of possible signal evolutions.
 These simulations require different algorithms based on the type of sequence used.
-These sequences are: balanced steady state free precession (bSSFP), fast imaging with steady state precession (FISP), and, more recently, magnetisation transfer.
+These sequences are: \ac{bssfp}, \ac{fisp}, and, more recently, magnetisation transfer.
 
 \hfill
 
-To model the behaviour of a magnetisation vector with known relaxation times and proton density values in bSSFP-type sequences, single isochromat Bloch equations can be used. 
-For FISP-type sequences, an alternative approach is needed because of the dephasing gradient in each $T_R$.
-This algorithm is called the `extended phase graph' (EPG) formalism and it relies on representing a spin system as a discrete set of phase states \cite{Weigel2015}.
-More recently, Malik et al. \cite{Malik2017} extended the EPG framework to model systems with chemical exchange or magnetization transfer (MT). They coined this framework as `EPG-X'.
+To model the behaviour of a magnetisation vector with known relaxation times and proton density values in \ac{bssfp}-type sequences, single isochromat Bloch equations can be used. 
+For \ac{fisp}-type sequences, an alternative approach is needed because of the dephasing gradient in each $T_R$.
+This algorithm is called the \ac{epg} formalism and it relies on representing a spin system as a discrete set of phase states \cite{Weigel2015}.
+More recently, Malik et al. \cite{Malik2017} extended the \ac{epg} framework to model systems with chemical exchange or magnetization transfer (MT). They coined this framework as `EPG-X'.
 
 \hfill
 
@@ -30,7 +30,7 @@ For this reason, the rigid motion simulations were performed without simulating 
 \hfill
 
 On a similar note, Rieger et al. \cite{Rieger2017} performed both a motion simulation study and an \textit{in vivo} motion study.
-In their work, they simulated Shepp-Logan phantoms using Bloch-equations in two scenarios: the original MRF-bSSFP sequence \cite{Ma2013} and their own technique called MRF-EPI \cite{Rieger2016}. 
+In their work, they simulated Shepp-Logan phantoms using Bloch-equations in two scenarios: the original MRF-\ac{bssfp} sequence \cite{Ma2013} and their own technique called MRF-EPI \cite{Rieger2016}. 
 The motion traces they used were in-plane rotations and translations.
 For the \textit{in vivo} study, the volunteer was asked to perform random movements.
 Both the \textit{in vivo} study and the simulations show that motion leads to blurring and ghosting artifacts for both methods.

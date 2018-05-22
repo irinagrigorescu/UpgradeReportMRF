@@ -1,18 +1,23 @@
 % % % % % % % % % % % % % % % % 
-\section{Generalised Framework for an Ideal MRI Simulation System}
+\section{Proposed Framework for an Ideal MRI Simulation System}
 \label{chapterlabel4sec3}
 
-This section of the survey focuses on introducing a generalised framework for an ideal MRI simulator to serve as a guideline for the MRI simulation community.
-It is our belief that the proposed structure will aid in overcoming major limitations found throughout available simulators today and will also set the stage for my future work in my PhD project.
-%Moreover, this framework can be used by the MR simulation community as a unifying guideline.
-Our proposed framework is summarised in Figure~\ref{fig:globalFramework} and it is made up of 6 main components which will be explained next.
+This section focuses on introducing a generalised framework for an ideal \ac{mri} simulator to serve as a guideline for the \ac{mri} simulation community.
+It is my belief that the proposed structure will aid in overcoming major limitations found throughout available simulators today and will also set the stage for my future work in my PhD project.
+%Moreover, this framework can be used by the \ac{mri} simulation community as a unifying guideline.
+This section gives an overview of the framework's components, while focusing on the simulation computational kernel.
+
+\hfill
+
+\large \textbf{Overview of framework} \normalsize
+
+The proposed framework is summarised in Figure~\ref{fig:globalFramework} and it consists of the following 6 components:
 
 \hfill
 
 \textbf{Solver.} At the heart of this framework is the \textbf{Bloch Equation Solver}, which independently solves the Bloch equation for each spin in the input object.
-The \textbf{solver} is a highly parallelizable component of the framework which can run either on the computer's GPU or CPU and is based on the MRI simulator called POSSUM \cite{Drobnjak2006}.
+The \textbf{solver} is a highly parallelizable component of the framework which can run either on a \ac{gpu} architecture.
 The solver requires the following inputs:
-
 \begin{itemize}
     \item \textbf{Sample Information}, such as:
     \textit{tissue specific parameters} (the nature of the nuclei, proton density, relaxation times and chemical shift), 
@@ -33,11 +38,11 @@ The solver requires the following inputs:
 
 \hfill
 
-\textbf{Controllers.} The inputs described above are ubiquitous to any type of MRI simulation protocol.
-However, our \textbf{Bloch equation solver} expects them in a certain format.
-To overcome this limitation and to make our framework easily extensible, customisable and user friendly, we propose the existence of \textbf{Controllers}.
+\textbf{Controllers.} The inputs described above are ubiquitous to any type of \ac{mri} simulation protocol.
+However, my \textbf{Bloch equation solver} expects them in a certain format.
+To overcome this limitation and to make my framework easily extensible, customisable and user friendly, I propose the existence of \textbf{Controllers}.
 These are software wrappers which will translate user specific inputs into solver inputs.
-With their help, the user can easily decide the complexity of the MRI simulation by choosing to include or exclude different sample specific, pulse sequence specific or hardware specific parameters.
+With their help, the user can easily decide the complexity of the \ac{mri} simulation by choosing to include or exclude different sample specific, pulse sequence specific or hardware specific parameters.
 
 \hfill
 
@@ -54,10 +59,10 @@ Additionally, for more complex scenarios, users can choose to include multi- tra
 
 \hfill
 
-\textbf{GUIs. } Our framework also contains a set of \textbf{graphical user interfaces (GUIs)} which aid the end user in either rapidly prototyping new ideas or creating complex scenarios for MRI simulations.
+\textbf{GUIs. } Our framework also contains a set of \textbf{graphical user interfaces (GUIs)} which aid the end user in either rapidly prototyping new ideas or creating complex scenarios for \ac{mri} simulations.
 Three GUIs are proposed: 
 the \textit{Object GUI} for creating the input object and the motion trace,
-the \textit{Pulse Sequence GUI} for creating the MRI pulse sequence and 
+the \textit{Pulse Sequence GUI} for creating the \ac{mri} pulse sequence and 
 the \textit{Hardware Configuration GUI} for the hardware coil configuration.
 The outputs from these GUIs become \textbf{inputs} for the software wrappers.
 
@@ -68,15 +73,82 @@ These signals will be fed into a \textbf{reconstruction} block which, based on t
 
 \hfill
 
-\textbf{Output. } The output of our proposed generalised framework is a set of reconstructed images and, if the option is enabled, the $x,y,z$ components of the magnetisation vector.
-We have chosen to include the latter because in our experience with simulating MR sequences, we have found it to be very useful to have this extra piece of information available to you.
+\textbf{Output. } The output of my proposed generalised framework is a set of reconstructed images and, if the option is enabled, the $x,y,z$ components of the magnetisation vector.
+We have chosen to include the latter because in my experience with simulating \ac{mri} sequences, I have found it to be very useful to have this extra piece of information available to you.
 
 \hfill
 
-Finally, it is our belief that this generalised framework can serve as a guideline for the MRI simulation community.
-This is because it both provides a seamless interface between many required MRI modules and
-it encourages the community to allow for integration of other open-source MR units.
-For this reason, we also believe that it is important to develop this framework by using only open-source programming languages and packages.
+\large \textbf{GPU-Based Parallel Approach to the Bloch Equation Solver} \normalsize
+
+The computational kernel of the \ac{mri} simulator is based on the solutions of the Bloch equations at every time point in the pulse sequence and for every isochromat in the input object. 
+These solutions will provide a temporal evolution of each isochromat's magnetisation vector under the effect of various \ac{rf} pulses, magnetic field gradients and inhomogeneities in the main magnetic field.
+
+\hfill
+
+Mathematically, the vector expression for the Bloch equation is:
+
+\begin{flalign*}
+    \frac{\vec{M}}{dt} &= \gamma \big( \vec{M} \times \vec{B}_{eff} \big) - 
+    \begin{bmatrix}
+    M_x / T_2 \\
+    M_y / T_2 \\
+    (M_z - \rho M_0) / T_1
+    \end{bmatrix}
+\end{flalign*}
+where
+\begin{flalign*}
+    \vec{B}_{eff}(\vec{r},t) &= (xG_x(t) + yG_y(t)+ zG_z(t))\hat{z} + \Delta B (\vec{r}, t) \hat{z} + \vec{B}_{1x}(\vec{r},t) + \vec{B}_{1y}(\vec{r},t) 
+\end{flalign*}
+is the effective magnetic field experienced by the isochromat on position $\vec{r}$ and at time t,
+$G_x, G_y $ and $G_z $ are the imaging gradients,
+$\vec{B}_1$ is the applied RF pulse and 
+$\Delta B$ accounts for off-resonance effects.
+
+\hfill
+
+The evolution of the magnetisation vector is calculated by the computational kernel for every time-step $\Delta t$ in the pulse sequence using scaling and rotation matrices:
+\begin{flalign*}
+    \vec{M} (\vec{r}, t+\Delta t) &= (1-E_1) \vec{M}(t=0) + D \, \,  R_{eff} \, \,  \vec{M}(\vec{r},t)
+\end{flalign*}
+where $E_1 = e^{-\Delta t/T_1}$, 
+$E_2 = e^{-\Delta t/T_2}$,
+$\vec{M}(t=0)$ is the magnetisation vector at the beginning of the sequence, D is the diagonal matrix:
+\begin{flalign*}
+    D  & = \left[
+    \begin{array}{c c c}
+          E_2 &     0      &     0 \\
+          0      & E_2 &     0 \\
+          0      &     0      & E_1
+    \end{array}
+    \right]
+\end{flalign*}
+and $R_{eff} = R_{z}(\phi) R_{y}(-\beta) R_{x}(\alpha) R_{y}(\beta) R_{z}(-\phi)$ is the rotation matrix about the axis of the $\vec{B}_{eff}$ field.
+Here, the $\vec{B}_{eff}$ field can have any orientation in the 3D space as it is characterised by the three angles: $\alpha, \beta$ and $\phi$.
+
+\hfill
+
+The simulation computational kernel executes these matrix operations for every time point required and for every isochromat in the object.
+
+
+\hfill
+
+The complex signal $S(t)$ is calculated at every readout time point by summing over the magnetisation vectors of all the excited isochromats in the object.
+
+
+\hfill
+
+
+we utilized Compute Unified Device Architecture (CUDA) model (Nvidia Inc, Santa Clara, CA, USA) to gain computational power sufficient for manipulation of a large spin matrix of the generalized multi-pool exchange model for a large number of the digital object voxels simultaneously. In MRiLab, GPU runtime setup is optimized based on the object size and GPU card specifications. Namely, several computational blocks are created to allow maximized usage of GPU streaming multi- processers. Each block is configured to contain the maximum possible number of threads (one thread performing calcula- tions for only one voxel) for the block’s register pool of a given CUDA compilation (63 registers/thread in our case, which led to 20-65 blocks with 483-500 threads each in the simulations presented in the paper). GPU global memory is reserved to store object information and current spin status. In each step, the central processing unit (CPU) loads the GPU shared memory of each block with the next pulse sequence segment until the memory is filled or pulse sequence external event is detected. The equations are then solved for the given segment for all voxels assigned to the block’s threads. Upon completion, the GPU blocks are updated with new voxels, and the process continues until ODEs are solved for all voxels. At this point, if the current pulse sequence segment ends by an external event, CPU updates GPU global memory to reflect the changes specified by the event, and the algorithm proceeds to the next sequence segment. The cumulative signal from all the voxels forms a simulated k-space dataset which can be further processed to reconstruct final images using built-in or external image reconstruction modules.
+
+
+
+
+\hfill
+
+% Finally, it is my belief that this generalised framework can serve as a guideline for the \ac{mri} simulation community.
+% This is because it both provides a seamless interface between many required \ac{mri} modules and
+% it encourages the community to allow for integration of other open-source \ac{mri} units.
+% For this reason, I also believe that it is important to develop this framework by using only open-source programming languages and packages.
 
 \begin{figure}[ht]
     \centering
