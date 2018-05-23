@@ -3,12 +3,17 @@
 \epigraph{``Not everything that can be counted counts, and not everything that counts can
 be counted."}{--- \textup{Albert Einstein}}
 
-Magnetic Resonance Imaging simulation systems are an essential tool for a variety of research topics.
-For example, in the field of pulse sequence optimisation, MRI simulations allow for the differentiation between hardware imperfections and the effects of MR physics, 
+Magnetic resonance imaging simulation systems are an essential tool for a variety of research topics.
+For example, in the field of pulse sequence optimisation, \ac{mri} simulations allow for the differentiation between hardware imperfections and the effects of MR physics, 
 while in the field of correction algorithms, simulated data sets can provide the needed ground truth.
-Moreover, controlled numerical MRI experiments can also be used for educational purposes.
-This chapter presents an overview of both past and present MRI simulation systems.
-The first section focuses on surveying the current literature in terms of MRI simulation, while the second section discusses the features of currently available MRI simulators.
+Moreover, controlled numerical \ac{mri} experiments can also be used for educational purposes.
+To date, \ac{mri} physics simulators have been used to investigate different research questions and to provide insight with respect to developing new pulse sequences or imaging protocols.
+For this reason, there is currently a large body of research concerning \ac{mri} simulation systems.
+
+\hfill
+
+The aim of this chapter is to review both past and present \ac{mri} simulation systems.
+The first section focuses on surveying the \ac{mri} simulation literature in terms of the MR experience, while the second section discusses the features and limitations of currently available \ac{mri} simulators.
 Finally, the third section presents the more specific case of \ac{mrf} experiments and how the current literature has simulated this novel sequence.
 
 \hfill
@@ -21,16 +26,17 @@ Finally, the third section presents the more specific case of \ac{mrf} experimen
 %The first section of this chapter will provide a thorough review of existing MR simulation systems, focusing on the current state-of-the-art and a discussion of their limitations, while the second section will discuss current MRF simulations.
 %, with a focus on how motion corrupted MRF reconstructions have been simulated.
 
-% % % % % % % % Current MRI Simulation Systems
+% % % % % % % % Simulating the MRI experience
 \input{Chapter2/Chapter2P1MRI.tex}
-\clearpage
+
+\hfill
 
 % % % % % % % % Active MRI Simulators
 \input{Chapter2/Chapter2P2ActiveMRI.tex}
-\clearpage
 
 % % % % % % % % API Ideal MRI Simulator
 %\input{Chapter2/Chapter2P3API.tex}
+\hfill
 
 % % % % % % % % Current MRF Simulation Systems
 \input{Chapter2/Chapter2P4MRF.tex}

@@ -1,17 +1,17 @@
 
-This section focuses on describing the proposed methodology for image space simulation of a Magnetic Resonance Fingerprinting experiment, along with the creation of the final quantitative maps.
+This section focuses on describing the proposed methodology for image space simulation of a magnetic resonance fingerprinting experiment, along with the creation of the final quantitative maps.
 It starts with an overview of the simulation framework and goes on to provide an in-depth methodology for every step of the pipeline.
-First, it describes how the dictionary of signals was generated for two types of sequences, bSSFP and FISP, 
-then moves on to explain how both the motion-free and motion-corrupted MR images were created using an open-source MRI simulator called JEMRIS \cite{Stocker2010},
+First, it describes how the dictionary of signals is generated for two types of sequences, \ac{bssfp} and \ac{fisp}, 
+then moves on to explain how both the motion-free and motion-corrupted MR images are created using an open-source MRI simulator called JEMRIS \cite{Stocker2010},
 and finishes with explaining the pattern matching algorithm used to generate the quantitative maps.
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 \subsection{Framework Overview}
 \label{method:overview}
 
-Our simulation framework is summarised in Figure~\ref{fig:methodFramework}.
-The method we propose uses a physics-based approach to the MR acquisition process in order to simulate MRI datasets.
-The motion artifacts are introduced during the acquisition of the signal, making our simulations more realistic than other approaches where datasets were corrupted by applying geometric transformations in image space (see Section \ref{chapterlabel2sec2}).
+The simulation framework is summarised in Figure~\ref{fig:methodFramework}.
+The proposed method uses a physics-based approach to the MR acquisition process in order to simulate MRI datasets.
+The motion artifacts are introduced during the acquisition of the signal, making the simulations more realistic than other approaches where datasets are corrupted by applying geometric transformations in image space (see Section \ref{chapterlabel2sec2}).
 
 \begin{figure}[ht]
     \centering
@@ -31,11 +31,11 @@ The motion artifacts are introduced during the acquisition of the signal, making
 The framework takes three inputs.
 The first one is a geometric object which specifies the proton density and the $T_1$ and $T_2$ relaxation times at every spatial location.
 The second is an inversion recovery rapid gradient-echo multi-pulse sequence with spiral readout (see Appendix \ref{chapterlabel2sec14}). 
-For the dictionary generation part, we experimented with two types of sequences: balanced steady state free precession (bSSFP, see Appendix \ref{MRIBSSFP}) and fast imaging with steady state precession (FISP, see Appendix \ref{MRIFISP}).
-For the image space simulation part we have so far only simulated the bSSFP sequence.
+For the dictionary generation part, I experimented with two types of sequences: \ac{bssfp} (see Appendix \ref{MRIBSSFP}) and \ac{fisp} (see Appendix \ref{MRIFISP}).
+For the image space simulation part I have, so far, only simulated the \ac{bssfp} sequence.
 The third input is the motion sequence where parameters for both translations and rotations can be specified.
 These three inputs are then fed to JEMRIS which simulates the MR acquisition process and generates the signal for each repetition period of the multi-pulse sequence.
-These signals, together with their corresponding k-space trajectory, are then fed to a software toolbox called BART \cite{Lustig2016} which reconstructs the images.
+These signals, together with their corresponding k-space trajectory, are then fed into a software toolbox called BART \cite{Lustig2016} which reconstructs the images.
 Separately, the same sequence is used to generate a database of signals, called `dictionary', for a wide range of relaxation parameters.
 
 \hfill
@@ -47,10 +47,10 @@ More details related to the general MRF framework can be found in Appendix \ref{
 
 \hfill
 
-In the following sections we describe every part of our framework in more depth.
+In the following sections I describe every part of our framework in more depth.
 We start with the dictionary generation part as this is the first step in an MRF pipeline.
-Next, we move on to explaining the image space simulations, together with the motion traces used for the experiments.
-Finally, we explain the pattern matching algorithm used to create the quantitative maps.
+Next, I move on to explaining the image space simulations, together with the motion traces used for the experiments.
+Finally, I explain the pattern matching algorithm used to create the quantitative maps.
 
 \hfill
 
@@ -59,29 +59,29 @@ Finally, we explain the pattern matching algorithm used to create the quantitati
 \label{method:dictionary}
 
 The first step in an MRF experiment is the creation of a dictionary of simulated signals for a wide variety of tissue properties.
-This section presents an overview of the methods used for creating the database of signals for both a bSSFP-type sequence and a FISP-type sequence.
+This section presents an overview of the methods used for creating the database of signals for both a \ac{bssfp}-type sequence and a \ac{fisp}-type sequence.
 
 \hfill
 
 % \large \textbf{bSSFP Dictionary} \normalsize
 \subsubsection{bSSFP Dictionary}
 
-The bSSFP dictionary generation is based on the original implementation of the MRF sequence, where Ma et al. \cite{Ma2013} used an inversion-recovery balanced steady state free-precession sequence (see Figure~\ref{fig:sequencebSSFP}). 
-The bSSFP sequence is a type of rapid multi-pulse gradient-echo pulse sequence. 
+The \ac{bssfp} dictionary generation is based on the original implementation of the MRF sequence, where Ma et al. \cite{Ma2013} used an inversion-recovery balanced steady state free-precession sequence (see Figure~\ref{fig:sequencebSSFP}). 
+The \ac{bssfp} sequence is a type of rapid multi-pulse gradient-echo pulse sequence. 
 It is called `rapid' because the repetition time $T_R$ is shorter than both the longitudinal ($T_1$) and the transverse ($T_2$) relaxation times of most known tissue types.
 Moreover, it uses balanced (fully rewound) gradients in every direction, thus effectively recovering the transverse magnetisation at the end of each $T_R$ period.
 
 \hfill
 
-bSSFP sequences are known to be highly sensitive to inhomogeneities in the main magnetic field. 
+\ac{bssfp} sequences are known to be highly sensitive to inhomogeneities in the main magnetic field. 
 These inhomogeneities are caused by susceptibility variations or poor magnet shimming and give rise to `banding artifacts' in the final images \cite{Hargreaves2012}.
-In spite of this, bSSFP-type sequences are used clinically today and are known commercially as: True-FISP, FIESTA, Balanced-FFE or True SSFP \cite{Hargreaves2012}.
+In spite of this, \ac{bssfp}-type sequences are used clinically today and are known commercially as: True-FISP, FIESTA, Balanced-FFE or True SSFP \cite{Hargreaves2012}.
 These sequences are known to yield the highest signal among all the other rapid gradient-echo sequences and give a contrast of $T_2/T_1$ \cite{Scheffler2003}.
 
 \begin{figure}[ht]
     \centering
     \includegraphics[angle=0,width=1\textwidth, keepaspectratio]{images/mrf/sequencebSSFP}
-    \caption{The figure shows a simplified version of an inversion recovery balanced steady state free precession (bSSFP) sequence. 
+    \caption{The figure shows a simplified version of an IR-bSSFP sequence. 
     All gradients are fully balanced on every direction (they have a net moment of zero at the end of each repetition period) and readout is in the middle of each repetition period.}
     \label{fig:sequencebSSFP}
 \end{figure}
@@ -90,18 +90,18 @@ These sequences are known to yield the highest signal among all the other rapid 
 
 \large \textbf{Assumptions} \normalsize
 
-To model the behaviour of a magnetisation vector with known relaxation times and proton density values in an MRF-bSSFP sequence, we made the following assumptions:
+To model the behaviour of a magnetisation vector with known relaxation times and proton density values in an MRF-\ac{bssfp} sequence, the following assumptions are made:
 
 \begin{enumerate}
-    \item The object for which we are modelling the magnetisation dynamics in the multi-pulse sequence is considered to be motionless.
+    \item The object for which I am modelling the magnetisation dynamics in the multi-pulse sequence is considered to be motionless.
 
     \item The effect of applying an RF pulse of flip angle $\alpha$ and phase angle $\phi$ was considered to be significantly shorter than the relaxation times $T_1$ and $T_2$ and was modelled as happening instantaneously.
-    This allowed us to represent its effect as a rotation through the flip angle $\alpha$ about a chosen axis (e.g. the $x$-axis) and a change of coordinate system through the phase angle $\phi$ about the $z$-axis.
+    This allowed me to represent its effect as a rotation through the flip angle $\alpha$ about a chosen axis (e.g. the $x$-axis) and a change of coordinate system through the phase angle $\phi$ about the $z$-axis.
     This is called the "hard pulse approximation" and is detailed in Appendix~\ref{background:rfpulse}.
     
     \item The imaging gradients in this sequence are considered to be fully balanced (all the gradients have zero zeroth moment over each repetition period).
     Thus, any effect induced by the gradients is subsequently reversed by the rewinding gradients before the readout happens.
-    We therefore neglected the effect of gradients on the magnetisation vector.
+    I therefore neglected the effect of gradients on the magnetisation vector.
 
 \end{enumerate}
 
@@ -111,8 +111,8 @@ To model the behaviour of a magnetisation vector with known relaxation times and
 
 In order to simulate the magnetisation dynamics in this multi-pulse sequence, 
 %we first describe the effect of a single, arbitrarily chosen, $T_R$ block on a known magnetisation vector (see Figure~\ref{fig:sequencebSSFPOneBlock}).
-we begin with the description of a single, arbitrarily chosen, $T_R$ block on a known magnetisation vector (see Figure~\ref{fig:sequencebSSFPOneBlock}).
-We define the magnetisation vector immediately prior to the $i^{th}$ RF pulse as:
+I begin with the description of a single, arbitrarily chosen, $T_R$ block on a known magnetisation vector (see Figure~\ref{fig:sequencebSSFPOneBlock}).
+The magnetisation vector immediately prior to the $i^{th}$ RF pulse is defined as:
 \begin{equation}
     M^{-}_i \equiv \big[ M^-_{x_i} \, \,  M^-_{y_i} \, \, M^-_{z_i} \big]^T
 \end{equation}
@@ -189,8 +189,8 @@ $t \in [0, T_R(i)]$.
 
 \textbf{Off-resonance.} 
 In the case where static field inhomogeneities $\Delta B$ are present, the phase of the magnetisation vector will change over a given repetition time period. 
-This phase will be determined by $\beta(t) = \gamma \Delta B t = \Delta \omega t = 2\pi \Delta \nu t$ during any $T_R$ block.
-To model the behaviour of phase accrual, we use a rotation about the $z$ axis of the magnetisation vector.
+This phase is determined by $\beta(t) = \gamma \Delta B t = \Delta \omega t = 2\pi \Delta \nu t$ during any $T_R$ block.
+To model the behaviour of phase accrual, an instantaneous rotation about the $z$ axis of the magnetisation vector is used.
 This can be mathematically represented as:
 
 \begin{equation}
@@ -212,7 +212,7 @@ The resulting magnetisation vector at the end of the $i^{th}$ repetition period 
     M^{-}_{i+1} = D\big(T_R(i)\big) R_z\big(\beta(T_R(i))\big) \big( R_{z}(\phi_i) R_{x}(-\alpha_i) R_{z}(-\phi_i) M^{-}_i \big) + C\big(T_R(i)\big)
 \end{equation}
 
-where $M^{-}_1 = M_0 \hat{x}$ and $i \in [1, N_{RF pulses}]$.
+where $M^{-}_1 = M_0 \hat{x}$ and $i \in [1, N_{pulses}]$.
 
 \hfill
 
@@ -227,16 +227,16 @@ where $M^{-}_1 = M_0 \hat{x}$ and $i \in [1, N_{RF pulses}]$.
 
 \large \textbf{Dictionary} \normalsize
 
-In order to create a dictionary of signals in a multi-pulse bSSFP sequence, the previously described process is repeated for a range of tissue properties.
+In order to create a dictionary of signals in a multi-pulse IR-\ac{bssfp} sequence, the previously described process is repeated for a range of tissue properties.
 More specifically, every signal is associated with a `tissue tuple':
 $(T_{1_j}, T_{2_j}, \Delta f_{j})$, with $j \in [1, M]$, where $M$ is the total number of tuples.
-Hence, the dictionary is basically creating a function relationship between tissue properties and signals.
+Hence, the dictionary is creating a function relationship between tissue properties and signals.
 
 \hfill
 
 The dictionary was created in MATLAB using a vectorised version of the previously described process.
-The speed of our method comes from the fact that we calculate the magnetisation vector components of all tissue types simultaneously, for every $T_R$ period.
-For this, we start by defining a $3 \times M$ matrix for the $M_x, \, M_y, \, M_z$ components of the magnetisation vector for all $M$ tissue types immediately before the $i^{th}$ RF Pulse:
+The speed of this method comes from the fact that the magnetisation vector components of all tissue types are calculated simultaneously, for every $T_R$ period.
+For this, I start by defining a $3 \times M$ matrix for the $M_x, \, M_y, \, M_z$ components of the magnetisation vector for all $M$ tissue types immediately before the $i^{th}$ RF Pulse:
 \begin{equation}
     M^{-}_i = 
     \begin{bmatrix}
@@ -246,17 +246,17 @@ For this, we start by defining a $3 \times M$ matrix for the $M_x, \, M_y, \, M_
     \end{bmatrix}
 \end{equation}
 
-To flip the magnetisation vector for all the tissue types, we precompute the RF pulse matrix for the current repetition period:
+To flip the magnetisation vectors of all the tissue types, the RF pulse matrix is precomputed for the current repetition period:
 \begin{equation}
         R_{\phi_i}(\alpha_i) = R_{z}(\phi_i) R_{x}(-\alpha_i) R_{z}(-\phi_i)
 \end{equation}
-and then apply this to our previously defined $3 \times M$ matrix of magnetisation vector components:
+and then applied to the previously defined $3 \times M$ matrix of magnetisation vector components:
 \begin{equation}
     M^{+}_i(0) = R_{\phi_i}(\alpha_i) \, \, M^{-}_i
 \end{equation}
 
-For the off-resonance effects, we split the process in two.
-We create two $3 \times M$ matrices to represent the effect of rotation about the z-axis for all possible $\beta_j(t) = 2\pi \Delta \nu_j \, t$ \big(with $j \in [1, M]$ \big) off-resonance angles.
+For the off-resonance effects, the process is split in two.
+Two $3 \times M$ matrices are created to represent the effect of rotation about the z-axis for all possible $\beta_j(t) = 2\pi \Delta \nu_j \, t$ \big(with $j \in [1, M]$ \big) off-resonance angles.
 Mathematically, this is given by:
 \begin{equation}
     M^{+}_i (t) = R_{\Delta \nu_1}(t) \, \odot \, M^{+}_i(0) + R_{\Delta \nu_2}(t)  \, \odot \, M^{+}_i(0)^{(p)}
@@ -302,7 +302,7 @@ where $\odot$ denotes component-wise multiplication, and:
 \end{split}
 \end{equation}
 
-For the relaxation effects, we again build two $3 \times M$ matrices to account for all M combinations of $T_1$ and $T_2$ decay rates:
+For the relaxation effects, two $3 \times M$ matrices are built to account for all M combinations of $T_1$ and $T_2$ decay rates:
 \begin{equation}
     M^{+}_i(t) = D(t)  \, \odot \, M^{+}_i(0) + C(t) 
 \end{equation}
@@ -335,7 +335,7 @@ where $E_{1_j}(t) \equiv e^{-t/T_{1_j}}$ and $E_{2_j}(t) \equiv e^{-t/T_{2_j}}$,
 
 This process is then repeated, in order, for all repetition times in the sequence.
 At the end, a dictionary of M signals, each with N time points is constructed.
-For completion, we store all 3 components of the magnetic moment vectors, thus having an $M \times N \times 3$ dictionary matrix.
+For completion, I store all 3 components of the magnetic moment vectors, thus having an $M \times N \times 3$ dictionary matrix.
 Pseudocode for the created algorithms can be found in Appendix~\ref{appendixlabel1}.
 
 \hfill
@@ -343,16 +343,16 @@ Pseudocode for the created algorithms can be found in Appendix~\ref{appendixlabe
 \subsubsection{FISP Dictionary} 
 \label{method:fispdictionary}
 
-The FISP dictionary generation is based on a more recent implementation of the MRF sequence, where Jiang et al. \cite{Jiang2015} used an inversion-recovery fast imaging with steady-state precession sequence (see Figure~\ref{fig:sequenceFISP}).
-Similar to bSSFP, FISP is also a type of rapid multi-pulse gradient-echo sequence.
-However, in contrast with the previous sequence, FISP uses an unbalanced gradient in one or multiple gradient directions, thus `spoiling' the transverse magnetization prior to the next RF pulse \cite{Hargreaves2012}.
-Gradient spoiling does not effectively null the transverse magnetization, so then both the longitudinal and the transverse magnetization will contribute to the signal in the next cycle.
+The \ac{fisp} dictionary generation is based on a more recent implementation of the MRF sequence, where Jiang et al. \cite{Jiang2015} used an inversion-recovery fast imaging with steady-state precession sequence (see Figure~\ref{fig:sequenceFISP}).
+Similar to \ac{bssfp}, \ac{fisp} is also a type of rapid multi-pulse gradient-echo sequence.
+However, in contrast with the previous sequence, \ac{fisp} uses an unbalanced gradient in one or multiple gradient directions, thus `spoiling' the transverse magnetization prior to the next RF pulse \cite{Hargreaves2012}.
+Gradient spoiling does not effectively null the transverse magnetisation, so then both the longitudinal and the transverse magnetisation components will contribute to the signal in the next cycle.
 
 \begin{figure}[ht]
     \centering
     \includegraphics[angle=0,width=1\textwidth, keepaspectratio]{images/mrf/sequenceFISP}
     \caption{The figure shows a simplified version of an inversion recovery fast imaging with steady state precession sequence. 
-    Unlike bSSFP, a FISP sequence contains an unbalanced `spoiler' gradient in each each repetition period.
+    Unlike \ac{bssfp}, a \ac{fisp} sequence contains an unbalanced `spoiler' gradient in each each repetition period.
     Otherwise, all other gradients are fully balanced in every direction.
     Here, $N$ represents the total number of RF pulses.}
     \label{fig:sequenceFISP}
@@ -360,35 +360,35 @@ Gradient spoiling does not effectively null the transverse magnetization, so the
 
 \hfill
 
-FISP-type sequences are used in MR imaging due to their fast imaging characteristics and their immunity to the banding artefacts commonly seen in fully balanced steady state sequences. 
-%As with bSSFP, the signal in these types of sequences is a function of $T_2/T_1$ \cite{Hargreaves2012}. 
-%FISP-type sequence yield a lower signal than in bSSFP and 
-Commercially, FISP-type sequences are known as: FE, FFE, GRASS, GRE, FISP, FAST \cite{Hargreaves2012}.
+\ac{fisp}-type sequences are used in MR imaging due to their fast imaging characteristics and their immunity to the banding artefacts commonly seen in fully balanced steady state sequences. 
+%As with \ac{bssfp}, the signal in these types of sequences is a function of $T_2/T_1$ \cite{Hargreaves2012}. 
+%\ac{fisp}-type sequence yield a lower signal than in \ac{bssfp} and 
+Commercially, \ac{fisp}-type sequences are known as: FE, FFE, GRASS, GRE, \ac{fisp}, FAST \cite{Hargreaves2012}.
 These sequences are known to yield a lower signal magnitude than balanced sequences, while keeping a similar signal contrast of $T_2/T_1$ \cite{Hargreaves2012}.
 
 \hfill
 
 \large \textbf{Assumptions} \normalsize
 
-In order to simulate the behaviour of a magnetisation vector with known relaxation times and proton density values in an MRF-FISP sequence, single isochromat Bloch equations are no longer applicable.
+In order to simulate the behaviour of a magnetisation vector with known relaxation times and proton density values in an MRF-\ac{fisp} sequence, single isochromat Bloch equations are no longer applicable.
 Due to the presence of a strong dephasing gradient and repetition times shorter than the transverse relaxations of most tissue types \big($T_R \leq T_2$\big), the transverse magnetisation will not be destroyed, but completely dephased across a voxel.
-To model this, an algorithm called the Extended Phase Graph (EPG) \cite{Hennig1988} \cite{Hennig1991} was used.
+To model this, an algorithm called the \ac{epg} \cite{Hennig1988} \cite{Hennig1991} was used.
 
 \hfill 
 
-The EPG formalism \cite{Hennig1988} \cite{Hennig1991} \cite{Weigel2015} is used to simulate signals obtained from a wide variety of MRI pulse sequences \cite{Malik2017}.
+The \ac{epg} formalism \cite{Hennig1988} \cite{Hennig1991} \cite{Weigel2015} is used to simulate signals obtained from a wide variety of MRI pulse sequences \cite{Malik2017}.
 % EPG has been used for a variety of applications such as:
 % characterization of RF spoiling in gradient echo sequences (4,5), 
 % analysis of echo amplitudes in turbo spin echo (TSE) sequences (6–9), 
 % diffusion effects (12), and 
 % characterizing signal evolution in sequences used for relaxometry (13–16).
-Similar to the Bloch equations approach, EPG characterizes a given sequence through the effects of RF pulses, relaxation constants, and dephasing due to gradients or inhomogeneities in the main magnetic field.
+Similar to the Bloch equations approach, \ac{epg} characterizes a given sequence through the effects of RF pulses, relaxation constants, and dephasing due to gradients or inhomogeneities in the main magnetic field.
 % However, in this formalism large groups of spins are represented as a compact Fourier basis set of $F_k$ and $Z_k$ coefficients.
 % However, unlike the previous approach, EPG describes a spin system as a discrete set of phase states (or, `configuration states') \cite{Hennig1988}.
 % These states appear as a consequence of 
 To model the behaviour of a spin ensemble 
 %with known relaxation times and proton density values 
-in a single-voxel MRF-FISP sequence, the following assumptions were made:
+in a single-voxel MRF-\ac{fisp} sequence, the following assumptions were made:
 % This algorithm works under certain assumptions which we enumerate here:
 
 %Bloch equations can be used, but a large number of isochromats needs to be simulated to achieve accuracy.
@@ -396,20 +396,20 @@ in a single-voxel MRF-FISP sequence, the following assumptions were made:
 
 \begin{enumerate}
 
-    \item The object for which we are modelling the magnetisation dynamics in the multi-pulse sequence is considered to be motionless.
+    \item The object for which I am modelling the magnetisation dynamics in the multi-pulse sequence is considered to be motionless.
 
-    \item The tissue we are modelling is represented by a single voxel with uniform density of magnetisation, characterised by a single set of relaxation parameters and spin density values.
+    \item The tissue being modelled is represented by a single voxel with uniform density of magnetisation, characterised by a single set of relaxation parameters and spin density values.
     
     \item The 1D voxel has dimension in the same direction as the applied gradient, where one edge of the voxel is considered to be the `isocentre'.
     Gradient areas are quantized into units that give a phase twist of one cycle ($2\pi$), such that the amount of dephasing induced by one application of the gradient is ranging from $[0, 2\pi]$. 
-    Moreover, for improved visualisation and pictorial understanding, we presume that the gradient is in the z-direction.
+    Moreover, for improved visualisation and pictorial understanding, I presume that the gradient is in the z-direction.
 
     \item The `spoiling' gradient used in this sequence has the same amplitude and duration in every repetition period.
     Thus, the gradient induces the same amount of dephasing across the voxel during each of its applications.
     %a fixed time period $\Delta t$ at the end of each repetition period.
     
     \item The effect of applying an RF pulse of flip angle $\alpha$ and phase angle $\phi$ was considered to be significantly shorter than the relaxation times $T_1$ and $T_2$ and was modelled as happening instantaneously.
-    This allowed us to represent its effect as a rotation through the flip angle $\alpha$ about a chosen axis (e.g. the $x$-axis) and a change of coordinate system through the phase angle $\phi$ about the $z$-axis.
+    This allowed me to represent its effect as a rotation through the flip angle $\alpha$ about a chosen axis (e.g. the $x$-axis) and a change of coordinate system through the phase angle $\phi$ about the $z$-axis.
     This is called the hard pulse approximation and is detailed in Appendix~\ref{background:rfpulse}.
 
 \end{enumerate}
@@ -418,9 +418,9 @@ in a single-voxel MRF-FISP sequence, the following assumptions were made:
 
 \large \textbf{Extended Phase Graph Formalism} \normalsize
 
-In this section we explain the main ingredients behind the EPG formalism, starting from a simple example of a fully relaxed spin system.
-The Extended Phase Graph formalism is a tool for understanding MR signal progression and echo formation in a wide variety of MR sequences.
-In EPG, the full state of the signal across a voxel is represented by a small number of coefficients.
+In this section explains the main ingredients behind the \ac{epg} formalism, starting from a simple example of a fully relaxed spin system.
+The extended phase graph formalism is a tool for understanding MR signal progression and echo formation in a wide variety of MR sequences.
+In \ac{epg}, the full state of the signal across a voxel is represented by a small number of coefficients.
 These coefficients encode the distribution of the isochromat population into different Fourier basis functions.
 These basis functions are either a set of transverse basis functions called $\bm{F_k}$ and $\bm{F_{-k}}$ or longitudinal basis functions called $\bm{Z_k}$.
 
@@ -444,21 +444,21 @@ The $F_{k}$ and $F_{-k}$ states can be thought of as a two counter-rotating isoc
 \textbf{The $\bm{F_0}$ and $\bm{Z_0}$ configuration states}
 
 % In this section we explain the main ingredients behind the EPG formalism, starting from a simple example of a fully relaxed spin system.
-%In order to model the behaviour of a spin ensemble with known relaxation times and proton density values in a single-voxel MRF-FISP sequence, 
+%In order to model the behaviour of a spin ensemble with known relaxation times and proton density values in a single-voxel MRF-\ac{fisp} sequence, 
 %In order to simulate the magnetisation dynamics in this multi-pulse sequence, 
 %we begin with the description of a single $T_R$ block.
 %In order to 
 % To simplify things even further, we begin with the thermal equilibrium case, where the spin ensemble is fully relaxed and the magnetic moment vectors have the same direction as the main magnetic field (here considered to be $\hat{z}$).
 At thermal equilibrium, an isochromat ensemble is fully relaxed and the magnetic moment vectors have the same direction as the main magnetic field (here considered to be $\hat{z}$).
-We call this state in which the spin system is initially found a $\bm{Z_0}$ configuration \cite{Weigel2015} \cite{Scheffler1999} \cite{Hennig1991}.
-The coefficient for this state is equal to $\bm{1}$ as the entire population of our imaginary spin ensemble is found in this configuration.
-Pictorially, the $\bm{Z_0}$ state is shown in Figure~\ref{fig:Z0F0states} a) where we chose to represent 100 uniformly distributed isochromats along the voxel dimension.
+This state in which the spin system is initially found is called a $\bm{Z_0}$ configuration \cite{Weigel2015} \cite{Scheffler1999} \cite{Hennig1991}.
+The coefficient for this state is equal to $\bm{1}$ as the entire population of the imaginary spin ensemble is found in this configuration.
+Pictorially, the $\bm{Z_0}$ state is shown in Figure~\ref{fig:Z0F0states} a) where I chose to represent 100 uniformly distributed isochromats along the voxel dimension.
 
 \hfill
 
 The application of an instantaneous $\pi/2$ excitation pulse on this configuration has the effect of `flipping' the entire isochromat ensemble in the transverse plane.
 This new configuration is known as the $\bm{F_0}$ state \cite{Weigel2015} \cite{Scheffler1999} \cite{Hennig1991} and is graphically shown in Figure~\ref{fig:Z0F0states} b).
-The $\bm{F_0}$ configuration is an important concept in the EPG formalism as it represents coherent transverse magnetisation and it is the cause of echo generation.
+The $\bm{F_0}$ configuration is an important concept in the \ac{epg} formalism as it represents coherent transverse magnetisation and it is the cause of echo generation.
 % 
 % \hfill
 % 
@@ -509,8 +509,8 @@ These dephased configuration states are called $\bm{F_k}$, where $k$ represents 
 \textbf{The effect of an RF pulse on the isochromat ensemble} 
 
 The application of an RF pulse of arbitrary flip angle $\alpha$ and phase angle $\phi$ on a dephased isochromat ensemble mixes the populations of spins among configurations.
-This effect is best explained through equation \ref{eq:rfpulseequationbssfp}, which tells us that the magnetisation vectors immediately after the RF pulse are related to those immediately before the RF pulse through a rotation matrix (relaxation effects are neglected as the RF pulse is assumed to be instantaneous).
-For completion, we rewrite equation \ref{eq:rfpulseequationbssfp} here:
+This effect is best explained through equation \ref{eq:rfpulseequationbssfp}, which says that the magnetisation vectors immediately after the RF pulse are related to those immediately before the RF pulse through a rotation matrix (relaxation effects are neglected as the RF pulse is assumed to be instantaneous).
+For completion, I rewrite equation \ref{eq:rfpulseequationbssfp} here:
 
 \begin{equation}
     \begin{bmatrix} 
@@ -621,7 +621,7 @@ This is the mechanism through which spin echoes are formed and a pictorial examp
 
 \hfill
 
-On the other hand, the formation of the $Z_{k}$ states is best explained through an example where the RF pulse has a flip angle $\neq \pi$.
+The formation of the $Z_{k}$ states is best explained through an example where the RF pulse has a flip angle $\neq \pi$.
 Let there be an RF pulse of flip angle $\alpha = \pi/4$ and phase angle $\phi = 0$ applied on an $\bm{F_1}$ configuration.
 Introducing these values in equation \ref{eq:woessner} yields:
 
@@ -649,7 +649,7 @@ Figure~\ref{fig:RFPulseinEPG} shows a pictorial representation of the effect of 
 % % % % % % % % % % % % % % % % % % % % 
 \textbf{Relaxation effects} 
 
-The effects of relaxation towards thermal equilibrium can also be described in the EPG framework.
+The effects of relaxation towards thermal equilibrium can also be described in the \ac{epg} framework.
 For the transverse states $T_2$ relaxation occurs: $F_k' = E_2 F_k$, while for the longitudinal states $T_1$ relaxation occurs: $Z_k' = E_1 Z_k$ (for $k \neq 0$)
 %, $Z_k$ states are attenuated) 
 and $Z_k' = E_1 Z_k + M_0(1 - E_1)$ (for $k = 0$).
@@ -686,14 +686,14 @@ In matrix form, this becomes \cite{Hennig1991}:
 
 \large \textbf{Extended Phase Graph Algorithms} \normalsize
 
-The EPG algorithm consists of a set of rules to be applied in order to simulate signals coming from a wide variety of MR sequences.
-We start by describing the key data structures involved in the algorithm and then move on to explaining how RF pulses, dephasing gradients and relaxation phenomena are introduced in this framework.
+The \ac{epg} algorithm consists of a set of rules to be applied in order to simulate signals coming from a wide variety of MR sequences.
+I start by describing the key data structures involved in the algorithm and then move on to explaining how RF pulses, dephasing gradients and relaxation phenomena are introduced in this framework.
 
 \hfill
 
 \textbf{EPG Data Structures}
 
-In the EPG algorithm the set of all possible confugration states at any given time point is stored in a matrix called the `state matrix':
+In the \ac{epg} algorithm the set of all possible confugration states at any given time point is stored in a matrix called the `state matrix':
 \begin{equation}
     \Omega = 
     \begin{bmatrix}
@@ -702,13 +702,13 @@ In the EPG algorithm the set of all possible confugration states at any given ti
     Z_0 & Z_1 & Z_2 & \dots 
     \end{bmatrix}
 \end{equation}
-where $F_0$ occurs twice for completion.
+where $\bm{F_0}$ occurs twice for completion.
 
 \hfill
 
 This matrix contains the three possible basis states $\bm{F_k}$, $\bm{F_{-k}}$ and $\bm{Z_k}$ in increasing dephasing order $\bm{k}$.
-Although we can consider this matrix to be infinite in one dimension as there are infinite configurations, all MR experiments are finite thus limiting the matrix size to reasonable dimensions.
-In fact, for our application where both the repetition time and the amount of dephasing in each period is constant, the number of branches is equal to the number of RF pulses.
+Although this matrix can be considered infinite in one dimension as there are infinitely many configurations, all MR experiments are finite thus limiting the matrix size to reasonable dimensions.
+In fact, for the sequence I am modelling, where both the repetition time and the amount of dephasing in each period is constant, the number of branches is equal to the number of RF pulses.
 Thus, the state matrix $\Omega$ is a $3 \times N_{pulses}$ complex matrix that stores the coefficients for each basis set.
 
 \hfill
@@ -744,8 +744,8 @@ and
 
 The evolution matrices store the state matrices, as columns, for each time point of interest.
 These matrices can, again, be of infinite size, as there are infinite configurations and the time domain can be infinitely sampled.
-However, for our application where both the repetition time and the amount of dephasing in each period is constant, the $\Xi_F$ evolution matrix is a $2N_{pulses}-1 \times N_{pulses}$ complex valued matrix, while the $\Xi_Z$ evolution matrix is an $N_{pulses} \times N_{pulses}$ complex valued matrix.
-This is because we are only interested in the values of the coefficients at echo time in each $T_R$ block.
+However, for my application where both the repetition time and the amount of dephasing in each period is constant, the $\Xi_F$ evolution matrix is a $2N_{pulses}-1 \times N_{pulses}$ complex valued matrix, while the $\Xi_Z$ evolution matrix is an $N_{pulses} \times N_{pulses}$ complex valued matrix.
+This is because I am only interested in the values of the coefficients at echo time in each $T_R$ block.
 
 \hfill
 
@@ -778,7 +778,7 @@ For example, if after the application of the $\pi/2$ RF pulse a gradient is appl
     \end{bmatrix}
 \end{equation}
 where $S$ is the shift operator which performs $F_n \rightarrow F_{n+1}$ and leaves the longitudinal state unchanged $Z_n \rightarrow Z_n$. 
-Note that the state matrix contains all possible states, which means that for our example $F_{-1} = 0$ was shifted to $F_0^*$.
+Note that the state matrix contains all possible states, which means that for this example $F_{-1} = 0$ was shifted to $F_0^*$.
 
 \hfill
 
@@ -791,15 +791,15 @@ all transverse states in the state matrix experience $T_2$ decay, all longitudin
 
 \large \textbf{Dictionary} \normalsize
 
-In order to create a dictionary of signals for a multi-pulse FISP sequence, the EPG algorithm was used.
-As with the bSSFP case, a signal of N time points is created for each `tissue tuple'
+In order to create a dictionary of signals for a multi-pulse \ac{fisp} sequence, the \ac{epg} algorithm was used.
+As with the \ac{bssfp} case, a signal of N time points is created for each `tissue tuple'
 $(T_{1_j}, T_{2_j})$, with $j \in [1, M]$, where $M$ is the total number of tuples.
-For the FISP dictionary, off-resonance frequencies were not included.
+For the \ac{fisp} dictionary, off-resonance frequencies were not included.
 The sequence used is found in Figure~\ref{fig:sequenceFISP}, where the echo times were kept constant for every repetition block, and the unbalanced gradients achieved the same amount of dephasing in each $T_R$ block.
 
 \hfill
 
-To generate the signal for a given tissue type, the multi-pulse MRF-FISP sequence was divided into $N+1$ blocks (including the inversion pulse), each of which corresponding to the application of a different RF pulse.
+To generate the signal for a given tissue type, the multi-pulse MRF-\ac{fisp} sequence was divided into $N+1$ blocks (including the inversion pulse), each of which corresponding to the application of a different RF pulse.
 The signal corresponds to the $F_0$ states at echo time for each $T_R$ block.
 This process was then repeated for every tissue tuple and a dictionary of $M \times N$ complex values was created.
 Pseudocode for the algorithm can be found in Appendix~\ref{appendixlabel2}.
@@ -810,7 +810,7 @@ Pseudocode for the algorithm can be found in Appendix~\ref{appendixlabel2}.
 % the spins will accrue different phases, ranging from $-\pi$ in one corner of the voxel, to $+\pi$ in the opposite corner.
 % This state in which the transverse magnetisation is now found is called $F_1$ \cite{Hennig1988} \cite{Scheffler1999} and can be conceptually described as an evenly distributed collection of magnetisation vectors over the transverse plane (see Figure~\ref{fig:F1state}). 
 
-% For a single-voxel multi-pulse FISP experiment let us now consider that the gradient's moment induces the same amount of dephasing across this voxel during a fixed time period $\Delta t$ at the end of each repetition period.
+% For a single-voxel multi-pulse \ac{fisp} experiment let us now consider that the gradient's moment induces the same amount of dephasing across this voxel during a fixed time period $\Delta t$ at the end of each repetition period.
 % For an idealised gradient and an idealised voxel with uniform density of magnetisation,
 % the amount of dephasing is defined by the interval $[-\pi, \pi]$.
 
@@ -834,7 +834,7 @@ Pseudocode for the algorithm can be found in Appendix~\ref{appendixlabel2}.
 % Similar to the Bloch equations approach, EPG characterizes a given sequence through the effects of RF pulses, relaxation constants, and dephasing due to gradients or inhomogeneities in the main magnetic field.
 % % However, unlike the previous approach, EPG describes a spin system as a discrete set of phase states (or, `configuration states') \cite{Hennig1988}.
 % % These states appear as a consequence of 
-% To model the behaviour of a spin ensemble with known relaxation times and proton density values in a single-voxel MRF-FISP sequence, the following assumptions were made:
+% To model the behaviour of a spin ensemble with known relaxation times and proton density values in a single-voxel MRF-\ac{fisp} sequence, the following assumptions were made:
 
 
 
@@ -860,7 +860,7 @@ Pseudocode for the algorithm can be found in Appendix~\ref{appendixlabel2}.
 
 % \textbf{The effect of gradients on a spin ensemble} 
 
-% For a single-voxel multi-pulse FISP experiment let us now consider that the gradient's moment induces the same amount of dephasing across this voxel during a fixed time period $\Delta t$ at the end of each repetition period.
+% For a single-voxel multi-pulse \ac{fisp} experiment let us now consider that the gradient's moment induces the same amount of dephasing across this voxel during a fixed time period $\Delta t$ at the end of each repetition period.
 % For an idealised gradient and an idealised voxel with uniform density of magnetisation,
 % the amount of dephasing is defined by the interval $[-\pi, \pi]$.
 
@@ -958,11 +958,15 @@ Pseudocode for the algorithm can be found in Appendix~\ref{appendixlabel2}.
 \subsection{Image Space Simulation}
 \label{method:imagespace}
 
+The second step in the simulation framework consists of the image space simulation of an IR-bSSFP MRF experiment.
+This involves four components (digital object, acquisition sequence, reconstruction and motion) which are covered next.
+
 % % % % % % % % % % % % 
 \subsubsection{Digital Object}
 
-For the simulations involved we created a digital phantom of $80mm$ in diameter, consisting of 12 circular structures of $5mm$ in diameter.
-The resolution of this phantom is of $1mm$, and the spin density was chosen such that there is a single spin isochromat present at each spatial location $\vec{r}$ in the phantom.
+For the simulations involved a digital phantom of $80mm$ in diameter, consisting of 12 circular structures of $5mm$ in diameter was created.
+The resolution of this phantom is of $1mm$.
+%, and the spin density was chosen such that there is a single spin isochromat present at each spatial location $\vec{r}$ in the phantom.
 The distribution of $T_1$ and $T_2$ relaxation times is shown in Figure~\ref{fig:inputObject}, while the spin density is set to $\rho(\vec{r}) = 1$ everywhere inside the phantom, except for the space between the `tubes' and the circular phantom.
 The range of values chosen for the relaxation times are also summarised in Appendix~\ref{appendixlabelPhantom}.
 
@@ -992,9 +996,9 @@ Moreover, this type of phantom was used in previous MRF studies such as those pr
 % % % % % % % % % % % % 
 \subsubsection{Acquisition}
 
-The sequence used for our image space simulations is based on the initial implementation of the MRF framework by Ma et al. \cite{Ma2013} and is known as an inversion recovery balanced steady state free precession sequence (IR-bSSFP).
+The sequence used for the image space simulations is based on the initial implementation of the MRF framework by Ma et al. \cite{Ma2013} and is known as an inversion recovery balanced steady state free precession sequence (IR-\ac{bssfp}).
 The sequence diagram is shown in Figure~\ref{fig:sequencebSSFP}.
-The only difference between the sequence used for the dictionary generation part and the one used for the image acquisition part of our simulations is that the latter one was fitted with a spiral readout of duration $6 ms$.
+The only difference between the sequence used for the dictionary generation part and the one used for the image acquisition part of the simulations is that the latter one was equipped with a spiral readout of duration $6 ms$.
 Moreover, the spiral readout is accompanied by rewinding gradients that take the trajectory back to the centre of k-space and also assure that the zeroth moment of all gradients is zero at the end of a repetition period.
 
 \begin{figure}[ht]
@@ -1004,8 +1008,10 @@ Moreover, the spiral readout is accompanied by rewinding gradients that take the
     \label{fig:spiralAcquisition}
 \end{figure}
 
+\hfill
+
 The spiral readout was constructed in JEMRIS by analytically describing the shape of the k-space trajectory.
-While different spiral coverages of k-space exist, for our simulations we chose a linearly increasing sinusoidal form, also known as a constant angular velocity (Archimedean) spiral trajectory first proposed by Ahn et al. \cite{Ahn1986}. 
+While different spiral coverages of k-space exist, for my simulations I chose a linearly increasing sinusoidal form, also known as a constant angular velocity (Archimedean) spiral trajectory first proposed by Ahn et al. \cite{Ahn1986}. 
 Mathematically, the k-space trajectory takes the following form:
 
 \begin{equation}\label{eq:kspacespiral}
@@ -1066,15 +1072,18 @@ and
 
 \hfill
 
-To reconstruct our input object in a matrix size of $128 \times 128$ with an image resolution of $\Delta r = 1.25mm$,
+To reconstruct the input object, a circular field-of-view of $160mm$ was covered with a matrix size of $128 \times 128$.
+This resulted in an image resolution of $\Delta r = 1.25mm$ and required
+%a square field-of-view of $160 \times 160mm$ was covered with a matrix size of $128 \times 128$.
+%with an image resolution of $\Delta r = 1.25mm$,
 %circular field-of-view of $160mm$ diameter encompassing our object.
 %This means that our image resolution was $\Delta r = 1.25mm$.
 %Therefore, we required $n_r \geq \frac{L}{2 \Delta r} = 64$ and
-we required $n_r \geq \frac{L}{2 \Delta r} = 64$ and
+$n_r \geq \frac{L}{2 \Delta r} = 64$ and
 $n_{\theta} \geq \frac{\pi L}{\Delta r} = 403$.
-This means we had to sample approximately $25,792$ times every readout.
-For a total acquisition time of $T_d = 6ms$, we calculated a dwell time of $\Delta t = 0.233 \mu s$.
-The slice thickness was set to $1mm$, but as we used a 2D input object, there were no slice selection gradients introduced in the simulations.
+This means that in every readout there were approximately $25,792$ samples acquired.
+For a total acquisition time of $T_d = 6ms$, I calculated a dwell time of $\Delta t = 0.233 \mu s$.
+The slice thickness was set to $1mm$, but as I used a 2D input object, there were no slice selection gradients introduced in the simulations.
 
 % Now, considering a constant number of sampling points per winding $n_{\theta}$ and an angular step size $\Delta \theta$, the complete angular coverage of one full turn of the spiral is defined by:
 % \begin{equation}
@@ -1099,8 +1108,8 @@ The slice thickness was set to $1mm$, but as we used a 2D input object, there we
 Spiral k-space coverage leads to a non-Cartesian distribution of sampled points in k-space.
 In order to reconstruct the image, a simple 2D-FFT will not suffice.
 The alternative, described in more detail in Appendix~\ref{MRIgridding}, is called `gridding'.
-In our work we used the inverse gridding function provided by the BART toolbox \cite{Lustig2016}.
-The Berkeley Advanced Reconstruction Toolbox (BART) is an open-source framework that provides command-line tools for many image-reconstruction algorithms commonly used in Magnetic Resonance Imaging.
+In this work I used the inverse gridding function provided by the BART toolbox \cite{Lustig2016}.
+The Berkeley Advanced Reconstruction Toolbox is an open-source framework that provides command-line tools for many image-reconstruction algorithms commonly used in Magnetic Resonance Imaging.
 
 \hfill
 

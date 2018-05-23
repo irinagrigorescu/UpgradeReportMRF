@@ -1,17 +1,17 @@
 
-In this section we explain our experiment design and show results.
-We start with discussing our dictionary of signals, 
-then we move on to showing the results for motion-free simulations,
-and we finalize with a discussion about the motion corrupted datasets.
+This section is focused on showing the main results of my investigation.
+I start with discussing the dictionary of generated signals, 
+then I move on to showing the results for motion-free simulations,
+and I finalize with a discussion about the motion corrupted datasets.
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 \subsection{Dictionary Results}
 
 Two sets of dictionaries were generated using the methods described in Section~\ref{method:dictionary}.
-We chose an acquisition sequence of $N = 500$ repetition blocks, and kept constant both the $T_R = 15ms$ and $T_E = 7.5ms$.
+I chose an acquisition sequence of $N = 500$ repetition blocks, and kept constant both the $T_R = 15ms$ and $T_E = 7.5ms$.
 The only sequence parameters that were varied from one acquisition to the next were the flip angles.
 Figure~\ref{fig:FAsMaryia} shows the flip angles used for simulating the MRF dictionaries. 
-As our long term goal is to validate the simulation framework, we have chosen the shape of the flip angle distribution according to an MRF-FISP acquisition sequence which was used to acquire MRF data in a real experiment.
+% As the long term goal of my PhD project is to simulate the MRF-FISP sequence, I have chosen the shape of the flip angle distribution according to an MRF-FISP acquisition sequence which was used to acquire MRF data in a real experiment.
 
 \begin{figure}[ht]
     \centering
@@ -23,12 +23,12 @@ As our long term goal is to validate the simulation framework, we have chosen th
 
 \hfill
 
-The ranges of $T_1$ and $T_2$ for this study were chosen to cover a wide range of typical relaxation times of the TO5 phantom.
+The ranges of $T_1$ and $T_2$ values for this study were chosen to cover a wide range of typical relaxation times of the TO5 phantom.
 Thus, $T_1$ values were chosen between $100ms$ and $2000ms$ with a $5ms$ increment, while
 $T_2$ values were chosen between $20ms$ and $200ms$ with a $5ms$ increment and between $350ms$ and $400ms$ with a $10ms$ increment.
 By applying both methods, two dictionaries, each consisting of $15,843$ entries with $500$ time points, were generated.
 A set of representative dictionary entries are shown in Figure~\ref{fig:mrfDictionaries} with a),c) $T_1$ values ranging from $200ms$ to $800ms$ with $100ms$ increment and $T_2$ fixed to $20ms$; and b),d) $T_2$ values ranging from $20ms$ to $80ms$ with $10ms$ increment and $T_1$ fixed to $100ms$.
-Next, we will describe some of the key features of the simulated signals.
+Next, I will describe some of the key features of the simulated signals.
 
 \begin{figure}[ht]
     \centering
@@ -191,8 +191,8 @@ Qualitatively, both $T_1$ and $T_2$ maps seem to be most affected when motion ha
 
 \hfill
 
-To quantify these deviations from the motion free results, we performed a region of interest analysis.
-For this, we chose 4 of the inner tubes, corresponding to the $1^{st}$, $3^{rd}$, $5^{th}$ and $12^{th}$ tube, and also an ROI positioned in the middle of the phantom.
+To quantify these deviations from the motion free results, I performed a region of interest analysis.
+For this, I chose 4 of the inner tubes, corresponding to the $1^{st}$, $3^{rd}$, $5^{th}$ and $12^{th}$ tube, and also an ROI positioned in the middle of the phantom.
 The results for ground truth, motion free and different onsets of \textit{motion 1} are shown in Figure~\ref{fig:motion1ROI}.
 The other two types of motion are found in Appendix~\ref{appendixlabelMotion}, in Figure~\ref{fig:appendixmotion2ROI} and Figure~\ref{fig:appendixmotion3ROI}.
 
@@ -205,7 +205,7 @@ The other two types of motion are found in Appendix~\ref{appendixlabelMotion}, i
 
 \hfill
 
-The first important feature to observe in our results is that the region of interest positioned in the middle of the phantom is least affected by the motion.
+The first important feature to observe in these results is that the region of interest positioned in the middle of the phantom is least affected by the motion.
 This is to be expected for motion happening at any time point during the scan as the rotation's axis is going through this middle point and the translation is happening along a line which does not intersect any other materials.
 
 \hfill
@@ -220,7 +220,7 @@ Moreover, motion occurring in the middle of the scan leads to overestimated high
 \hfill
 
 However, as shown in Figure~\ref{fig:appendixscoremapsmotion}, the matching scores are still high. 
-We therefore decided to have a closer look at individual signals. 
+I therefore decided to have a closer look at individual signals. 
 Figure~\ref{fig:motion1ROIsignals} shows together the motion free signal (black dashed) and its dictionary match (green dashed), together with the motion corrupted signal (red) and its corresponding dictionary match (blue dashed), for continuous rotation with different onsets (motion type 1).
 The plots show that the motion corrupted signal is matched to a different fingerprint than the motion free signal when the onset is at the beginning or at the end of the scan.
 When motion is happening at the middle of the scan, the matching algorithm still finds the ground truth values.
@@ -235,7 +235,7 @@ When motion is happening at the middle of the scan, the matching algorithm still
 
 \hfill
 
-Figure~\ref{fig:motion2ROIsignals} shows a similar trend. for the second type of motion.
+Figure~\ref{fig:motion2ROIsignals} shows a similar trend for the second type of motion.
 However, in this plot a different voxel was chosen which corresponds to a higher $T_1$ value.
 Here, all three types of onset affect the reconstructed values.
 The least affected signal is, again, the one corresponding to motion happening in the middle of the scan, with the transverse relaxation time $T_2$ matched to the ground truth value of $160ms$.

@@ -22,7 +22,7 @@ Future work will focus on five areas:
 	\item \textit{\textbf{Develop an open-source MRI simulator that will allow for the simulation of advanced MRI sequences} (third entry in Figure~\ref{fig:ganttChart})} \\
 	
 	So far, I have implemented a proof-of-concept simulation framework for an \ac{mrf}-\ac{bssfp} experiment in an open-source simulator called JEMRIS \cite{Stocker2010}.
-	However, the newest implementation of an \ac{mrf} sequence relies on a \ac{fisp} type acquisition protocol for which a high number of isochromats is required in order to achieve realistic results.
+	However, the newest implementation of an \ac{mrf} sequence relies on a \ac{fisp} type acquisition protocol for which a high number of isochromats is required in order to achieve realistic results \cite{Hennig1991}.
 	With the current JEMRIS implementation, this would require an unfeasibly long time to simulate.
 	The reason for this is:
 	
@@ -51,6 +51,7 @@ Future work will focus on five areas:
 	    \item My own MATLAB simulations of a single voxel \ac{fisp} experiment show that I can achieve the same accuracy as an \ac{epg} implementation with approximately 200 isochromats.
 	    This means that I could bring down the simulation time to 40 hours by using the same experiment design as Xanthis et al. \cite{Xanthis2014}, but with $200$ isochromats in every $mm^3$ of a $15 \times 15 \times 15cm$ object and considering a linear increase in the simulation time.
 	    Their implementation, however, is on a single board \ac{gpu} personal computer and it uses an older version of the CUDA \ac{api}.
+	    I am to use the newest CUDA standards and more recent GPU hardware which could further improve the run time.
 	    
 	\end{itemize}
 	

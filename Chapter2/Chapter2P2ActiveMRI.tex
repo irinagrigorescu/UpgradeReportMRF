@@ -1,10 +1,10 @@
 \section{Active MRI Simulators}
 \label{chapterlabel2secMRISIMULATORS}
 
-In this section of the survey we review the current state-of-the-art in MRI simulation systems as freely available software tools that are active today.
+This section focuses on reviewing the current state-of-the-art in \ac{mri} simulation systems as freely available software tools that are active today.
 Among all the simulators presented so far, 5 are still available and can be downloaded from their dedicated websites.
 This review will focus on their most desirable features, while also presenting their limitations.
-Table~\ref{table:tableMRISimulators} summarizes our findings, while the following paragraphs delve into the details of each simulator.
+Table~\ref{table:tableMRISimulators} summarizes the key findings, while the following paragraphs delve into the details of each simulator.
 
 \hfill
 
@@ -64,8 +64,8 @@ Table~\ref{table:tableMRISimulators} summarizes our findings, while the followin
 
 % % % POSSUM
 \subsection{POSSUM}
-\textbf{POSSUM}\footnote{\url{https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/POSSUM}}, or \textit{Physics-Oriented Simulated Scanner for Understanding MRI}, is a software program that creates simulated MRI and fMRI images \cite{Drobnjak2006} \cite{Drobnjak2010}.
-POSSUM is part of FSL\footnote{\url{https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FSL}} (FMRIB's Software Library), a comprehensive library of analysis tools for fMRI, MRI and DTI brain imaging data.
+\textbf{POSSUM}\footnote{\url{https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/POSSUM}}, or \textit{Physics-Oriented Simulated Scanner for Understanding MRI}, is a software program that creates simulated MRI and \ac{fmri} images \cite{Drobnjak2006} \cite{Drobnjak2010}. 
+POSSUM is part of FSL\footnote{\url{https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FSL}} (FMRIB's Software Library), a comprehensive library of analysis tools for \ac{fmri}, MRI and DTI brain imaging data.
 POSSUM is written in C++ and comes equipped with both a graphical user interface and command line tools for the user to interact with the simulator.
 The main developers of this project are Ivana Drobnjak and Mark Jenkinson, and the last update made was in November 2017 when Mark Graham released a POSSUM extension capable of producing realistic diffusion-weighted MR datasets \cite{Graham2016}.
 
@@ -77,17 +77,17 @@ The most important features POSSUM has to offer are:
     
     \item It is an open-source software package that can be downloaded and installed on any of the most popular operating systems available (Mac OS, Linux, Windows) as part of the FSL software library: \url{https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation}.
     
-    \item It provides a graphical user interface for choosing the input object, setting the sequence parameters ($T_R$, $T_E$, gradient directions, field-of-view, matrix size, etc.), choosing the $B_0$ field strength and inhomogeneities, the motion type, the $T_2^*$ time course and spatial modulation (for fMRI studies) and the signal noise.
+    \item It provides a \ac{gui} for choosing the input object, setting the sequence parameters ($T_R$, $T_E$, gradient directions, field-of-view, matrix size, etc.), choosing the $B_0$ field strength and inhomogeneities, the motion type, the $T_2^*$ time course and spatial modulation (for \ac{fmri} studies) and the signal noise.
     
-    \item It uses parallelisation techniques, through the Message Parsing Interface (MPI) programming standard, to speed up the computational process.
+    \item It uses parallelisation techniques through the Message Parsing Interface (MPI) programming standard to speed up the computational process.
     
     \item It can simulate MR signals starting from an input object that can be any segmented anatomical voxel model or any collection of tissue templates. %More specifically, the input object can be a 4D volume where the $4^{th}$ dimension is a tissue type.
     
-    \item It is capable of producing realistic simulated MRI, fMRI and DW-MRI datasets.
+    \item It is capable of producing realistic simulated \ac{mri}, \ac{fmri} and \ac{dwmri} datasets.
     
     \item It can simulate spin history effects, motion during readout periods and the interaction with $B_0$ inhomogeneities, by tracking and updating the magnetisation vector through time for every object voxel.
     
-    \item It is capable of simulating spatially nonlinear heterogeneous magnetic fields that are also changing in time (except RF excitation period).
+    \item It is capable of simulating spatially nonlinear heterogeneous magnetic fields that are also changing in time (except during the \ac{rf} excitation period).
     
 \end{itemize}
 
@@ -96,13 +96,16 @@ The most important features POSSUM has to offer are:
 Although a powerful and versatile simulator, POSSUM has the following limitations:
 \begin{itemize}
     
-    \item It uses the hard-pulse approximation, where RF pulses are modelled as instantaneous rotations through an angle as they are considered short enough to not allow for relaxation during this event. 
+    \item It uses the hard-pulse approximation, where RF pulses are modelled as instantaneous rotations through an angle.
+    % The underlying assumption is that \ac{rf} pulses are short enough to not allow for relaxation during their application. 
     
     \item Relaxation is not modelled during the RF pulse.
+    The underlying assumption is that \ac{rf} pulses are short enough to not allow for relaxation during their application. 
     
     \item It cannot model the effect of gradient spoiling as an event which forms a distribution of dephased isochromats, thus effectively not allowing for refocusing in subsequent RF pulses.
     
-    \item It does not have a dedicated pulse sequence development tool. New pulse sequences have to be created by explicitly programming them.
+    \item It does not have a dedicated pulse sequence development tool. 
+    New pulse sequences have to be created by explicitly programming them.
     
 \end{itemize}
 
@@ -186,7 +189,7 @@ A detailed explanation can be found in \cite{Drobnjak2006}.
 
 \hfill
 
-\textbf{Details of features.}
+\textbf{Details of features:}
 \begin{itemize}
     
     \item \textbf{Motion}: In POSSUM, motion is modelled as a change of position in the scanner's hardware. 
@@ -194,10 +197,10 @@ A detailed explanation can be found in \cite{Drobnjak2006}.
     This allows for the closed form solutions of the Bloch equation to be used.
     More details are found in \cite{Drobnjak2006}.
     
-    \item \textbf{DW-MRI}: POSSUM is able to produce realistic DW-MRI data sets by introducing diffusion weighting, eddy current-induced gradients and utilizing a spin echo sequence.
+    \item \textbf{DW-MRI}: POSSUM is able to produce realistic \ac{dwmri} data sets by introducing diffusion weighting, eddy current-induced gradients and utilizing a spin echo sequence.
     This extension and its details are found in \cite{Graham2016}.
     
-    \item \textbf{fMRI}: POSSUM can simulate fMRI data sets by introducing $T_2^*$ variation for every object voxel separately.
+    \item \textbf{fMRI}: POSSUM can simulate \ac{fmri} data sets by introducing $T_2^*$ variation for every object voxel separately.
     More details are found in \cite{Drobnjak2006}.
 
 \end{itemize}
@@ -247,7 +250,7 @@ The most important aspects of JEMRIS are:
 Although a powerful MRI simulator, JEMRIS is not without limitations:
 \begin{itemize}
     
-    \item It cannot simulate function (such as fMRI), perfusion or diffusion-weighted images.
+    \item It cannot simulate function (such as \ac{fmri}), perfusion or diffusion-weighted images.
     
     \item It can become slow when simulating large spin systems or highly discretised input objects. 
     
@@ -339,7 +342,7 @@ where $C_n(\vec{r})$ represents the sensitivity map of the $n^{th}$ receiver.
 
 \hfill
 
-\textbf{Details of features.}
+\textbf{Details of features:}
 \begin{itemize}
     
     \item \textbf{Motion}: In JEMRIS, motion is modelled as a change of position in the input object.
@@ -358,7 +361,7 @@ ODIN is written in C++ and was last updated in November 2016.
 ODIN has an object-oriented design, thus being a modular and flexible software tool.
 It comes equipped with two main GUIs: \textit{ODIN} - for developing, testing, visualising and simulating MRI sequences, and \textit{Pulsar} - for generating and simulating arbitrarily complex RF pulses.
 The main developer for this project is Thies Jochimsen, who is also the project founder.
-To date, ODIN has proved to be a valuable MRI simulator as its sequence programming interface has been advantageous in developing functional magnetic resonance imaging (fMRI) applications \cite{Schafer2004}.
+To date, ODIN has proved to be a valuable MRI simulator as its sequence programming interface has been advantageous in developing \ac{fmri} applications \cite{Schafer2004}.
 
 \hfill
 
@@ -367,7 +370,7 @@ The most important aspects of ODIN are:
 
     \item It is an open-source package that can be installed on either Mac OS, Linux or Windows: \url{http://od1n.sourceforge.net/download.html}.
     
-    \item Besides allowing the user to create its own pulse sequences, ODIN comes equipped with a comprehensive list of readily available ones, such as: diffusion tensor imaging (DTI), echo planar imaging (EPI), EPI-based Periodically Rotated Overlapping ParallEL Lines with Enhanced Reconstruction (PROPELLER) and even flow-compensated FLASH sequence for Susceptibility Weighted Imaging (SWI).
+    \item Besides allowing the user to create its own pulse sequences, ODIN comes equipped with a comprehensive list of readily available ones, such as: diffusion tensor imaging (DTI), \ac{epi}, EPI-based Periodically Rotated Overlapping ParallEL Lines with Enhanced Reconstruction (PROPELLER) and even flow-compensated FLASH sequence for Susceptibility Weighted Imaging (SWI).
     
     \item Besides allowing the user to create its own pulse shapes, ODIN comes equipped with a comprehensive list of readily available ones, such as: slice-selective pulses (SINC, Gauss), 
     adiabatic pulses (SECH, WURST) and 2D pulses with various excitation shapes and different trajectories.
@@ -433,10 +436,10 @@ This allows the extrapolation of the magnetisation vector at different locations
 
 \hfill
 
-\textbf{Details of features.}
+\textbf{Details of features:}
 \begin{itemize}
     
-    \item \textbf{fMRI}: ODIN allows for simulation of fMRI datasets by supporting time varying input objects.
+    \item \textbf{fMRI}: ODIN allows for simulation of \ac{fmri} datasets by supporting time varying input objects.
     
     \item \textbf{GRAPPA}: ODIN can reconstruct images using parallel imaging techqniques.
     More specifically, ODIN allows for GRAPPA reconstructions.
@@ -569,7 +572,7 @@ In addition, the numerical Bloch equation solver can include multiple exchanging
 
 \hfill
 
-\textbf{Details of features.}
+\textbf{Details of features:}
 \begin{itemize}
     
     \item \textbf{Motion}: Motion is modelled in MRILAB as discrete movements (rotations and/or translations) of the input object.
@@ -656,7 +659,7 @@ The five simulators presented in this section are the current state-of-the-art i
 These simulators are also freely available and can be downloaded from their dedicated websites.
 Each one of them has different strengths and weaknesses as each was developed with a certain methodological question in mind.
 In summary, 
-POSSUM was initially developed as an fMRI simulator (\cite{Drobnjak2006}) and has recently become a DW-MRI simulator (\cite{Graham2016}), 
+POSSUM was initially developed as an \ac{fmri} simulator (\cite{Drobnjak2006}) and has recently become a \ac{dwmri} simulator (\cite{Graham2016}), 
 JEMRIS was focused on providing a modular and easy to use pulse sequence development tool (\cite{Stocker2010}), 
 ODIN was created as an object oriented software tool capable of being executed on different measurement devices (\cite{Jochimsen2004}),
 MRILAB was created to simulate responses from multi-pool spin models of arbitrary configurations (\cite{Liu2017})
