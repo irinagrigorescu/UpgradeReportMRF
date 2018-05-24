@@ -44,7 +44,7 @@ First, \textbf{the object} that is being imaged (a phantom, an animal model or t
 
 \hfill
 
-In this section, we focus on giving a description of how the available literature deals with simulating the \ac{mri} experience based on the four components described above.
+In this section, the focus is on giving a description of how the available literature deals with simulating the \ac{mri} experience based on the four components described above.
 %Next, we present the current state-of-the-art in \ac{mri} simulation systems as freely available software tools that are active today.
 %Finally, we look at the more specific case of a Magnetic Resonance Fingerprinting experiment and how the current literature has simulated this novel sequence.
 
@@ -93,11 +93,13 @@ Liu et al. \cite{Liu2013} \cite{Liu2014} \cite{Liu2016} use the same piecewise c
 \hfill
 
 %A more computationally efficient representation was presented in the simulation systems developed by 
-A different representation was chosen by
+A different representation is chosen by
 Kwan et al. \cite{Kwan1997} \cite{Kwan1999}
-where tissue templates \cite{Collins1995} were used instead.
-These templates are three-dimensional anatomical images of distinct tissue types (e.g. one template of grey matter, another of white matter and a third of cerebro-spinal fluid (CSF)). 
-However, this approach is restrictive in terms of object voxel properties as it does not allow for different object voxels to experience different susceptibility induced magnetic field inhomogeneities, so several artefacts due to rigid body motion or magnetic inhomogeneities cannot be modelled.
+where tissue templates \cite{Collins1995} are used instead.
+These templates are three-dimensional anatomical images of distinct tissue types (e.g. one template of grey matter, another of white matter and a third of cerebro-spinal fluid). 
+Synthetic MR images are then created by weighting the tissue distribution templates with simulated signal intensities of different tissue types.
+Finally, the image acquisition process is modelled by weighting the digital phantom with the system point spread function.
+This approach is restrictive in terms of object voxel properties as it does not allow for different object voxels to experience different susceptibility induced magnetic field inhomogeneities, so several artefacts due to rigid body motion or magnetic inhomogeneities cannot be modelled.
 
 % % % % % % % % % % % % % % % % % % % % % % % % 
 \hfill
@@ -127,8 +129,7 @@ Summers et al. \cite{Summers1986},
 Petersson et al. \cite{Petersson1993},
 Torheim et al. \cite{Torheim1994}, 
 Olsson et al. \cite{Olsson1995},
-Brenner et al. \cite{Brenner1997},
-Kwan et al. \cite{Kwan1997} and
+Brenner et al. \cite{Brenner1997} and
 more recent ones such as those created by
 Yoder et al. \cite{Yoder2004},
 Hacklander et al. \cite{Hacklander2005},
@@ -143,10 +144,12 @@ give values for the spin density, the longitudinal relaxation time $T_1$ and the
 
 % Similarly, 
 %  use the same three tissue properties to define their object voxels.
-However, Benoit-Cattin et al. \cite{Benoit-Cattin2005} 
-and Stocker et al. \cite{Stocker2010} also introduce $T_2^*$ relaxation.
-While the former computes this value by weighting the signal with the effect introduced by intra-voxel inhomogeneities, the latter simulates it by adding small Lorentzian distributed random off-resonance frequency terms to each simulated isochromat.
-On the other hand, Liu et al. \cite{Liu2014} use both $T_2$ and $T_2^*$ maps for the input object, while 
+$T_2^*$ relaxation is introduced by Benoit-Cattin et al. \cite{Benoit-Cattin2005},
+Kwan et al. \cite{Kwan1997} 
+and Stocker et al. \cite{Stocker2010}.
+Benoit-Cattin computes this value by weighting the signal with the effect introduced by intra-voxel inhomogeneities,
+while Kwan and Stocker model isochromat populations Lorentzian distributed random off-resonance frequency terms.
+Both $T_2$ and $T_2^*$ relaxation terms are used by Liu et al. \cite{Liu2014}, while 
 Drobnjak et al. \cite{Drobnjak2006} use only $T_2^*$ values.
  
 \hfill
@@ -166,7 +169,12 @@ Liu et al. \cite{Liu2013}
 have modelled this effect by 
 introducing a frequency offset for a particular tissue type.
 
-% \hfill
+\hfill
+
+Finally, more complex tissue representations where protons interact in multiple compartments are accounted for by Liu et al. \cite{Liu2017}. 
+The multiple exchanging proton pools model can be used to generate MR images with more interesting contrast.
+For example, quantitative magnetisation transfer (MT) imaging and chemical-exchange saturation-transfer (CEST) techniques exploit this phenomenon to enable imaging certain compounds at concentrations that are too low to directly be detected through conventional imaging.
+In terms of simulations, these phenomena require different molecular pools (free and bound) to be simulated, together with an exchange model.
 
 % Finally, interfaces of materials with different magnetic susceptibilities, such as tissue-air interfaces, can cause distortions in the main magnetic field.
 % This phenomenon has been included in early simulators by 
@@ -204,14 +212,14 @@ full-brain images with diffusion contrast are more limited.
 Nevertheless, a few examples exist.
 Among them, Perrone et al. \cite{Perrone2016} produce realistic diffusion-weighted images, but they do not faithfully model the physics of MR acquisition,
 while Graham et al. \cite{Graham2016} combine the simulation of the MR image acquisition process with a model-based representation of diffusion in order to produce realistic DW-MR images.
-
-\hfill
-
-Finally, a different type of miscroscopic motion involves the movement of spins between two or more macromolecular environments.
-This type of motion can be used to generate MR images with more interesting contrasts.
-For example, Chemical-Exchange Saturation-Transfer (CEST) techniques exploit this phenomenon to enable imaging certain compounds at concentrations that are too low to directly be detected through conventional imaging.
-In terms of simulations, these phenomena require different molecular pools (free and bound) to be simulated, together with an exchange model.
-This type of simulations are accounted for by Liu et al. \cite{Liu2017}.
+% 
+% \hfill
+% 
+% Finally, a different type of miscroscopic motion involves the movement of spins between two or more macromolecular environments.
+% This type of motion can be used to generate MR images with more interesting contrasts.
+% For example, Chemical-Exchange Saturation-Transfer (CEST) techniques exploit this phenomenon to enable imaging certain compounds at concentrations that are too low to directly be detected through conventional imaging.
+% In terms of simulations, these phenomena require different molecular pools (free and bound) to be simulated, together with an exchange model.
+% This type of simulations are accounted for by Liu et al. \cite{Liu2017}.
 
 \hfill
 

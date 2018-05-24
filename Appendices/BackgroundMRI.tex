@@ -16,7 +16,7 @@ This provides the basis for the imaging techniques used and described in this th
 \hfill
 
 This section gives an overview of the main principles involved in the 
-formation of images using nuclear magnetic resonance (NMR). 
+formation of images using nuclear magnetic resonance. 
 It begins with an explanation of the basic building blocks of NMR, % NMR
 discusses the steps involved in image formation, % image formation
 introduces the notion of k-space, % and its link with data sampling flexibility and restrictions, % data sampling
@@ -342,7 +342,7 @@ The trajectory of the magnetisation vector undergoing this motion is illustrated
 \hfill
 
 In most MR experiments, the RF pulse has a very short duration (a few milliseconds).
-It can therefore be assumed that it happens instantaneously and that there are no relaxation effects during it application.
+It can therefore be assumed that it happens instantaneously and that there are no relaxation effects during its application.
 Mathematically, an instantaneous RF pulse of flip angle $\alpha$ and initial phase $\phi$ can be described with rotation matrices.
 The post-RF pulse magnetisation vector $\vec{M}$ will therefore depend on its pre-RF pulse state $\vec{M}(0)$ by the following equation
 \begin{equation} \label{eq:445}
@@ -379,7 +379,7 @@ for non-interacting protons.
 % % 12
 \textbf{Interacting protons.} In reality, the hydrogen protons contained in a sample are constantly interacting with their environment and with each other.
 The result of this interaction leads to additional terms in the equations above.
-These terms will depend on some decay parameters which are different for both these equations.
+These terms will depend on some decay parameters which are different for both of these equations.
 This means that the magnetisation vector components will 'relax' differently to their equilibrium values.
 
 \hfill
@@ -433,7 +433,7 @@ It is worth mentioning that the loss in transverse magnetisation due to external
 % % % % % % % % % % % % 
 \subsection{Off-resonance Effects}
 
-These inhomogeneities directly affect the spins' precession frequencies.
+Inhomogeneities in the main magnetic field directly affect the spins' precession frequencies.
 As stated before, the frequency of precession for a given spin is proportional to the gyromagnetic ratio and the magnitude of the magnetic field (equation \ref{eq:28}).
 Any deviation from the expected $B_0$ value will therefore change the precession frequency to:
 \begin{equation}
@@ -445,6 +445,7 @@ where $\Delta \omega$ is the off-resonance frequency.
 
 % % % % % % % % % % % % 
 % % % % % % % % % % % % 
+\subsection{Bloch Equation}
 \label{chapterlabel2sec1Bloch}
 
 The combined effect of both spin-lattice and spin-spin relaxations in one equation is called \textit{the Bloch equation}. 
@@ -947,7 +948,7 @@ Image artifacts are defined as false features in the final reconstructed image \
 They appear as a consequence of the interaction between the imaging protocol and the object under investigation, as well as from the reconstruction process. 
 MR image artifacts come in two flavours, each of which can be further categorised depending on the underlying cause:
 
-\hfill
+\clearpage
 
 \textbf{Technique-related artifacts}
     \begin{itemize}
@@ -997,7 +998,7 @@ MR image artifacts come in two flavours, each of which can be further categorise
 % % % % % % % % % % % % % % % % 
 \section{Fast Imaging Using Non-Cartesian K-space Trajectories}\label{chapterlabel2sec13}
 
-The length of an MRI scan is generally longer compared to other medical imaging modalities such as computer tomography (CT).
+The length of an MRI scan is generally longer compared to other medical imaging modalities such as computer tomography.
 It is therefore important to achieve high imaging speeds in MRI in order to make it more clinically feasible \cite{Cohen1991}.
 However, imaging speed is limited by the physical constraints of the scanner, such as the amplitude and slew rate of the gradients, and by the physiological constraints of the tissue, such as specific absorption rate (SAR) or peripheral nerve stimulation (PNS).
 
