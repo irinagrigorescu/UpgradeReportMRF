@@ -436,7 +436,7 @@ It is worth mentioning that the loss in transverse magnetisation due to external
 Inhomogeneities in the main magnetic field directly affect the spins' precession frequencies.
 As stated before, the frequency of precession for a given spin is proportional to the gyromagnetic ratio and the magnitude of the magnetic field (equation \ref{eq:28}).
 Any deviation from the expected $B_0$ value will therefore change the precession frequency to:
-\begin{equation}
+\begin{equation}\label{eq:omegaEffects}
     \omega = \gamma \lvert \vec{B}_0 + \Delta \vec{B} \rvert = \omega_0 + \Delta \omega
 \end{equation}
 where $\Delta \omega$ is the off-resonance frequency.
@@ -495,7 +495,7 @@ Figure~\ref{fig:ch4MxMyMz} shows the behaviour of the magnetisation vector compo
 \hfill
 
 % % 16
-\textbf{Matrix representation.} A useful representation for the Bloch equation is the \textit{matrix representation}.
+\textbf{Matrix representation.}\label{app:matrixbloch} A useful representation for the Bloch equation is the \textit{matrix representation}.
 By constructing a diagonal matrix $D$ with the $T_1$ and $T_2$ decay factors:
 \begin{equation}
     D ( t ) = \left[

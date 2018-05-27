@@ -148,8 +148,8 @@ $T_2^*$ relaxation is introduced by Benoit-Cattin et al. \cite{Benoit-Cattin2005
 Kwan et al. \cite{Kwan1997} 
 and Stocker et al. \cite{Stocker2010}.
 Benoit-Cattin computes this value by weighting the signal with the effect introduced by intra-voxel inhomogeneities,
-while Kwan and Stocker model isochromat populations Lorentzian distributed random off-resonance frequency terms.
-Both $T_2$ and $T_2^*$ relaxation terms are used by Liu et al. \cite{Liu2014}, while 
+while Kwan and Stocker model isochromat populations with Lorentzian distributed random off-resonance frequency terms.
+Both $T_2$ and $T_2^*$ relaxation terms are used by Liu et al. \cite{Liu2014} and Stocker et al. \cite{Stocker2010}, while 
 Drobnjak et al. \cite{Drobnjak2006} use only $T_2^*$ values.
  
 \hfill
@@ -244,30 +244,30 @@ Based on these two approaches, this section presents an overview of how differen
 
 \large \textbf{Predefined Sequences} \normalsize
 
-The most common readily available sequences in the MR simulation literature are the classic spin-echo and gradient-echo.
-These types of sequences require that the user specifies two sequence specific parameters: $T_E$ (echo time) and $T_R$ (repetition time).
+The most common readily available sequences in the MR simulation literature are the gradient-echo (GRE) and the spin echo (SE) sequences.
+These types of sequences require that the user specifies two sequence specific parameters: the echo time and repetition time.
 This is available in early \ac{mri} simulators developed by Ortendahl et al \cite{Ortendahl1984}, Riederer et al \cite{Riederer1984}, Bobman et al \cite{Bobman1985}, Lufkin et al \cite{Lufkin1986}, Torheim et al \cite{Torheim1994}, Simmons et al \cite{Simmons1996} and Hacklander et al \cite{Hacklander2005}.
-Additionally, Ortendahl et al \cite{Ortendahl1984}, Torheim et al \cite{Torheim1994}, Simmons et al \cite{Simmons1996}, Torheim et al \cite{Torheim1994} and Hacklander et al \cite{Hacklander2005} include a third parameter, the $T_I$ (inversion time), to simulate inversion-recovery sequences.
+Additionally, Ortendahl et al \cite{Ortendahl1984}, Torheim et al \cite{Torheim1994}, Simmons et al \cite{Simmons1996} and Hacklander et al \cite{Hacklander2005} include a third parameter, the $T_I$ (inversion time), to simulate inversion-recovery sequences.
 Another important sequence parameter to be specified is the \ac{rf} pulse flip angle. 
 This feature is available in \ac{mri} simulators starting with 2005 \cite{Benoit-Cattin2005}.
 
 \hfill
 
-More complex sequences, such as \textit{PROPELLER-EPI}, \textit{TrueFISP}, \textit{multi-slice MDEFT} and \textit{fully flow-compensated FLASH} sequences, among others, are readily available through the simulation system developed by Jochimsen et al \cite{Jochimsen2004}.
+More complex sequences, such as \textit{PROPELLER-EPI}, \textit{TrueFISP} and \textit{fully flow-compensated FLASH} sequences, among others, are readily available through the simulation system developed by Jochimsen et al \cite{Jochimsen2004}.
 As before, the user can input values for the most important sequence parameters such as: echo time, repetition period and \ac{rf} pulse flip angle.
 
 
 % % % % % % % % % % % % % % % % % % % % % % % % 
 \hfill
 
-\large \textbf{Design your own Sequences} \normalsize
+\large \textbf{Design your own sequences} \normalsize
 
 Another approach to pulse sequence development is to allow the user to create their own.
 Currently, there are three ways this can be accomplished.
 Firstly, users are instructed to provide an input file with a full description of the pulse sequence events at discretised time points.
 This approach is found in \ac{mri} simulators such as those created by Drobnjak et al \cite{Drobnjak2006} and Xanthis et al \cite{Xanthis2014}.
 Secondly, users can take advantage of tutorials and specialised \ac{api} to create their own sequences.
-This approach is found in the \ac{mri} simulation system developed by Jochimsen et al \cite{Jochimsen2004}, where an easily extensible programming class structure is provided.
+This approach is found in the \ac{mri} simulation system developed by Jochimsen et al \cite{Jochimsen2004}, where an extensible programming class structure is provided together with tutorials.
 Finally, users can benefit from the existence of \ac{gui} modules dedicated to pulse sequence development.
 This can be found in simulators developed by Stocker et al. \cite{Stocker2010}, Xanthis et al \cite{Xanthis2014}, Jochimsen et al \cite{Jochimsen2004} and Liu et al \cite{Liu2013}.
 %Moreover, Xanthis et al \cite{Xanthis2014}, Jochimsen et al \cite{Jochimsen2004} and Liu et al \cite{Liu2013} model more complicated \ac{rf} pulse shapes such as sinc shaped, Gauss shaped, rectangular and adiabatic. 

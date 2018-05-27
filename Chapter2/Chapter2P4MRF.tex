@@ -11,18 +11,19 @@ These sequences are: \ac{bssfp}, \ac{fisp}, and, more recently, magnetisation tr
 To model the behaviour of a magnetisation vector with known relaxation times and proton density values in \ac{bssfp}-type sequences, single isochromat Bloch equations can be used. 
 For \ac{fisp}-type sequences, an alternative approach is needed because of the dephasing gradient in each $T_R$.
 This algorithm is called the \ac{epg} formalism and it relies on representing a spin system as a discrete set of phase states \cite{Weigel2015}.
-More recently, Malik et al. \cite{Malik2017} extended the \ac{epg} framework to model systems with chemical exchange or magnetization transfer (MT). They coined this framework as `EPG-X'.
+More recently, Malik et al. \cite{Malik2017} extended the \ac{epg} framework to model systems with chemical exchange or magnetization transfer. They coined this framework as `EPG-X'.
 
 \hfill
 
-For image-space simulations a similar method is used, where the signal evolutions are generated on a pixel-wise basis and the sampling scheme is prospectively applied.
+For image-space simulations a similar method is used, where the signal evolutions are generated on a voxel-wise basis and the sampling scheme is prospectively applied.
 For example, Pierre et al. \cite{Pierre2016} simulate fully sampled k-space measurements and then apply the nonuniform fast Fourier transform on the corresponding variable density spiral trajectory to create images. 
 These methods do not simulate the process of MR acquisition.
 
 \hfill
 
-In addition, the final quantitative maps can suffer from a range of artifacts.
-One type of artifact that is ubiquitous in MRI is motion.
+Simulation of image artifacts in the final quantitative maps have also been a topic of interest in the MRF literature.
+%In addition, the final quantitative maps can suffer from a range of artifacts.
+One type of artifact that is ubiquitous in MRI, as well as MRF, is motion.
 To investigate how motion could impact the reconstructions, Mehta et al. \cite{Mehta2017} acquired motion free data and then retrospectively corrupted it with different types of motion.
 Their study was focused on developing a reconstruction algorithm for decreasing the motion sensitivity of MRF.
 For this reason, the rigid motion simulations were performed without simulating the process of MR acquisition.

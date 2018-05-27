@@ -97,15 +97,14 @@ To model the behaviour of a magnetisation vector with known relaxation times and
 
     \item The effect of applying an RF pulse of flip angle $\alpha$ and phase angle $\phi$ was considered to be significantly shorter than the relaxation times $T_1$ and $T_2$ and was modelled as happening instantaneously.
     This allowed me to represent its effect as a rotation through the flip angle $\alpha$ about a chosen axis (e.g. the $x$-axis) and a change of coordinate system through the phase angle $\phi$ about the $z$-axis.
-    This is called the "hard pulse approximation" and is detailed in Appendix~\ref{background:rfpulse}.
+    % This is called the "hard pulse approximation" and is detailed in Appendix~\ref{background:rfpulse}.
     
-    \item The imaging gradients in this sequence are considered to be fully balanced (all the gradients have zero zeroth moment over each repetition period).
-    Thus, any effect induced by the gradients is subsequently reversed by the rewinding gradients before the readout happens.
-    I therefore neglected the effect of gradients on the magnetisation vector.
+    \item All gradients in this sequence are considered to be fully balanced, i.e. all the gradients on all axes have zero zeroth moment at the end of each repetition period.
+    For this reason, I neglected the effect of gradients on the magnetisation vector.
 
 \end{enumerate}
 
-\hfill
+\clearpage
 
 \large \textbf{Single Block Dynamics} \normalsize
 
@@ -123,18 +122,21 @@ and immediately after the $i^{th}$ RF pulse as:
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[angle=0,width=0.75\textwidth, keepaspectratio]{images/mrf/sequencebSSFPOneBlock}
+    \includegraphics[angle=0,width=1\textwidth, keepaspectratio]{images/mrf/sequencebSSFPOneBlock}
     \caption{The figure shows a simplified version of an arbitrarily chosen repetition period block from the bSSFP sequence above.
-    The magnetisation vector immediately prior to the $i^{th}$ RF pulse is denoted by $\vec{M}^-_i$ and the magnetisation vector immediately after the $i^{th}$ RF pulse is denoted by $\vec{M}^+_i$.
-    The second magnetisation vector is formed as a result of the application of the $i^{th}$ RF pulse with flip angle $\alpha_i$ and phase angle $\phi_i$ on the $\vec{M}^-_i$ vector.
-    Similarly, $\vec{M}^-_{i+1}$ and $\vec{M}^+_{i+1}$ are the magnetisation vectors immediately before and after the $(i+1)^{th}$ RF pulse.
+    The magnetisation vector immediately prior to the $i^{th}$ RF pulse, i.e. $\vec{M}^-_i$, is the input to this block.
+    The application of an RF pulse with flip angle $\alpha_i$ and phase angle $\phi_i$ on this magnetisation vector transforms it into $\vec{M}^+_i(t=0)$.
+    Relaxation and off-resonance effects on this magnetisation vector transform it from $\vec{M}^+_i(t=0)$ into $\vec{M}^+_i(t=T_R(i))$, the output of this block.
+    % The second magnetisation vector is formed as a result of the application of the $i^{th}$ RF pulse with flip angle $\alpha_i$ and phase angle $\phi_i$ on the $\vec{M}^-_i$ vector.
+    % Similarly, $\vec{M}^-_{i+1}$ and $\vec{M}^+_{i+1}$ are the magnetisation vectors immediately before and after the $(i+1)^{th}$ RF pulse.
     %The relationship between $\vec{M}^+_{i}$ and $\vec{M}^-_{i+1}$ is given by: $ \vec{M}^-_{i+1} = \vec{M}^+_{i}(t = TR(i))$, where $t \in [0, TR(i)]$ 
     }
     \label{fig:sequencebSSFPOneBlock}
 \end{figure}
 
 \textbf{RF Pulse.} 
-The effect of an instantaneous RF pulse with flip angle $\alpha_i$ and phase angle $\phi_i$ links the two vectors through rotation matrices (see Appendix~\ref{app:rfpulse}):
+The effect of an instantaneous RF pulse with flip angle $\alpha_i$ and phase angle $\phi_i$ links the two vectors through rotation matrices (see Assumption 2 and Appendix~\ref{app:rfpulse}):
+
 \begin{equation}\label{eq:rfpulseequationbssfp}
     \begin{split}
         M^{+}_i & = R_{z}(\phi_i) R_{x}(-\alpha_i) R_{z}(-\phi_i) M^{-}_i \\
@@ -156,63 +158,115 @@ The effect of an instantaneous RF pulse with flip angle $\alpha_i$ and phase ang
 
 \hfill
 
-\textbf{Relaxation.} 
+\textbf{Relaxation and off-resonance.} 
 Next, the magnetisation vector will begin the process of returning to its equilibrium state.
-This phenomenon is governed by the $T_1$ and $T_2$ relaxation times of the tissue being modelled and can be described using matrix notation (more details in Appendix~\ref{chapterlabel2sec1Bloch}).
-In the rotating reference frame (after demodulating with the Larmor frequency $\omega_0$), this phenomenon can be described as:
-
-\begin{equation}
-    M^{+}_i (t)  = D(t) M^{+}_i (0) + C(t)
+This phenomenon is governed by the $T_1$ and $T_2$ relaxation times of the tissue being modelled, as well as the off-resonance effects caused by static field inhomogeneities $\Delta B$.
+Using matrix notation, this becomes (more details in Appendix~\ref{app:matrixbloch}):
+%, as well as the off-resonance effects caused by static field inhomogeneities $\Delta B$.
+%  can be described using matrix notation (more details in Appendix~\ref{app:matrixbloch}).
+% In the rotating reference frame (after demodulating with the Larmor frequency $\omega_0$), this phenomenon can be described as:
+\begin{equation}\label{eq:multiblockdyn}
+    M^{+}_i (t)  = D(t) R_z(-\omega t) M^{+}_i (0) + C(t)
 \end{equation}
 where
 \begin{equation}\label{eq:dmatrix}
-    D ( t ) = \left[
-    \begin{array}{c c c}
-          E_2(t) &     0      &     0 \\
-          0      & E_2(t) &     0 \\
-          0      &     0      & E_1(t)
-    \end{array}
-    \right] \, \, \text{,  } \, 
-    C ( t ) = \left[
-    \begin{array}{c}
-        0 \\
-        0 \\
-    M_0(1 - E_1(t))
-    \end{array}
-    \right]
+    \begin{split}
+        D ( t ) &= \left[
+        \begin{array}{c c c}
+              E_2(t) &     0      &     0 \\
+               0     &   E_2(t)   &     0 \\
+               0     &     0      &   E_1(t)
+        \end{array}
+        \right] \, \, \text{, } \, 
+        C ( t ) = \left[
+        \begin{array}{c}
+            0 \\
+            0 \\
+        M_0(1 - E_1(t))
+        \end{array}
+        \right] \\
+        E_1(t) &\equiv e^{-t/T_1} \text{, } E_2(t) \equiv e^{-t/T_2} \text{, } \omega = \gamma \lvert \vec{B}_0 + \Delta \vec{B} \rvert = \omega_0 + \Delta \omega \text{ and } t \in [0, T_R(i)]
+    \end{split}
 \end{equation}
-
-and where $E_1(t) \equiv e^{-t/T_1}$, $E_2(t) \equiv e^{-t/T_2}$ and
-$t \in [0, T_R(i)]$.
+%\text{ (see Appendix~\ref{eq:omegaEffects})}
+%and where $E_1(t) \equiv e^{-t/T_1}$, $E_2(t) \equiv e^{-t/T_2}$, $\omega = \gamma \lvert \vec{B}_0 + \Delta \vec{B} \rvert = \omega_0 + \Delta \omega$ (see Appendix~\ref{eq:omegaEffects}) and
+%$t \in [0, T_R(i)]$.
+%After the RF pulse, the magnetisation vector will try and return to its thermal equilibrium.
+%To capture the dynamics of the magnetisation vector I use the solution to the Bloch equation in matrix form (as presented in Appendix~\ref{app:matrixbloch}).
+%For completion 
 
 \hfill
 
-\textbf{Off-resonance.} 
-In the case where static field inhomogeneities $\Delta B$ are present, the phase of the magnetisation vector will change over a given repetition time period. 
-This phase is determined by $\beta(t) = \gamma \Delta B t = \Delta \omega t = 2\pi \Delta \nu t$ during any $T_R$ block.
-To model the behaviour of phase accrual, an instantaneous rotation about the $z$ axis of the magnetisation vector is used.
-This can be mathematically represented as:
+In the rotating reference frame (after demodulating with the Larmor frequency $\omega_0$) equation \ref{eq:multiblockdyn} becomes:
+\begin{equation}\label{eq:multiblockdynfinal}
+    M^{+}_i (t)  = D(t) R_z(-\beta(t)) M^{+}_i (0) + C(t)
+\end{equation}
+where I introduced the precession angle of the transverse magnetization components during each repetion block as: $\beta(t) = \gamma \Delta B t = \Delta \omega t = 2\pi \Delta \nu t$. 
 
+\hfill
+
+At the end of the $i^{th}$ repetition block the magnetisation vector becomes:
 \begin{equation}
-    M^{+}_i (t)  = R_z(\beta(t)) M^{+}_i (0)
+    M^{+}_{i}(T_R(i)) = D\big(T_R(i)\big) R_z\big(-\beta(T_R(i))\big) \underbrace{\big( R_{z}(\phi_i) R_{x}(-\alpha_i) R_{z}(-\phi_i) M^{-}_i \big)}_{M_i^+(0)} + C\big(T_R(i)\big)
 \end{equation}
 
-where the rotation matrix $R_z$ has been previously described.
-%and $\beta(t) = 2\pi \, \, \Delta \nu \, \, t$ is the accumulated phase due to off-resonance frequency $\Delta \nu$ at time $t$ during the $i^{th}$ repetition period. 
-%Again, we can choose $t = T_{E_i}$ or $t = T_{R_i}$ to calculate the magnetisation vector components at the echo time or at the end of a repetition period, respectively.
+% \textbf{Relaxation.} 
+% Next, the magnetisation vector will begin the process of returning to its equilibrium state.
+% This phenomenon is governed by the $T_1$ and $T_2$ relaxation times of the tissue being modelled and can be described using matrix notation (more details in Appendix~\ref{chapterlabel2sec1Bloch}).
+% In the rotating reference frame (after demodulating with the Larmor frequency $\omega_0$), this phenomenon can be described as:
+
+% \begin{equation}
+%     M^{+}_i (t)  = D(t) M^{+}_i (0) + C(t)
+% \end{equation}
+% where
+% \begin{equation}\label{eq:dmatrix}
+%     D ( t ) = \left[
+%     \begin{array}{c c c}
+%           E_2(t) &     0      &     0 \\
+%           0      & E_2(t) &     0 \\
+%           0      &     0      & E_1(t)
+%     \end{array}
+%     \right] \, \, \text{,  } \, 
+%     C ( t ) = \left[
+%     \begin{array}{c}
+%         0 \\
+%         0 \\
+%     M_0(1 - E_1(t))
+%     \end{array}
+%     \right]
+% \end{equation}
+
+% and where $E_1(t) \equiv e^{-t/T_1}$, $E_2(t) \equiv e^{-t/T_2}$ and
+% $t \in [0, T_R(i)]$.
+
+% \hfill
+
+% \textbf{Off-resonance.} 
+% In the case where static field inhomogeneities $\Delta B$ are present, the phase of the magnetisation vector will change over a given repetition time period. 
+% This phase is determined by $\beta(t) = \gamma \Delta B t = \Delta \omega t = 2\pi \Delta \nu t$ during any $T_R$ block.
+% To model the behaviour of phase accrual, an instantaneous rotation about the $z$ axis of the magnetisation vector is used.
+% This can be mathematically represented as:
+
+% \begin{equation}
+%     M^{+}_i (t)  = R_z(\beta(t)) M^{+}_i (0)
+% \end{equation}
+
+% where the rotation matrix $R_z$ has been previously described.
+% %and $\beta(t) = 2\pi \, \, \Delta \nu \, \, t$ is the accumulated phase due to off-resonance frequency $\Delta \nu$ at time $t$ during the $i^{th}$ repetition period. 
+% %Again, we can choose $t = T_{E_i}$ or $t = T_{R_i}$ to calculate the magnetisation vector components at the echo time or at the end of a repetition period, respectively.
 
 \hfill
 
 \large \textbf{Multiple Blocks Dynamics} \normalsize
 
 The extension from single block simulations to multi-pulse simulations is straightforward.
-The resulting magnetisation vector at the end of the $i^{th}$ repetition period becomes the magnetisation vector immediately prior to the $(i+1)^{th}$ RF pulse, where the process is repeated with the sequence properties corresponding to the following block:
-
-\begin{equation}
-    M^{-}_{i+1} = D\big(T_R(i)\big) R_z\big(\beta(T_R(i))\big) \big( R_{z}(\phi_i) R_{x}(-\alpha_i) R_{z}(-\phi_i) M^{-}_i \big) + C\big(T_R(i)\big)
-\end{equation}
-
-where $M^{-}_1 = M_0 \hat{x}$ and $i \in [1, N_{pulses}]$.
+By setting $M^{-}_1 = M_0 \hat{x}$,
+%and iterating through $i \in [1, N_{pulses}]$, 
+the magnetisation vector at the end of the $i^{th}$ repetition period can be calculated from the magnetisation vector immediately prior to that block. 
+This process is repeated for every $i \in [1, N_{pulses}]$ with the sequence properties corresponding to that block.
+% \begin{equation}
+%     M^{-}_{i+1} = D\big(T_R(i)\big) R_z\big(\beta(T_R(i))\big) \big( R_{z}(\phi_i) R_{x}(-\alpha_i) R_{z}(-\phi_i) M^{-}_i \big) + C\big(T_R(i)\big)
+% \end{equation}
 
 \hfill
 
@@ -229,7 +283,7 @@ where $M^{-}_1 = M_0 \hat{x}$ and $i \in [1, N_{pulses}]$.
 
 In order to create a dictionary of signals in a multi-pulse IR-\ac{bssfp} sequence, the previously described process is repeated for a range of tissue properties.
 More specifically, every signal is associated with a `tissue tuple':
-$(T_{1_j}, T_{2_j}, \Delta f_{j})$, with $j \in [1, M]$, where $M$ is the total number of tuples.
+$(T_{1_j}, T_{2_j}, \Delta \nu_{j})$, with $j \in [1, M]$, where $M$ is the total number of tuples.
 Hence, the dictionary is creating a function relationship between tissue properties and signals.
 
 \hfill
