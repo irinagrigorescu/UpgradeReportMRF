@@ -36,12 +36,12 @@ Table~\ref{table:tableMRISimulators} summarizes the key findings, while the foll
  \begin{tabular}{@{}c@{}c@{}c@{}}\textbf{Solver}\\Bloch\\Bloch-Torrey\\Bloch-McConnell\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\\\phantom{-}\end{tabular} \\
  \hline
   % % %
- \begin{tabular}{@{}c@{}c@{}}\textbf{Multi-RF}\\Receiving\\Transmitting\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\\phantom{-}\\\phantom{-}\end{tabular} & 
+ \begin{tabular}{@{}c@{}c@{}}\textbf{Multi-RF}\\Receiving\\Transmitting\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\end{tabular} & 
  \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\\phantom{-}\\\phantom{-}\end{tabular}  \\
  \hline
  
  % % %
- \textbf{K-space Visualisation} & \phantom{-} & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
+ \begin{tabular}{@{}c@{}}\textbf{K-space Trajectory}\\\textbf{Visualisation}\end{tabular} & \phantom{-} & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
  \hline
  % % %
  \textbf{Motion} & $\checkmark$ & $\checkmark$ & \phantom{-} & $\checkmark$ & $\checkmark$ \\
@@ -259,6 +259,8 @@ Although a powerful MRI simulator, JEMRIS is not without limitations:
     \item It cannot simulate function (such as \ac{fmri}), perfusion or diffusion-weighted images.
     
     \item It can become slow when simulating large spin systems or highly discretised input objects. 
+    For example, for an input object of $180 \times 180 \times 180mm$ with 3 isochromats per $1mm^3$ (a minimum threshold suggested by \cite{Shkarin1997}) would require a total of $17,500,000$ isochromats.
+    This would take approximately 5 years to run.
     
 \end{itemize}
 
@@ -497,6 +499,7 @@ MRILAB has the following limitations:
 \begin{itemize}
     
     \item It achieves spoiling of the transverse magnetisation through a zeroing event which is not sufficient to model real experiment where complete spoiling is not desired.
+    %: ``In all shown experiments, spoiling of the transverse magnetization was achieved through an external event zeroing the transverse magnetization'' \cite{Liu2017}.
     
     \item It cannot simulate diffusion weighted MRI datasets.
     
