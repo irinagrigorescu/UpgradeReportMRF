@@ -11,6 +11,36 @@ Moreover, an \ac{mri} simulation system can provide an educational platform for 
 
 \hfill
 
+Existing \ac{mri} simulation systems use different approaches to modelling the \ac{mri} experience and thus differ in closeness to reality, accuracy, extensibility towards more complex phenomena and computational burden.
+In general, there are four main categories in which \ac{mri} simulators can be encapsulated based on how they solve the Bloch equations.
+
+\hfill
+
+The first category comprises of simulators based on the steady-state solutions of the Bloch equation of known pulse sequences \cite{Riederer1984} \cite{Ortendahl1984} \cite{Bobman1985} \cite{Lufkin1986}.
+In these simulators, $T_1$, $T_2$ and proton density maps are used together with signal equations 
+%of image intensity 
+to produce MR images.
+However, these simulators are simplistic, are used mainly for educational purposes, cannot simulate the process of MR acquisition and are not able to simulate image artifacts such as: chemical shift, intra-voxel dephasing, slice selection imperfections, aliasing and susceptibility artifacts.
+
+\hfill
+
+A second category of simulators is based on the k-space formalism \cite{Petersson1993}.
+These simulators use the inverse Fourier transform to generate the ideal MR signal from a user-defined spin density image.
+Then, using k-space trajectories of known MR sequences, the ideal amplitudes are sampled to mimic the process of MR acquisition and are then corrected to simulate relaxation phenomena.
+However, these types of simulations are limited when it comes to more complex scenarios such as inhomogeneities in the main magnetic field, chemical shift or non-linear gradients.
+
+\hfill
+
+A third approach uses the analytical solutions of the Bloch equations in a discrete-event computation approach \cite{Bittoun1984} \cite{Kwan1999} \cite{Yoder2004} \cite{Drobnjak2006} \cite{Jochimsen2006} \cite{Liu2017}.
+This approach is closer to reality than the previous ones, but is limited in terms of more complex phenomena where no analytical solution exists, such as simultaneously having RF excitation and time-varying gradient fields.
+
+\hfill
+
+Finally, the fourth category, consists of simulators who numerically solve the Bloch equations through the used of dedicated ODE solvers \cite{Stocker2010} \cite{Fortin2016}.
+These approaches benefit from 
+
+\hfill
+
 Bloch-based numerical simulations of an \ac{mri} experiment are, in their most general form, a demanding task.
 This can be attributed to the fact that a large collection of isochromats needs to be simulated to obtain realistic results \cite{Shkarin1997}. 
 For this reason, one preferred approach is to create an \ac{mri} simulation system based on simplified analytical signal expressions \cite{Hacklander2005} \cite{Torheim1994} \cite{Yoder2004}.
