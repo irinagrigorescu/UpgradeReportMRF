@@ -5,7 +5,7 @@
 
 Simulation systems of \ac{mri} experiments are essential tools for a wide variety of research directions.
 For example, in order to detect and eliminate artifacts, one can use an \ac{mri} simulator to differentiate between hardware imperfections and the effects of MR physics,
-while in the field of correction algorithms, one can simulate \ac{mri} data sets than can provide the needed ground truth.
+while in the field of correction algorithms, one can simulate \ac{mri} data sets that can provide the needed ground truth.
 In general, validating and interpreting experimental results benefits from comparisons to simulated data.
 Moreover, an \ac{mri} simulation system can provide an educational platform for future radiologists.
 
@@ -16,7 +16,7 @@ In general, there are four main categories in which \ac{mri} simulators can be e
 
 \hfill
 
-The first category comprises of simulators based on the steady-state solutions of the Bloch equation of known pulse sequences \cite{Riederer1984} \cite{Ortendahl1984} \cite{Bobman1985} \cite{Lufkin1986}.
+The first category comprises of simulators based on the steady-state solutions of the Bloch equation of known pulse sequences \cite{Bobman1985} \cite{Lufkin1986} \cite{Ortendahl1984} \cite{Riederer1984}.
 In these simulators, $T_1$, $T_2$ and proton density maps are used together with signal equations 
 %of image intensity 
 to produce MR images.
@@ -26,40 +26,73 @@ However, these simulators are simplistic, are used mainly for educational purpos
 
 A second category of simulators is based on the k-space formalism \cite{Petersson1993}.
 These simulators use the inverse Fourier transform to generate the ideal MR signal from a user-defined spin density image.
-Then, using k-space trajectories of known MR sequences, the ideal amplitudes are sampled to mimic the process of MR acquisition and are then corrected to simulate relaxation phenomena.
-However, these types of simulations are limited when it comes to more complex scenarios such as inhomogeneities in the main magnetic field, chemical shift or non-linear gradients.
+Then, using k-space trajectories of known MR sequences, the ideal amplitudes are sampled to mimic the process of MR acquisition and are corrected to simulate relaxation phenomena.
+However, these types of simulations are limited to operations that influence the MR signal in a mathematical linear way.
+This means that more complex scenarios such as non-linear gradients or relaxation during the application of an RF pulse cannot be incorporated in this framework.
 
 \hfill
 
-A third approach uses the analytical solutions of the Bloch equations in a discrete-event computation approach \cite{Bittoun1984} \cite{Kwan1999} \cite{Yoder2004} \cite{Drobnjak2006} \cite{Jochimsen2006} \cite{Liu2017}.
-This approach is closer to reality than the previous ones, but is limited in terms of more complex phenomena where no analytical solution exists, such as simultaneously having RF excitation and time-varying gradient fields.
+A third approach is based on analytical time-discretised solutions of the Bloch equations \cite{Bittoun1984} \cite{Kwan1999} \cite{Yoder2004} \cite{Drobnjak2006} \cite{Jochimsen2006} \cite{Liu2017}.
+This approach is closer to reality than the previous ones, but it is limited in terms of more complex scenarios such as simultaneously having RF excitation and time-varying gradient fields, where no general analytical solution exists.
+%, such as simultaneously having RF excitation and time-varying gradient fields.
 
 \hfill
 
-Finally, the fourth category, consists of simulators who numerically solve the Bloch equations through the used of dedicated ODE solvers \cite{Stocker2010} \cite{Fortin2016}.
-These approaches benefit from 
+Finally, the fourth category consists of simulators which numerically solve the Bloch equations \cite{Olsson1995} \cite{Summers1986} \cite{Stocker2010}.
+In the past, these simulators have been limited to small isochromat systems and simple MR sequences due to the lack of computational power of the available systems at the time \cite{Olsson1995} \cite{Summers1986}.
+Today, these simulation systems benefit from the use of dedicated ordinary differential equation solvers and high performance computing systems
+%which can increase the complexity of these simulations
+\cite{Stocker2010} \cite{Fortin2016}.
+However, when coupling these systems with more complex MRI scenarios such as rapid multi-pulse gradient spoiled sequences, these systems end up becoming computationally very slow.
+
+% \hfill
+
+% Bloch-based numerical simulations of an \ac{mri} experiment are, in their most general form, a demanding task.
+% This can be attributed to the fact that a large collection of isochromats needs to be simulated to obtain realistic results \cite{Shkarin1997}. 
+% For this reason, one preferred approach is to create an \ac{mri} simulation system based on simplified analytical signal expressions \cite{Hacklander2005} \cite{Torheim1994} \cite{Yoder2004}.
+% However, this approach is limited when it comes to modelling more complex artefacts 
+% %such as time-varying gradient fields 
+% where no general analytical solution exists.
+% A different approach is then based on numerical modelling of the \ac{mri} processes \cite{Summers1986} \cite{Olsson1995}.
+% At first, this has been limited to simulations of small spin systems with reduced flexibility due to existing computer hardware and software architectures.
+% More recently, with the growing availability of high-performance computing, \ac{mri} simulation systems have become increasingly more complex, allowing for simulating various system imperfections \cite{Benoit-Cattin2005} \cite{Drobnjak2006}, while also providing dedicated graphical interfaces for pulse sequence design \cite{Stocker2010}.
+% Overall, current \ac{mri} software systems can provide accurate simulations of MR imaging processes in reasonable time-scales, but several limitations still exist.
 
 \hfill
 
-Bloch-based numerical simulations of an \ac{mri} experiment are, in their most general form, a demanding task.
-This can be attributed to the fact that a large collection of isochromats needs to be simulated to obtain realistic results \cite{Shkarin1997}. 
-For this reason, one preferred approach is to create an \ac{mri} simulation system based on simplified analytical signal expressions \cite{Hacklander2005} \cite{Torheim1994} \cite{Yoder2004}.
-However, this approach is limited when it comes to modelling more complex artefacts 
-%such as time-varying gradient fields 
-where no general analytical solution exists.
-A different approach is then based on numerical modelling of the \ac{mri} processes \cite{Summers1986} \cite{Olsson1995}.
-At first, this has been limited to simulations of small spin systems with reduced flexibility due to existing computer hardware and software architectures.
-More recently, with the growing availability of high-performance computing, \ac{mri} simulation systems have become increasingly more complex, allowing for simulating various system imperfections \cite{Benoit-Cattin2005} \cite{Drobnjak2006}, while also providing dedicated graphical interfaces for pulse sequence design \cite{Stocker2010}.
-Overall, current \ac{mri} software systems can provide accurate simulations of MR imaging processes in reasonable time-scales, but several limitations still exist.
+The \ac{mri} simulators that are freely available today to be downloaded and used are based on the last two types of approaches.
+These systems allow for simulations of various system imperfections \cite{Drobnjak2006}, 
+provide dedicated graphical interfaces for pulse sequence design \cite{Stocker2010} \cite{Jochimsen2004} \cite{Overall2007}
+or
+employ a generalized tissue model with multiple exchanging proton pools \cite{Liu2017}.
+However, current \ac{mri} software systems lack support for a number of key features that prevent the simulation of advanced \ac{mri} sequences with the realism required.
+These limitations are presented in the following subsection.
+
+% Overall, current \ac{mri} software systems can provide accurate simulations of some MR imaging processes in reasonable time-scales.
+
+% \hfill
+
+% The major limitation of existing \ac{mri} simulation systems comes from their inability to accurately simulate fast multi-pulse gradient spoiled sequences.
+% More specifically, in these types of sequences it is difficult to accurately reproduce NMR signals for continuous objects using a finite number of isochromats.
+% In other words, a large intra-voxel isochromat collection is needed to produce reliable signals and to not allow for spurious echoes \cite{Benoit-Cattin2005} \cite{Kwan1999}.
+% Hence, currently available simulation systems have the following problems:
+% \begin{itemize}
+%     \item They do not simulate voxel isochromat distributions and consequently cannot accurately simulate the corresponding signals \cite{Drobnjak2006} \cite{Overall2007}.
+    
+%     \item They do not benefit from high enough processing speeds to allow these simulations to be performed within reasonable time scales \cite{Drobnjak2006} \cite{Jochimsen2006} \cite{Stocker2010} \cite{Overall2007}.
+    
+%     \item They treat the effect of spoiler gradients on the magnetisation vectors as a zeroing event \cite{Liu2017}
+% \end{itemize}
+
+% do not simulate voxel isochromat distributions and consequently cannot accurately simulate the corresponding signals \cite{Drobnjak2006} \cite{Overall2007}, or they do not benefit from high enough processing speeds to allow these simulations to be performed within reasonable time scales \cite{Jochimsen2006}.
+
+% For example, one recently developed quantitative \ac{mri} approach called \ac{mrf} requires an accurate modelling of the spoiling gradient effects on the intra-voxel transverse magnetisation.
+% This can be achieved through fine discretisation of the digital input object but, with current approaches, it cannot be performed within reasonable time scales.
+% Moreover, by adding tissue motion or system imperfections to the model, the complexity of the simulation increases even further.
 
 \hfill
 
-The major limitation of existing \ac{mri} simulation systems comes from their inability to simulate more advanced \ac{mri} experiments, while also modelling a large collection of spins.
-For example, one recently developed quantitative \ac{mri} approach called \ac{mrf} requires an accurate modelling of the spoiling gradient effects on the intra-voxel transverse magnetisation.
-This can be achieved through fine discretisation of the digital input object but, with current approaches, it cannot be performed within reasonable time scales.
-Moreover, by adding tissue motion or system imperfections to the model, the complexity of the simulation increases even further.
-
-\hfill
+% The major limitation of existing MRI simulation systems comes from their inabil-ity to simulate more advanced MRI experiments, while also modelling a large col-lection of spins. For example, one recently developed quantitative MRI approachcalled Magnetic Resonance Fingerprinting (MRF) requires an accurate modellingof the spoiling gradient effects on the intra-voxel transverse magnetisation. Thiscan be achieved through fine discretisation of the digital input object but, with current approaches, it cannot be performed within reasonable time scales. Moreover,by adding tissue motion or system imperfections to the model, the complexity ofthe simulation increases even further.
 
 % \ac{mri} is a non-invasive imaging technique based on the physical phenomena of nuclear magnetic resonance (NMR).
 % \ac{mri} has many applications in the biomedical sciences such as the study of anatomy, pathology and even function.
@@ -105,30 +138,37 @@ Current MR simulation systems lack support for a number of key features that pre
 More specifically, existing systems exhibit at least one of the following problems:
 
 \begin{enumerate}
-    \item \textit{There is no support for the \ac{fisp} sequence.}
-    This type of rapid multi-pulse sequence is the current state-of-the-art in \ac{mrf} acquisitions.
-    However, in currently available simulation systems the spoiling gradient associated with this sequence is either treated as a zeroing event or, if the object is discretised finely enough, such simulations take an unrealistically long time to produce images.
-    Therefore, there are currently no simulation systems that offer an out-of-the-box solution for this type of sequence.
+
+    \item \textit{There is little support for accurate gradient spoiling.}
+    Gradient spoilers are treated differently by different currently available MRI simulation systems.
+    Some available simulators calculate specific intra-voxel isochromat dephasing \cite{Drobnjak2006} \cite{Jochimsen2006}.
+    This, however, does not account for rapid multi-pulse sequences where intra-voxel rephasing can occur later in the sequence.
+    Other systems null the transversal magnetization automatically when a spoiling gradient is applied \cite{Benoit-Cattin2005} \cite{Liu2017}.
+    Finally, other systems can simulate a large number of isochromats to calculate the effect of a gradient spoiler, but require unrealistically long times to produce images \cite{Stocker2010}.
+    
+    % This type of rapid multi-pulse sequence is the current state-of-the-art in \ac{mrf} acquisitions.
+    % However, in currently available simulation systems the spoiling gradient associated with this sequence is either treated as a zeroing event or, if the object is discretised finely enough, such simulations take an unrealistically long time to produce images.
+    % Therefore, there are currently no simulation systems that offer an out-of-the-box solution for this type of sequence.
     
     % \item Accurate simulations of fast multi-pulse steady-state sequences with gradient spoiling are currently not feasible. \\
     % Due to their inherent need for a very large number of isochromats, the current systems which allow for such simulations would take an unrealistically long time to produce images.
     
     \item \textit{There is little support for very fast simulations through the use of \ac{gpu}.}
     Current technological advancements in the computer architecture community allows for very fast computational approaches through the use of massively parallel computer hardware.
-    However, most MR simulators rely on \ac{cpu} parallelisation techniques.
+    However, most MR simulators rely on \ac{cpu} parallelisation techniques \cite{Drobnjak2006} \cite{Stocker2010}.
     Although faster than sequential approaches, \ac{cpu} based techniques are still a few orders of magnitude slower than \ac{gpu}s.
     This, coupled with the need for an accurate simulation of a gradient spoiling event, shows that the current systems are not well suited for finely discretised digital objects. \\
     %(mrilab is cuda 2.0, more recently is 9.0; also not as customisable as you'd like)
 
-    \hfill
+%     \hfill
 
-	Moreover, in the case of \ac{mrf} simulations, the following major limitation exists: \\
+% 	Moreover, in the case of \ac{mrf} simulations, the following major limitation exists: \\
 
-    \item \textit{There is currently no available simulation system that models the full process of \ac{mri} acquisition during an \ac{mrf} experiment.}
-    MR acquisition relies on a series of magnetic fields being applied over a sample in order to spatially encode it into Fourier space.
-    After this step, a reconstruction algorithm is used to retrieve an image representing the object.
-    However, many of the artefacts known to the process of MR can happen during acquisition.
-    The failure to faithfully model this process can prevent the realistic investigation of many commonly occurring artefacts.
+%     \item \textit{There is currently no available simulation system that models the full process of \ac{mri} acquisition during an \ac{mrf} experiment.}
+%     MR acquisition relies on a series of magnetic fields being applied over a sample in order to spatially encode it into Fourier space.
+%     After this step, a reconstruction algorithm is used to retrieve an image representing the object.
+%     However, many of the artefacts known to the process of MR can happen during acquisition.
+%     The failure to faithfully model this process can prevent the realistic investigation of many commonly occurring artefacts.
 \end{enumerate}
 
 % % % % % % % % % % % % % % % % 
@@ -161,7 +201,7 @@ I will achieve this by making the following contributions:
 	
 	\item \textit{Demonstrate its application on a novel quantitative \ac{mri} protocol known as \ac{mrf}.}
 	To demonstrate the potential value of the newly developed simulation system, I will apply it to model the full process of \ac{mri} acquisition during an \ac{mrf} experiment.
-	This contribution tackles limitation 3.
+% 	This contribution tackles limitation 3.
 	
     % 	Starting with 2013, \ac{mrf} has caught the attention of many MR enthusiasts who aim to make this imaging modality quantitative.
     % 	This technique has shown a lot of promise in providing simultaneous measurements of multiple parameters of interest, such as the tissue relaxation times, the spin density and others, using a single acquisition protocol.
