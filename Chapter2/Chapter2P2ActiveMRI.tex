@@ -1,33 +1,43 @@
+% % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % 
 \section{Active MRI Simulators}
 \label{chapterlabel2secMRISIMULATORS}
 
 This section focuses on reviewing the current state-of-the-art in \ac{mri} simulation systems as freely available software tools that are active today.
 Among all the simulators presented so far, 5 are still available and can be downloaded from their dedicated websites.
 This review will focus on their most desirable features, while also presenting their limitations.
-Table~\ref{table:tableMRISimulators} summarizes the key findings, while the following paragraphs delve into the details of each simulator.
+Table~\ref{table:tableMRISimulatorsFeatures} summarizes their general features,
+%Table~\ref{table:tableMRISimulatorsLimitations} presents their key limitations and 
+while the following paragraphs delve into the details of each simulator.
 
 \hfill
 
+% % % 
+% % % Table~\ref{table:tableMRISimulatorsFeatures}
+% % % 
 \begin{table}[h!]
 \centering
  \begin{tabular}{||c | c c c c c ||} 
  \hline
- Key Features & \textbf{P} & \textbf{J} & \textbf{O} & \textbf{ML} & \textbf{SB} \\ [0.5ex] 
+ General Features & \textbf{P} & \textbf{J} & \textbf{O} & \textbf{ML} & \textbf{S} \\ [0.5ex] 
  \hline\hline
  % % %
- \begin{tabular}{@{}c@{}c@{}c@{}}\textbf{Operating System}\\Linux\\Windows\\Mac OS\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\\phantom{-}\\\phantom{-}\\$\checkmark$\end{tabular} \\
+ \begin{tabular}{@{}c@{}c@{}c@{}}\textbf{Operating System}\\Linux\\Windows\\Mac OS\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\\$\checkmark$\end{tabular} \\
  \hline
  % % %
- \begin{tabular}{@{}c@{}c@{}c@{}}\textbf{Programming Language}\\C++\\MATLAB\\Objective-C\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\phantom{-}\\$\checkmark$\\\phantom{-}\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\phantom{-}\\$\checkmark$\\$\checkmark$\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\phantom{-}\\$\checkmark$\\\phantom{-}\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\phantom{-}\\$\checkmark$\\$\checkmark$\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\phantom{-}\\\phantom{-}\\\phantom{-}\\$\checkmark$\end{tabular} \\
+ \begin{tabular}{@{}c@{}c@{}c@{}}\textbf{Programming Language}\\C\phantom{++}\\C++\\MATLAB\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\phantom{-}\\\phantom{-}\\$\checkmark$\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\phantom{-}\\\phantom{-}\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\phantom{-}\\\phantom{-}\\$\checkmark$\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\phantom{-}\\\phantom{-}\\$\checkmark$\\$\checkmark$\end{tabular} & 
+ \begin{tabular}{@{}c@{}c@{}c@{}}\phantom{-}\\$\checkmark$\\\phantom{-}\\\phantom{-}\end{tabular} \\
  \hline
  % % %
- \textbf{Open-Source} & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & \phantom{-} \\
+%  \textbf{Open-Source} & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
  \hline
  % % %
  \begin{tabular}{@{}c@{}c@{}}\textbf{Parallelisation}\\CPU\\GPU\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\end{tabular}  \\
  \hline
  % % %
- \begin{tabular}{@{}c@{}}\textbf{Sequence Design}\\\textbf{GUI}\end{tabular} & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
+ \begin{tabular}{@{}c@{}}\textbf{Sequence Design}\\\textbf{GUI}\end{tabular} & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & \phantom{-} \\
  \hline
  % % %
  \begin{tabular}{@{}c@{}}\textbf{Coil Design}\\\textbf{GUI}\end{tabular} & \phantom{-} & $\checkmark$ & \phantom{-} & $\checkmark$ & \phantom{-} \\
@@ -37,18 +47,18 @@ Table~\ref{table:tableMRISimulators} summarizes the key findings, while the foll
  \hline
   % % %
  \begin{tabular}{@{}c@{}c@{}}\textbf{Multi-RF}\\Receiving\\Transmitting\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\end{tabular} & 
- \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\\phantom{-}\\\phantom{-}\end{tabular}  \\
+ \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\end{tabular}  \\
  \hline
  
  % % %
- \begin{tabular}{@{}c@{}}\textbf{K-space Trajectory}\\\textbf{Visualisation}\end{tabular} & \phantom{-} & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
+ \begin{tabular}{@{}c@{}}\textbf{K-space Trajectory}\\\textbf{Visualisation}\end{tabular} & \phantom{-} & $\checkmark$ & $\checkmark$ & $\checkmark$ & \phantom{-} \\
  \hline
  % % %
- \textbf{Motion} & $\checkmark$ & $\checkmark$ & \phantom{-} & $\checkmark$ & $\checkmark$ \\
+ \textbf{Motion} & $\checkmark$ & $\checkmark$ & \phantom{-} & $\checkmark$ & \phantom{-} \\
  \hline
  % % %
- \begin{tabular}{@{}c@{}}\textbf{Multi-pool}\\\textbf{exchange model}\end{tabular} & \phantom{-} & $\checkmark$ & \phantom{-} & $\checkmark$ & \phantom{-} \\
- \hline
+%  \begin{tabular}{@{}c@{}}\textbf{Multi-pool}\\\textbf{exchange model}\end{tabular} & \phantom{-} & $\checkmark$ & \phantom{-} & $\checkmark$ & \phantom{-} \\
+%  \hline
  % % %
  \textbf{DW-MRI} & $\checkmark$ & \phantom{-} & \phantom{-} & \phantom{-} & \phantom{-} \\
  \hline
@@ -56,14 +66,38 @@ Table~\ref{table:tableMRISimulators} summarizes the key findings, while the foll
  \textbf{fMRI} & $\checkmark$ & \phantom{-} & $\checkmark$ & \phantom{-} & \phantom{-} \\
  \hline
   % % %
- \textbf{Last Update} & Nov'17 & Mar'18 & Nov'16 & Jul'17 & Mar'10 \\
+ \textbf{Last Update} & Nov'17 & Mar'18 & Nov'16 & Jul'17 & Jun'07 \\
  \hline
 \end{tabular}
-\caption{Summary of key features of the current active MRI simulators, where \textbf{P} - POSSUM, \textbf{J} - JEMRIS, \textbf{O} - ODIN, \textbf{ML} - MRiLab, \textbf{SB} - SpinBench}
-\label{table:tableMRISimulators}
+\caption{Summary of features of the current active MRI simulators, where \textbf{P} - POSSUM, \textbf{J} - JEMRIS, \textbf{O} - ODIN, \textbf{ML} - MRiLab, \textbf{S} - SIMRI}
+\label{table:tableMRISimulatorsFeatures}
 \end{table}
 
 \hfill
+
+% % % 
+% % % Table~\ref{table:tableMRISimulatorsLimitations}
+% % % 
+% \begin{table}[h!]
+% \centering
+%  \begin{tabular}{||c | c c c c c ||} 
+%  \hline
+%  Desirable Features & \textbf{P} & \textbf{J} & \textbf{O} & \textbf{ML} & \textbf{S} \\ [0.5ex] 
+%  \hline\hline
+%   % % %
+%  \begin{tabular}{c@{}} \textbf{Relaxation during} \\ \textbf{RF Pulses} \end{tabular} & 
+%  \begin{tabular}{c@{}}$N/A$\end{tabular} & \begin{tabular}{c@{}}$\checkmark$\end{tabular} & \begin{tabular}{c@{}}$N/A$\end{tabular} & \begin{tabular}{c@{}}$N/A$\end{tabular} & \begin{tabular}{c@{}}$N/A$\end{tabular} \\
+%  \hline
+%  % % %
+%  \begin{tabular}{@{}c@{}c@{}c@{}}\textbf{Operating System}\\Linux\\Windows\\Mac OS\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\\$\checkmark$\end{tabular} \\
+%  \hline
+ 
+% \end{tabular}
+% \caption{Summary of key limitations of the current active MRI simulators, where \textbf{P} - POSSUM, \textbf{J} - JEMRIS, \textbf{O} - ODIN, \textbf{ML} - MRiLab, \textbf{S} - SIMRI}
+% \label{table:tableMRISimulatorsLimitations}
+% \end{table}
+
+% \hfill
 
 % % % POSSUM
 \subsection{POSSUM}
@@ -74,41 +108,45 @@ The main developers of this project are Ivana Drobnjak and Mark Jenkinson, and t
 
 \hfill
 
-\subsubsection{Key features and limitations}
+\subsubsection{Key features}
 The most important features POSSUM has to offer are:
 \begin{itemize}
     
-    \item It is an open-source software package that can be downloaded and installed on any of the most popular operating systems available (Mac OS, Linux, Windows) as part of the FSL software library: \url{https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation}.
+    \item It is an \textbf{open-source} software package that can be downloaded and installed on any of the most popular operating systems available (Mac OS, Linux, Windows) as part of the FSL software library: \url{https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation}.
     
-    \item It provides a \ac{gui} for choosing the input object, setting the sequence parameters ($T_R$, $T_E$, gradient directions, field-of-view, matrix size), choosing the $B_0$ field strength and inhomogeneities, the motion type, the $T_2^*$ time course and spatial modulation (for \ac{fmri} studies) and the signal noise.
+    \item It provides a \textbf{\ac{gui} for setting up the MRI experiment}.
+    This consists of: choosing the input object, setting the sequence parameters ($T_R$, $T_E$, gradient directions, field-of-view, matrix size), choosing the $B_0$ field strength and inhomogeneities, the motion type, the $T_2^*$ time course and spatial modulation (for \ac{fmri} studies) and the signal noise.
     
-    \item It uses parallelisation techniques through the \ac{mpi} programming standard to speed up the computational process.
+    \item It uses \textbf{parallelisation techniques through the \ac{mpi} programming standard} to speed up the computational process.
     
-    \item It can simulate MR signals starting from an input object that can be any segmented anatomical voxel model or any collection of tissue templates. 
+    \item It can simulate MR signals starting from an \textbf{input object} that can be  \textbf{any segmented anatomical voxel model or any collection of tissue templates}. 
     %More specifically, the input object can be a 4D volume where the $4^{th}$ dimension is a tissue type.
     
-    \item It is capable of producing realistic simulated \ac{mri}, \ac{fmri} and \ac{dwmri} datasets.
+    \item It is capable of producing \textbf{realistic simulated \ac{mri}, \ac{fmri} and \ac{dwmri}} datasets.
     
-    \item It can simulate spin history effects, motion during readout periods and the interaction with $B_0$ inhomogeneities, by tracking and updating the magnetisation vector through time for every object voxel.
+    \item It can simulate \textbf{motion artifacts}, including motion during readout periods.
     
-    \item It is capable of simulating spatially nonlinear heterogeneous magnetic fields that are also changing in time (except during the \ac{rf} excitation period).
+    \item It is capable of simulating \textbf{spatially nonlinear heterogeneous magnetic fields that are also changing in time} (except during the \ac{rf} excitation period).
     
 \end{itemize}
 
 \hfill
 
+\subsubsection{Key limitations}
 Although a powerful and versatile simulator, POSSUM has the following limitations:
 \begin{itemize}
     
-    \item It uses the hard-pulse approximation \cite{bernsteinhandbook}, where RF pulses are modelled as instantaneous rotations through an angle.
+    \item \textbf{Shaped RF pulses are not supported} in POSSUM; they are modelled as hard pulses, or, more specifically, as instantaneous rotations through an angle.
     % The underlying assumption is that \ac{rf} pulses are short enough to not allow for relaxation during their application. 
     
-    \item Relaxation is not modelled during the RF pulse.
+    \item \textbf{Relaxation is not modelled during the RF pulse}.
     The underlying assumption is that \ac{rf} pulses are short enough to not allow for relaxation during their application. 
     
-    \item It cannot model the effect of gradient spoiling as an event which forms a distribution of dephased isochromats, thus effectively not allowing for refocusing in subsequent RF pulses.
+    \item \textbf{It cannot accurately model the effect of gradient spoiling} as an event which forms a distribution of dephased isochromats, thus effectively not allowing for refocusing in subsequent RF pulses.
     
-    \item It does not have a dedicated pulse sequence development tool. 
+    \item \textbf{Selective excitation with shaped RF pulses and time-varying gradient fields cannot be modelled} in POSSUM because these events do not have a general analytical solution.
+    
+    \item It \textbf{does not have a dedicated pulse sequence development tool}. 
     New pulse sequences have to be created by explicitly programming them.
     
 \end{itemize}
@@ -161,15 +199,34 @@ These are summarised below.
 \hfill
 
 \textbf{Solver.} At the heart of POSSUM is a Bloch equation solver which solves the equation for all object voxels and all tissue types.
-The total signal at time $t$ is then calculated as a sum over all the magnetisation vectors from all the object voxels \cite{Drobnjak2006}:
+More specifically, POSSUM uses the solution to the Bloch equation to iteratively calculate the evolution of the magnetisation vectors of all the isochromats in the input object.
+For this to happen, POSSUM relies on two assumptions: 
+first, during the relaxation and acquisition periods of a sequence no RF pulses are present and the Bloch equation has a closed-form analytical solution;
+second, as stated before, the RF pulse is considered to be instantaneous and is modelled as a rotation about the x-axis.
+Moreover, the slice selection event is simulated by using a "slice profile".
+This profile determines the actual flip angle for each object voxel within the desired slice as a proportion of the ideal flip angle.
+
+\hfill
+
+This algorithm is performed for all the isochromats in the input object and the total signal at time $t$ is then calculated as a sum over all the magnetisation vectors from all the object voxels \cite{Drobnjak2006}:
 \begin{equation}
     S(t) = \sum_{j \in \Lambda} \sum_{\vec{r}_0 \in \Omega} s_j (\vec{r}_0, t)
 \end{equation}
 where $\Omega$ is the collection of object voxels, $\Lambda$ is the collection of tissues, $\vec{r}_0$ is the centre of the object voxel and $s_j(\vec{r}_0, t)$ is the signal arising from the $j^{th}$ tissue type of the object voxel whose centre is $\vec{r}_0$.
 The signal $s_j(\vec{r}_0, t)$ 
-%is calculated analytically and it 
+is calculated analytically and it 
 depends on the proportion of the tissue type, the dimensions of the object voxel, the magnitude of the transverse magnetisation immediately after the last RF pulse, the transverse relaxation effects, gradient induced dephasing, $B_0$ inhomogeneities and motion.
 A detailed explanation can be found in \cite{Drobnjak2006}.
+
+% The total signal at time $t$ is then calculated as a sum over all the magnetisation vectors from all the object voxels \cite{Drobnjak2006}:
+% \begin{equation}
+%     S(t) = \sum_{j \in \Lambda} \sum_{\vec{r}_0 \in \Omega} s_j (\vec{r}_0, t)
+% \end{equation}
+% where $\Omega$ is the collection of object voxels, $\Lambda$ is the collection of tissues, $\vec{r}_0$ is the centre of the object voxel and $s_j(\vec{r}_0, t)$ is the signal arising from the $j^{th}$ tissue type of the object voxel whose centre is $\vec{r}_0$.
+% The signal $s_j(\vec{r}_0, t)$ 
+% %is calculated analytically and it 
+% depends on the proportion of the tissue type, the dimensions of the object voxel, the magnitude of the transverse magnetisation immediately after the last RF pulse, the transverse relaxation effects, gradient induced dephasing, $B_0$ inhomogeneities and motion.
+% A detailed explanation can be found in \cite{Drobnjak2006}.
 
 % In the rotating reference frame the closed form solutions during relaxation or signal acquisition are:
 % \begin{flalign*}
@@ -229,36 +286,38 @@ Most notably, JEMRIS was used to assess the accuracy of carotid plaques MRI \cit
 \hfill
 
 % % % 
-\subsubsection{Key features and limitations}
+\subsubsection{Key features}
 The most important aspects of JEMRIS are:
 \begin{itemize}
     
-    \item It is open-source and can be installed on either Mac OS, Linux or Windows: \url{http://www.jemris.org/ug_downl.html}.
+    \item It is \textbf{open-source} and can be installed on either Mac OS, Linux or Windows: \url{http://www.jemris.org/ug_downl.html}.
     
-    \item It provides an easy to use MATLAB GUI for creating arbitrarily complex MRI sequences.
+    \item It provides an easy to use \textbf{MATLAB GUI} for \textbf{creating arbitrarily complex MRI sequences}.
     
-    \item It allows for user-defined analytical forms for both gradient shapes and RF pulse shapes. 
+    \item It allows for \textbf{user-defined analytical forms for} both \textbf{gradient shapes and RF pulse shapes}. 
     
-    \item It comes equipped with the possibility to visually inspect the k-space trajectory.
+    \item It comes equipped with the possibility to  \textbf{visually inspect the k-space trajectory}.
     
-    \item It is capable of producing realistic simulated MRI datasets and single voxel diffusion experiments.
+    \item It is capable of producing realistic simulated MRI datasets and  \textbf{single voxel diffusion experiments}.
     
-    \item It allows the user to design and simulate experiments involving multi-transmit or multi-receive coils.
+    \item It allows the user to \textbf{design and simulate} experiments involving  \textbf{multi-transmit or multi-receive coils}.
     
-    \item It integrates an open-source framework called \textit{Pulseq} \cite{Layton2017} which allows the user to export a sequence created in JEMRIS to a real MR scanner.
+    \item It integrates an open-source framework called \textit{Pulseq} \cite{Layton2017} which allows the user to  \textbf{export a sequence created in JEMRIS to a real MR scanner}.
     
-    \item It can simulate flow in arbitrary complex geometries \cite{Fortin2016}.
+    \item It can \textbf{simulate flow in arbitrary complex geometries} \cite{Fortin2016}.
     
 \end{itemize}
 
 \hfill
 
+% % % 
+\subsubsection{Key limitations}
 Although a powerful MRI simulator, JEMRIS is not without limitations:
 \begin{itemize}
     
-    \item It cannot simulate function (such as \ac{fmri}), perfusion or diffusion-weighted images.
+    \item It \textbf{cannot simulate function} (such as \ac{fmri}),  \textbf{perfusion or diffusion-weighted images}.
     
-    \item It can become slow when simulating complex MRI sequences or highly discretised input objects. 
+    \item It can become  \textbf{slow when simulating complex MRI sequences or highly discretised input objects}. 
     %For example, for an input object of $180 \times 180 \times 180mm$ with 3 isochromats per $1mm^3$ (a minimum threshold suggested by \cite{Shkarin1997}) would require a total of $17,500,000$ isochromats.
     %This would take approximately 5 years to run.
     
@@ -280,7 +339,7 @@ Although a powerful MRI simulator, JEMRIS is not without limitations:
     \item \textbf{Motion}: Bulk motion is specified similarly to POSSUM (see above), where a 7 column matrix describes, for a given time point (in milliseconds), the x, y and z translations (in millimetres) and the x, y and z rotations (in degrees). 
     Values between two consecutive time points are interpolated. 
     
-    \item \textbf{Diffusion}: Single voxel diffusion simulations can also be performed in JEMRIS. 
+    \item \textbf{Diffusion}: Single voxel diffusion simulations can be performed in JEMRIS. 
     
     \item \textbf{Pulse Sequence}: In JEMRIS the pulse sequence can either be created through a dedicated GUI or through describing its components in an XML file.
     The sequence is represented as a left-right ordered tree structure, where nodes represent loops and leaves represent pulses.
@@ -318,7 +377,7 @@ Although a powerful MRI simulator, JEMRIS is not without limitations:
 
 \hfill
 
-\textbf{Solver.} The JEMRIS simulator user the Bloch equation 
+\textbf{Solver.} The JEMRIS simulator uses the Bloch equation 
 %individually at every position in the input object 
 in cylindrical coordinates $(M_r, \phi, M_z)$:
 
@@ -378,31 +437,46 @@ To date, ODIN has proved to be a valuable MRI simulator as its sequence programm
 \hfill
     
 % % % 
-\subsubsection{Key features and limitations}
-
+\subsubsection{Key features}
 The most important aspects of ODIN are:
 \begin{itemize}
 
-    \item It is an open-source package that can be installed on either Mac OS, Linux or Windows: \url{http://od1n.sourceforge.net/download.html}.
+    \item It is an \textbf{open-source} package that can be installed on either Mac OS, Linux or Windows: \url{http://od1n.sourceforge.net/download.html}.
     
-    \item ODIN comes equipped with a comprehensive list of readily available pulse sequences, such as: DTI, EPI, EPI-based Periodically Rotated Overlapping ParallEL Lines with Enhanced Reconstruction (PROPELLER) and even Susceptibility Weighted Imaging (SWI).
+    \item ODIN comes equipped with \textbf{a comprehensive list of readily available pulse sequences}, such as: DTI, EPI, EPI-based Periodically Rotated Overlapping ParallEL Lines with Enhanced Reconstruction (PROPELLER) and even Susceptibility Weighted Imaging (SWI).
     
-    \item ODIN comes equipped with a comprehensive list of readily available pulse shapes, such as: slice-selective pulses (SINC, Gauss), adiabatic pulses (SECH, WURST) and 2D pulses with various excitation shapes and different trajectories.
+    \item ODIN comes equipped with \textbf{a comprehensive list of readily available pulse shapes}, such as: slice-selective pulses (SINC, Gauss), adiabatic pulses (SECH, WURST) and 2D pulses with various excitation shapes and different trajectories.
+    These are modelled through the hard-pulse approximation: as sequences of hard pulses (instantaneous rotations of the isochromat ensemble) \cite{bernsteinhandbook}, interleaved with periods of free precession.
     
-    \item It allows the user to visualise the k-space trajectory.
+    \item It allows the user to \textbf{visualise the k-space trajectory}.
     
 \end{itemize}
 
 \hfill
 
+% % % 
+\subsubsection{Key limitations}
 However, ODIN also suffers from the following limitations:
 \begin{itemize}
     
-    \item It cannot simulate diffusion weighted MR datasets.
+    % \item It cannot simulate diffusion weighted MR datasets.
     
-    \item RF pulses are modelled as instantaneous rotations through an angle, while shaped RF pulses are considered as sequences of hard pulses \cite{bernsteinhandbook}.
+    % \item \textbf{Relaxation during the application of RF pulses is not modelled}.
+    % ODIN models RF pulses as instantaneous rotations through an angle, while shaped RF pulses are modelled as sequences of hard pulses (instantaneous rotations of the isochromat ensemble) \cite{bernsteinhandbook}.
     
-    \item It does not have a dedicated pulse sequence programming GUI. Although ODIN argues that new pulses can be easily created by programming them, a graphical user interface would speed up this process.
+    \item \textbf{Selective excitation with shaped RF pulses and time-varying gradient fields cannot be performed} within the ODIN framework as these MR phenomena do not have a general analytical solution.
+    
+    \item ODIN \textbf{may not accurately model rapid multi-pulse gradient spoiled sequences}.
+    This is because in this framework dephasing across a voxel is considered, but it does not create a distribution of spins to be flipped by following RF pulses and to form spin or stimulated echoes.
+    Moreover, the experiments shown in \cite{Jochimsen2006} had repetition periods of $5$s.
+    It is therefore not yet proven that their implementation can account for appropriate rephasing of the magnetisation vectors in fast multi-pulse sequences, where the typical $T_R$ values are much smaller than the transverse relaxation times.
+    %has successfully shown linear intra-voxel dephasing due to field perturbations.
+    %However, the simulated sequences had repetition periods of $5$s.
+    %It is therefore \textbf{not} yet \textbf{proven that their implementation can account for appropriate rephasing of the magnetisation vectors in fast multi-pulse sequences}, where the typical $T_R$ values are much smaller than the transverse relaxation times.
+    
+    \item ODIN \textbf{does not simulate motion}.
+    
+    \item ODIN \textbf{does not have a dedicated pulse sequence programming GUI}. Although ODIN argues that new MRI pulses can be easily created by programming them, a graphical user interface would speed up this process.
     
 \end{itemize}
 
@@ -435,7 +509,7 @@ However, ODIN also suffers from the following limitations:
     
     \item \textbf{Signal}: The raw data signal (real and imaginary channels) can be retrieved.
     
-    \item \textbf{Image}: The final images  (magnitude  and phase) can be retrieved for every coil used in the simulation.
+    \item \textbf{Image}: The final images (magnitude and phase) can be retrieved for every coil used in the simulation.
     When multiple receiver coils are used, the user can also choose to reconstruct the final image by combining all channels in the coil array.
     
 \end{itemize}
@@ -447,6 +521,12 @@ to the Bloch or Bloch-Torrey equation with piecewise constant fields to iterativ
 In order to increase simulation efficiency and to simulate self-diffusion, the ODIN solver calculates the evolution of the magnetization vector at a certain position and for a certain frequency, while also calculating the evolution in its immediate vicinity.
 This is done by calculating the intra-voxel magnetization gradients by means of the partial derivatives of the magnetization vector with respect to position and frequency.
 This allows the extrapolation of the magnetisation vector at different locations, while also reducing the computational steps.
+
+\hfill
+
+To be more precise, the solver is made up of the following steps: first, the magnetisation vector and its intra-voxel gradients are calculated for each requested time point in the sequence and for each position in the input object.
+Second, if a readout event is requested, the signal is calculated for each readout point.
+Finally, after the k-space matrix has been filled, an inverse Fourier transform is applied to yield an image.
 
 \hfill
 
@@ -475,35 +555,42 @@ To date, MRILAB was used to confirm the accuracy of modified cross-relaxation im
 \hfill
     
 % % % 
-\subsubsection{Key features and limitations}
-
+\subsubsection{Key features}
 The most important aspects of MRILAB are:
 \begin{itemize}
 
-    \item It is an open-source package that can be installed on either Mac OS, Linux or Windows: \url{https://github.com/leoliuf/MRiLab}.
+    \item It is an \textbf{open-source} package that can be installed on either Mac OS, Linux or Windows: \url{https://github.com/leoliuf/MRiLab} that comes equipped with a comprehensive user manual which explains how to use the software.
     
-    \item It provides a dedicated toolbox to analyze RF pulses, to design the MR sequence and to configure multiple transmitting or receiving coils.
+    \item It provides a dedicated toolbox 
+    %to analyze RF pulses, 
+    to \textbf{design the MR sequence and to configure multiple transmitting or receiving coils}.
     
-    \item It offers both GPU acceleration and multi-threaded CPU parallel computation.
+    \item It offers both \textbf{GPU acceleration and multi-threaded CPU parallel computation}.
     
     % \item It can achieve high simulation accuracy through simulating highly discretised spin evolutions at small time intervals.
     
-    \item It is specialised on simulations of imaging sets based on generalised multi-pool exchange models.
+    \item Its main contribution to the field of MR simulation is that it specialises on \textbf{simulations of imaging sets based on the generalised multi-pool exchange models}.
+    This sets it apart from other software systems which use the single-voxel regime.
     % unlike others who do single-voxel regime
     
 \end{itemize}
 
 \hfill
 
+% % % 
+\subsubsection{Key limitations}
 MRILAB has the following limitations:
 \begin{itemize}
     
-    \item It achieves spoiling of the transverse magnetisation through a zeroing event which is not sufficient to model real experiment where complete spoiling is not desired.
+    \item It achieves \textbf{spoiling of the transverse magnetisation through a zeroing event which is not sufficient to model real experiments where complete spoiling is not desired}.
     %: ``In all shown experiments, spoiling of the transverse magnetization was achieved through an external event zeroing the transverse magnetization'' \cite{Liu2017}.
     
-    \item It cannot simulate diffusion weighted MRI datasets.
+    \item MRILAB uses the \textbf{hard-pulse approximation to model shaped RF pulses}.
+    This means that complex selective excitation techniques cannot be performed within this framework as these MR phenomena do not have a general analytical solution.
     
-    \item The programming model that makes use of the GPU cores used in MRILAB is CUDA 2.0. This means that MRILAB does not benefit from the latest features of CUDA 9.x that could speed up the simulation even further and may also achieve higher accuracy.
+    \item The programming model that makes use of the GPU cores used in MRILAB is CUDA 2.0. 
+    This means that \textbf{MRILAB does not benefit from the latest features of CUDA 9.x} that could speed up the simulation even further and may also achieve higher accuracy in terms of accurately simulating gradient spoiling.
+    % Moreover, the simulation of gradient spoiling in MRILAB may reach 
     
 \end{itemize}
 
@@ -585,8 +672,8 @@ MRILAB has the following limitations:
 
 \hfill
 
-\textbf{Solver.} The MRILAB software is based on a discrete Bloch or Bloch-McConnell equation solver.
-It simulates the isochromats evolution with small discrete time steps by means of rotation and exponential scaling matrices. 
+\textbf{Solver.} The MRILAB software is based on a discrete time solution of the Bloch or Bloch-McConnell equation.
+To be more precise, MRILAB simulates the isochromats evolution with small discrete time steps by means of rotation and exponential scaling matrices. 
 In addition, the solver includes multiple exchanging water and macromolecular pools for simulating more advanced quantitative MRI methods such as magnetisation transfer and chemical exchange saturation-transfer techniques.
 
 \hfill
@@ -594,50 +681,57 @@ In addition, the solver includes multiple exchanging water and macromolecular po
 \textbf{Details of features:}
 \begin{itemize}
     
-    \item \textbf{Motion}: Motion is modelled in MRILAB as discrete movements (rotations and/or translations) of the input object.
-    
     \item \textbf{Multi-pool exchange model}: The MRILAB software can perform MRI simulations based on a generalised multi-pool exchange tissue model. 
     The tissue is represented by several free and bound proton pools undergoing the magnetization exchange.
     The response of a multi-pool spin system to an MRI pulse sequence is then simulated using the finite differential Bloch-McConnell equation in the rotating frame.
     
+    \item \textbf{Motion}: Motion is modelled in MRILAB as discrete movements (rotations and/or translations) of the input object.
+    
 \end{itemize}
 
 \hfill
 
-% % % SpinBENCH
-\subsection{SpinBench}
-\textbf{SpinBench}\footnote{\url{http://www.heartvista.com/spinbench/}} is a software tool designed for the rapid prototyping and analysis of MRI experiments.
-SpinBench is written in Objective-C, was last updated in March 2010 and can only run on Mac OS X version 10.5 (Leopard) or newer.
-SpinBench is mainly useful as a teaching tool for courses covering MRI spin physics.
-It is made up of a comprehensive set of graphical user interfaces for developing, testing, visualising and simulating MRI sequences. 
-Its main developers are William Overall and John Pauly from the Department of Electrical Engineering at Stanford University, United States.
+% % SIMRI
+\subsection{SIMRI}
+\textbf{SIMRI}\footnote{\url{https://sourceforge.net/projects/simri/}} is a software tool designed for the rapid prototyping and analysis of MRI experiments \cite{Benoit-Cattin2005}.
+Its core functionality is written in the C programming language where CPU parallelisation techniques were used to speed up the computational process.
+It has no GUIs, but comes equipped with a set of command line tools for simulating a range of 2D and 3D spin echo and gradient echo sequences.
+The main developer for this project is Hugues Benoit-Cattin who is affiliated with the University of Lyon, France.
+SIMRI was last updated in June 2007 and additional updates since then seem to have stopped.
+To date, SIMRI was used to evaluate susceptibility artefact correction algorithms by Belaroussi et al \cite{Belaroussi2004}.
 
 \hfill
 
 % % % 
-\subsubsection{Key features and limitations}
-
-The most important aspects of SpinBench are:
+\subsubsection{Key features}
+The most important aspects of SIMRI are:
 \begin{itemize}
 
-    \item It comes equipped with many tutorials and examples, thus making it an easy to use software environment for teaching MRI.
+    \item It is an \textbf{open-source} MRI simulator that can be installed on all three major operating systems: MacOS, Linux and Windows: \url{https://sourceforge.net/projects/simri/}.
     
-    \item Everything in SpinBench is done through an intuitive graphical user interface, thus allowing for easy prototyping and analyzing a wide range of MR pulse sequences and experiments.
+    % \item It is one of the first MRI simulators based on a discrete-event Bloch equation resolution who used parallelisation techniques to achieve realistic computational times and performances.
     
-    \item The experiment can be played out and updated in real-time as the user changes the parameters.
-    
-    \item It can be used to visualise spin dynamics.
+    \item It \textbf{introduced a new and fast way to model spin echoes} by means of a variable $\tau$ which was used to keep track of the RF pulses being applied. 
+    Although it could be considered a "trick", it showed promising results in terms of generating spin-echo trains weighted by $T_2^*$.
+    %; $\tau$ is set to 0 when it first encounters an excitation pulse, it is then set to $t$ after the excitation 
     
 \end{itemize}
 
 \hfill
 
-However, SpinBench has the following limitations:
+% % % 
+\subsubsection{Key limitations}
+However, SIMRI has the following limitations:
 \begin{itemize}
     
-    \item It only works on a Mac OS platform and its source code is not open-source.
+    \item It \textbf{does not have a pulse sequence development GUI} and new sequences need to be explicitly programmed.
     
-    \item It can only run on a personal computer so it therefore does not scale to more realistic simulations which would need a cluster environment or a GPU platform to run on.
+    \item It \textbf{does not simulate motion artifacts}.
+    
+    \item To allow for reasonable computational times, \textbf{$T_2^*$ effects are computed and not simulated}.
+    This is achieved by introducing a voxel-wise intra-voxel inhomogeneity value $\Delta B_i$ and then weighting the signal with $e^{- \gamma \Delta B_i t}$.
+    
+    \item \textbf{Gradient spoiling is treated as a zeroing event}, i.e. the transverse magnetisation is set to zero.
     
 \end{itemize}
 
@@ -646,35 +740,115 @@ However, SpinBench has the following limitations:
 % % % 
 \subsubsection{Implementation details}
 
-\textbf{Inputs.} The inputs to SpinBench are:
+\textbf{Inputs.} The inputs to SIMRI are:
 
 \begin{itemize}
     
-    \item \textbf{Anatomical Object \& Tissue Specific Parameters}: The input to a SpinBench simulation can be set up through the software GUI by choosing simple, predefined 1D or 2D objects. 
-    For these objects the user can specify the overall size, the $T_1$, $T_2$ relaxation times, the proton density and the off-resonance frequency of the isochromats.
+    \item \textbf{Anatomical Object \& Tissue Specific Parameters}:
+     The virtual input object is a multi-dimensional matrix of size $3 \times C \times X \times Y \times Z$ consisting of the values for proton density, $T_1$ and $T_2$ relaxation constants for $C$ components.
+     $T_2^*$ values are calculated by introducing a local field inhomogeneity $\Delta B_i$ associated with each object voxel.
+     In this case, $T_2^*$ is linked with $T_2$ and $\Delta B_i$ through: $\frac{1}{T_2^*} = \frac{1}{T_2} + \gamma \Delta B_i$.
+     
+    \item \textbf{Pulse Sequence}: SIMRI comes equipped with 1D/2D/3D spin echo and gradient echo sequences for which the user has to supply the echo time, the repetition time, the readout time and the RF pulse angle. 
     
-    \item \textbf{Motion}: Motion can be simulated by specifying the isochromats' start position and velocity.
+    \item \textbf{Radiofrequency Coils}: Inhomogeneities in the RF-receive or RF-transmit coils can be simulated in SIMRI and it requires a $B_1^{transmit}$ and/or a $B_1^{receive}$ file that contain the real and the imaginary parts of the $B_1$ field.
+    These files have to be written in ASCII form and have to have the same dimensions as that of the final image.
     
-    \item \textbf{Pulse Sequence}: The pulse sequences can be designed through the GUI by linking together RF pulses and gradient waveforms of customisable shapes.
-    Moreover, SpinBench offers the possibility to code your own pulses in Javascript.
+    %\item \textbf{$B_0$ inhomogeneities}: Inhomogeneities in the main magnetic field can be added 
     
 \end{itemize}
 
 \hfill
 
-\textbf{Outputs.} The outputs produced by SpinBench are:
+\textbf{Outputs.} The outputs produced by SIMRI are:
 \begin{itemize}
     
-    \item \textbf{Signal}: SpinBench plots the signal (magnitude and phase) or the x,y,z values of the net magnetisation in real time during the simulation.
-    
-    \item \textbf{Image}: The final image (magnitude and phase) can also be visualised at any time point during the simulation.
+    \item \textbf{Image}: The final reconstructed (magnitude) image is saved and showed immediately after the simulation has ended.
     
 \end{itemize}
 
 \hfill
 
-\textbf{Solver.} The SpinBench software is based on a multi-threaded Bloch-equation simulator which computes the signal independently for each value in the input object.
-SpinBench is not open-source and more details about the Bloch based implementation are not available.
+\textbf{Solver.} The SIMRI software is based on a multi-threaded Bloch-equation simulator which computes the signal independently for each value in the input object.
+It implements a discrete time solution of the Bloch equation by means of rotation matrices and exponential scaling matrices that depend on the MR sequence events.
+For each component in the input object, the magnetisation vector is calculated iteratively such that $\vec{M}(\vec{r},t + \Delta t) = R_z(\theta_g) R_z(\theta_i) R_{relax} R_{RF} \vec{M}(\vec{r},t)$,
+where $R_z$ is a rotation matrix specifying rotation about the z-axis,
+$\theta_g$ is the angle linked to the applied gradient, 
+$\theta_i$ is the angle linked to the field inhomogeneities,
+$R_{relax}$ is the diagonal matrix that describes the relaxation effects and
+$R_{RF}$ represents the rotating effect of an instantaneous RF pulse.
+
+% % % % SpinBENCH
+% \subsection{SpinBench}
+% \textbf{SpinBench}\footnote{\url{http://www.heartvista.com/spinbench/}} is a software tool designed for the rapid prototyping and analysis of MRI experiments.
+% SpinBench is written in Objective-C, was last updated in March 2010 and can only run on Mac OS X version 10.5 (Leopard) or newer.
+% SpinBench is mainly useful as a teaching tool for courses covering MRI spin physics.
+% It is made up of a comprehensive set of graphical user interfaces for developing, testing, visualising and simulating MRI sequences. 
+% Its main developers are William Overall and John Pauly from the Department of Electrical Engineering at Stanford University, United States.
+
+% \hfill
+
+% % % % 
+% \subsubsection{Key features and limitations}
+
+% The most important aspects of SpinBench are:
+% \begin{itemize}
+
+%     \item It comes equipped with many tutorials and examples, thus making it an easy to use software environment for teaching MRI.
+    
+%     \item Everything in SpinBench is done through an intuitive graphical user interface, thus allowing for easy prototyping and analyzing a wide range of MR pulse sequences and experiments.
+    
+%     \item The experiment can be played out and updated in real-time as the user changes the parameters.
+    
+%     \item It can be used to visualise spin dynamics.
+    
+% \end{itemize}
+
+% \hfill
+
+% However, SpinBench has the following limitations:
+% \begin{itemize}
+    
+%     \item It only works on a Mac OS platform and its source code is not open-source.
+    
+%     \item It can only run on a personal computer so it therefore does not scale to more realistic simulations which would need a cluster environment or a GPU platform to run on.
+    
+% \end{itemize}
+
+% \hfill
+
+% % % % 
+% \subsubsection{Implementation details}
+
+% \textbf{Inputs.} The inputs to SpinBench are:
+
+% \begin{itemize}
+    
+%     \item \textbf{Anatomical Object \& Tissue Specific Parameters}: The input to a SpinBench simulation can be set up through the software GUI by choosing simple, predefined 1D or 2D objects. 
+%     For these objects the user can specify the overall size, the $T_1$, $T_2$ relaxation times, the proton density and the off-resonance frequency of the isochromats.
+    
+%     \item \textbf{Motion}: Motion can be simulated by specifying the isochromats' start position and velocity.
+    
+%     \item \textbf{Pulse Sequence}: The pulse sequences can be designed through the GUI by linking together RF pulses and gradient waveforms of customisable shapes.
+%     Moreover, SpinBench offers the possibility to code your own pulses in Javascript.
+    
+% \end{itemize}
+
+% \hfill
+
+% \textbf{Outputs.} The outputs produced by SpinBench are:
+% \begin{itemize}
+    
+%     \item \textbf{Signal}: SpinBench plots the signal (magnitude and phase) or the x,y,z values of the net magnetisation in real time during the simulation.
+    
+%     \item \textbf{Image}: The final image (magnitude and phase) can also be visualised at any time point during the simulation.
+    
+% \end{itemize}
+
+% \hfill
+
+% \textbf{Solver.} The SpinBench software is based on a multi-threaded Bloch-equation simulator which computes the signal independently for each value in the input object.
+% SpinBench is not open-source and more details about the Bloch based implementation are not available.
 
 \hfill
 
@@ -688,11 +862,15 @@ JEMRIS was focused on providing a modular and easy to use pulse sequence develop
 ODIN was created as an object oriented software tool capable of being executed on different measurement devices \cite{Jochimsen2004},
 MRILAB was created to simulate responses from multi-pool spin models of arbitrary configurations \cite{Liu2017}
 and
-SpinBench was created as an easy to use platform for educational purposes \cite{Overall2007}.
-These different reasons for creating an MRI simulation system have also had an influence on their current capabilities (see Table~\ref{table:tableMRISimulators}).
-It is therefore our belief that a single generalised framework for an ideal MRI simulator that leverages the advantages of all the simulators available should be created.
-This framework will serve as a guideline for the MRI simulation community.
-Preliminary work towards a generalised MRI simulation framework is presented in Chapter~\ref{chapterlabel4}.
+SIMRI was one of the first Bloch equation resolution simulators that benefitted from the computational speeds of MPI parallelisation techniques \cite{Benoit-Cattin2005}.
+These different reasons for creating an MRI simulation system have also had an influence on their current capabilities (see Table~\ref{table:tableMRISimulatorsFeatures}).
+It is therefore our belief that a single generalised framework for an ideal MRI simulator that leverages the advantages of all the simulators available today should be created.
+This framework will serve as a guideline for the MRI simulation community and preliminary work towards a generalised MRI simulation framework is presented in Chapter~\ref{chapterlabel4}.
+
+
+% % END ----------
+% % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % 
 
 
 % In this section of the survey we review the current state-of-the-art in MRI simulation systems as open source software tools that are active today.

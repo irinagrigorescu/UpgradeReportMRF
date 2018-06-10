@@ -32,7 +32,7 @@ This means that more complex scenarios such as non-linear gradients or relaxatio
 
 \hfill
 
-A third approach is based on analytical time-discretised solutions of the Bloch equations \cite{Bittoun1984} \cite{Kwan1999} \cite{Yoder2004} \cite{Drobnjak2006} \cite{Jochimsen2006} \cite{Liu2017}.
+A third approach is based on analytical time-discretised solutions of the Bloch equations \cite{Bittoun1984} \cite{Drobnjak2006} \cite{Jochimsen2006} \cite{Kwan1999} \cite{Liu2017} \cite{Yoder2004}.
 This approach is closer to reality than the previous ones, but it is limited in terms of more complex scenarios such as simultaneously having RF excitation and time-varying gradient fields, where no general analytical solution exists.
 %, such as simultaneously having RF excitation and time-varying gradient fields.
 
@@ -42,7 +42,8 @@ Finally, the fourth category consists of simulators which numerically solve the 
 In the past, these simulators have been limited to small isochromat systems and simple MR sequences due to the lack of computational power of the available systems at the time \cite{Olsson1995} \cite{Summers1986}.
 Today, these simulation systems benefit from the use of dedicated ordinary differential equation solvers and high performance computing systems
 %which can increase the complexity of these simulations
-\cite{Stocker2010} \cite{Fortin2016}.
+\cite{Stocker2010}.
+%\cite{Fortin2016}.
 However, when coupling these systems with more complex MRI scenarios such as rapid multi-pulse gradient spoiled sequences, these systems end up becoming computationally very slow.
 
 % \hfill
@@ -62,7 +63,7 @@ However, when coupling these systems with more complex MRI scenarios such as rap
 
 The \ac{mri} simulators that are freely available today to be downloaded and used are based on the last two types of approaches.
 These systems allow for simulations of various system imperfections \cite{Drobnjak2006}, 
-provide dedicated graphical interfaces for pulse sequence design \cite{Stocker2010} \cite{Jochimsen2004} \cite{Overall2007}
+provide dedicated graphical interfaces for pulse sequence design \cite{Jochimsen2004} \cite{Overall2007} \cite{Stocker2010} 
 or
 employ a generalized tissue model with multiple exchanging proton pools \cite{Liu2017}.
 However, current \ac{mri} software systems lack support for a number of key features that prevent the simulation of advanced \ac{mri} sequences with the realism required.
