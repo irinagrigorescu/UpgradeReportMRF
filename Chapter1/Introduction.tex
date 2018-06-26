@@ -143,9 +143,11 @@ exhibit at least one of the following problems:
 \begin{enumerate}
 
     \item \textit{There is little support for accurate gradient spoiling.}
+    Gradient spoilers are commonly used in MR sequences to eliminate or attenuate residual transverse magnetisation.
     Gradient spoilers are treated differently by different currently available MRI simulation systems.
+    %At the end of a pulse sequence or a preparatory RF pulse, residual trans- verse magnetization can remain. The residual transverse magnetization, if not eliminated, can produce a spurious signal that interferes with the desired signal in subsequent data acquisition, causing image artifacts (Figure 10.25a) (Haase et al. 1986; Haacke et al. 1991)
     Some available simulators calculate specific intra-voxel isochromat dephasing \cite{Drobnjak2006} \cite{Jochimsen2006}.
-    This, however, does not account for rapid multi-pulse sequences where intra-voxel rephasing can occur later in the sequence.
+    This, however, does not account for rapid multi-pulse gradient-echo sequences where intra-voxel rephasing can occur later in the sequence.
     Other systems null the transversal magnetization automatically when a spoiling gradient is applied \cite{Benoit-Cattin2005} \cite{Liu2017}.
     Finally, other systems can simulate a large number of isochromats to calculate the effect of a gradient spoiler, but require unrealistically long times to produce images \cite{Stocker2010}.
     
@@ -156,9 +158,11 @@ exhibit at least one of the following problems:
     % \item Accurate simulations of fast multi-pulse steady-state sequences with gradient spoiling are currently not feasible. \\
     % Due to their inherent need for a very large number of isochromats, the current systems which allow for such simulations would take an unrealistically long time to produce images.
     
-    \item \textit{There is little support for very fast simulations through the use of \ac{gpu}.}
+    \item \textit{There is little support for very fast simulations through the use of a \ac{gpu} architecture.}
     Current technological advancements in the computer architecture community allows for very fast computational approaches through the use of massively parallel computer hardware.
-    However, most MR simulators rely on \ac{cpu} parallelisation techniques \cite{Drobnjak2006} \cite{Stocker2010}.
+    However, most MR simulators rely on \ac{cpu} parallelisation techniques 
+    \cite{Benoit-Cattin2005}
+    \cite{Drobnjak2006} \cite{Stocker2010}.
     Although faster than sequential approaches, \ac{cpu} based techniques are still a few orders of magnitude slower than \ac{gpu}s.
     This, coupled with the need for an accurate simulation of a gradient spoiling event, shows that the current systems are not well suited for finely discretised digital objects. \\
     %(mrilab is cuda 2.0, more recently is 9.0; also not as customisable as you'd like)
