@@ -32,9 +32,22 @@ while the following paragraphs delve into the details of each simulator.
  \hline
  % % %
 %  \textbf{Open-Source} & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
- \hline
+%  \hline
  % % %
  \begin{tabular}{@{}c@{}c@{}}\textbf{Parallelisation}\\CPU\\GPU\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\end{tabular}  \\
+ \hline
+ % % % 
+ \begin{tabular}{@{}c@{}c@{}c@{}}\textbf{Solver Type}\\Bloch\\Bloch-Torrey\\Bloch-McConnell\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\\\phantom{-}\end{tabular} \\
+ \hline
+  % % % 
+ \begin{tabular}{@{}c@{}c@{}c@{}}\textbf{Solver Approach}\\Analytical\\Numerical\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\\phantom{-}\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\end{tabular}  \\
+ \hline
+ % % %
+ \begin{tabular}{@{}c@{}c@{}}\textbf{Multi-RF}\\Receiving\\Transmitting\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\end{tabular} & 
+ \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\end{tabular}  \\
+ \hline
+ % % %
+ \textbf{Motion} & $\checkmark$ & $\checkmark$ & \phantom{-} & $\checkmark$ & \phantom{-} \\
  \hline
  % % %
  \begin{tabular}{@{}c@{}}\textbf{Sequence Design}\\\textbf{GUI}\end{tabular} & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & \phantom{-} \\
@@ -42,19 +55,8 @@ while the following paragraphs delve into the details of each simulator.
  % % %
  \begin{tabular}{@{}c@{}}\textbf{Coil Design}\\\textbf{GUI}\end{tabular} & \phantom{-} & $\checkmark$ & \phantom{-} & $\checkmark$ & \phantom{-} \\
  \hline
-  % % % 
- \begin{tabular}{@{}c@{}c@{}c@{}}\textbf{Solver}\\Bloch\\Bloch-Torrey\\Bloch-McConnell\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\\\phantom{-}\end{tabular} \\
- \hline
-  % % %
- \begin{tabular}{@{}c@{}c@{}}\textbf{Multi-RF}\\Receiving\\Transmitting\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\end{tabular} & 
- \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\\phantom{-}\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\end{tabular} & \begin{tabular}{@{}c@{}c@{}}\\$\checkmark$\\$\checkmark$\end{tabular}  \\
- \hline
- 
  % % %
  \begin{tabular}{@{}c@{}}\textbf{K-space Trajectory}\\\textbf{Visualisation}\end{tabular} & \phantom{-} & $\checkmark$ & $\checkmark$ & $\checkmark$ & \phantom{-} \\
- \hline
- % % %
- \textbf{Motion} & $\checkmark$ & $\checkmark$ & \phantom{-} & $\checkmark$ & \phantom{-} \\
  \hline
  % % %
 %  \begin{tabular}{@{}c@{}}\textbf{Multi-pool}\\\textbf{exchange model}\end{tabular} & \phantom{-} & $\checkmark$ & \phantom{-} & $\checkmark$ & \phantom{-} \\
@@ -304,7 +306,7 @@ The most important aspects of JEMRIS are:
     
     \item It integrates an open-source framework called \textit{Pulseq} \cite{Layton2017} which allows the user to  \textbf{export a sequence created in JEMRIS to a real MR scanner}.
     
-    \item It can \textbf{simulate flow in arbitrary complex geometries} \cite{Fortin2016}.
+    \item It can \textbf{simulate flow in arbitrarily complex geometries} \cite{Fortin2016}.
     
 \end{itemize}
 
@@ -400,7 +402,7 @@ in cylindrical coordinates $(M_r, \phi, M_z)$:
     \end{bmatrix}
 \end{flalign*}
 
-The Bloch equation is solved for every position in the input object using the CVODE library, a variable time-stepping integrator for ODEs \cite{Stocker2010}.
+The Bloch equation is numerically solved for every position in the input object using the CVODE library, a variable time-stepping integrator for ODEs \cite{Stocker2010}.
 The signal is then calculated for each receiver coil $n$ by integrating over the coil volume $V$:
 \begin{flalign*}
     S_n(t) \propto \int_V d^3 r \, \, C_n(\vec{r}) M_r(\vec{r}, t) e^{i \phi(\vec{r}, t)}
@@ -466,13 +468,11 @@ However, ODIN also suffers from the following limitations:
     
     \item \textbf{Selective excitation with shaped RF pulses and time-varying gradient fields cannot be performed} within the ODIN framework as these MR phenomena do not have a general analytical solution.
     
-    \item ODIN \textbf{may not accurately model rapid multi-pulse gradient spoiled sequences}.
-    This is because in this framework dephasing across a voxel is considered, but it does not create a distribution of spins to be flipped by following RF pulses and to form spin or stimulated echoes.
-    Moreover, the experiments shown in \cite{Jochimsen2006} had repetition periods of $5$s.
-    It is therefore not yet proven that their implementation can account for appropriate rephasing of the magnetisation vectors in fast multi-pulse sequences, where the typical $T_R$ values are much smaller than the transverse relaxation times.
-    %has successfully shown linear intra-voxel dephasing due to field perturbations.
-    %However, the simulated sequences had repetition periods of $5$s.
-    %It is therefore \textbf{not} yet \textbf{proven that their implementation can account for appropriate rephasing of the magnetisation vectors in fast multi-pulse sequences}, where the typical $T_R$ values are much smaller than the transverse relaxation times.
+    % \item ODIN \textbf{may not accurately model rapid multi-pulse gradient spoiled sequences}.
+    % This is because in this framework dephasing across a voxel is considered, but it does not create a distribution of spins to be flipped by following RF pulses and to form stimulated echoes.
+    % Moreover, the experiments shown in \cite{Jochimsen2006} had repetition periods of $5$s, which is greater than the $T_2$ values used in their experiments.
+    % It is therefore not yet proven that their implementation can account for appropriate rephasing of the magnetisation vectors in fast multi-pulse sequences, where the typical $T_R$ values are much smaller than the transverse relaxation times.
+    
     
     \item ODIN \textbf{does not simulate motion}.
     
@@ -585,10 +585,13 @@ MRILAB has the following limitations:
     \item It achieves \textbf{spoiling of the transverse magnetisation through a zeroing event which is not sufficient to model real experiments where complete spoiling is not desired}.
     %: ``In all shown experiments, spoiling of the transverse magnetization was achieved through an external event zeroing the transverse magnetization'' \cite{Liu2017}.
     
+    \item MRILAB \textbf{cannot simulate selective excitation with shaped RF pulses and time-varying gradient fields} as these MR phenomena do not have a general analytical solution.
+    %is based on discrete time analytical solutions of the Bloch or Bloch-McConnell equations which means that it cannot do etc
+    
     \item MRILAB uses the \textbf{hard-pulse approximation to model shaped RF pulses}.
     This means that complex selective excitation techniques cannot be performed within this framework as these MR phenomena do not have a general analytical solution.
     
-    \item The programming model that makes use of the GPU cores used in MRILAB is CUDA 2.0. 
+    \item The programming model that makes use of the GPU cores used in MRILAB is CUDA 2.0.
     This means that \textbf{MRILAB does not benefit from the latest features of CUDA 9.x} that could speed up the simulation even further and may also achieve higher accuracy in terms of accurately simulating gradient spoiling.
     % Moreover, the simulation of gradient spoiling in MRILAB may reach 
     
@@ -724,14 +727,16 @@ The most important aspects of SIMRI are:
 However, SIMRI has the following limitations:
 \begin{itemize}
     
-    \item It \textbf{does not have a pulse sequence development GUI} and new sequences need to be explicitly programmed.
+    \item SIMRI \textbf{cannot simulate the process of selective excitation with shaped RF pulses and time-varying gradient fields} because these events do not have general analytical solutions.
+    
+    \item \textbf{Gradient spoiling is treated as a zeroing event}, i.e. the transverse magnetisation is set to zero.
     
     \item It \textbf{does not simulate motion artifacts}.
     
     \item To allow for reasonable computational times, \textbf{$T_2^*$ effects are computed and not simulated}.
     This is achieved by introducing a voxel-wise intra-voxel inhomogeneity value $\Delta B_i$ and then weighting the signal with $e^{- \gamma \Delta B_i t}$.
     
-    \item \textbf{Gradient spoiling is treated as a zeroing event}, i.e. the transverse magnetisation is set to zero.
+    \item It \textbf{does not have a pulse sequence development GUI} and new sequences need to be explicitly programmed.
     
 \end{itemize}
 
@@ -853,17 +858,33 @@ $R_{RF}$ represents the rotating effect of an instantaneous RF pulse.
 \hfill
 
 % % % % % 
+\subsection{Summary}
 The five simulators presented in this section are the current state-of-the-art in MRI simulation systems.
 These simulators are also freely available and can be downloaded from their dedicated websites.
 Each one of them has different strengths and weaknesses as each was developed with a certain methodological question in mind.
-In summary, 
-POSSUM was initially developed as an \ac{fmri} simulator \cite{Drobnjak2006} and has recently become a \ac{dwmri} simulator \cite{Graham2016}, 
-JEMRIS was focused on providing a modular and easy to use pulse sequence development tool \cite{Stocker2010}, 
+More specifically, POSSUM was initially developed as an \ac{fmri} simulator \cite{Drobnjak2006} and has recently become a \ac{dwmri} simulator \cite{Graham2016}, 
+JEMRIS was focused on providing a very general and easy to use simulation system and pulse sequence development tool \cite{Stocker2010}, 
 ODIN was created as an object oriented software tool capable of being executed on different measurement devices \cite{Jochimsen2004},
 MRILAB was created to simulate responses from multi-pool spin models of arbitrary configurations \cite{Liu2017}
 and
 SIMRI was one of the first Bloch equation resolution simulators that benefitted from the computational speeds of MPI parallelisation techniques \cite{Benoit-Cattin2005}.
-These different reasons for creating an MRI simulation system have also had an influence on their current capabilities (see Table~\ref{table:tableMRISimulatorsFeatures}).
+
+\hfill
+
+These five simulators use different approaches in terms of simulation strategy.
+More specifically, 
+POSSUM \cite{Drobnjak2006}, 
+ODIN \cite{Jochimsen2006}, 
+MRILAB \cite{Liu2017} and
+SIMRI \cite{Benoit-Cattin2005} 
+are MRI simulators based on the analytical time-discretised solutions of the Bloch equations.
+This means that although they are fast simulators that can be used for a wide variety of applications, they cannot simulate more complex phenomena where general analytical solutions do not exist.
+On the other hand,
+JEMRIS \cite{Stocker2010} uses a dedicated CPU-optimized numerical ODE solver which makes it a good candidate for MRI simulations in their most general form, such as complex nonlinear RF waveforms for selective excitation or adiabatic full passage pulses.
+
+\hfill
+
+The capabilities and limitations of these currently available simulators make it hard for a user to choose the best simulator for the study they have in mind. 
 It is therefore our belief that a single generalised framework for an ideal MRI simulator that leverages the advantages of all the simulators available today should be created.
 This framework will serve as a guideline for the MRI simulation community and preliminary work towards a generalised MRI simulation framework is presented in Chapter~\ref{chapterlabel4}.
 

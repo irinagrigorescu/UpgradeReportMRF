@@ -501,7 +501,7 @@ Pictorially, the $\bm{Z_0}$ state is shown in Figure~\ref{fig:Z0F0states} a) whe
 \hfill
 
 The application of an instantaneous $\pi/2$ excitation pulse on this configuration has the effect of `flipping' the entire isochromat ensemble in the transverse plane.
-This new configuration is known as the $\bm{F_0}$ state \cite{Weigel2015} \cite{Scheffler1999} \cite{Hennig1991} (with a coefficient equal to $1$) and is graphically shown in Figure~\ref{fig:Z0F0states} b).
+This new configuration is known as the $\bm{F_0}$ state \cite{Weigel2015} \cite{Scheffler1999} \cite{Hennig1991} (with a coefficient\footnote{$F_k$ and $Z_k$ are the coefficients, while $\bm{F_k}$ and $\bm{Z_k}$ are the basis functions} equal to $1$) and is graphically shown in Figure~\ref{fig:Z0F0states} b).
 The $\bm{F_0}$ configuration is an important concept in the \ac{epg} formalism as it represents coherent transverse magnetisation and it is the cause of echo generation.
 
 \begin{figure}[ht]
@@ -812,7 +812,8 @@ For example, for an RF pulse of flip angle $\alpha = \pi/2$ and phase angle $\ph
 \textbf{Dephasing due to gradient}
 
 As stated before, dephasing causes a shift of configuration states.
-Thus, it can be represented by a shift operator, $S$, which performs $F_k \rightarrow F_{k+1}$ and leaves the longitudinal state unchanged $Z_k \rightarrow Z_k$. 
+Thus, it can be represented by a shift operator denoted here by $S$, 
+which shifts the coefficients from state $F_k$ to state $F_{k+1}$ and leaves the longitudinal states unchanged $Z_k \rightarrow Z_k$. 
 For example, if after the application of the $\pi/2$ RF pulse a gradient is applied until the end of the repetition period, the state matrix becomes:
 \begin{equation}
     \Omega (t = T_R) = S \, \, \Omega (t = 0) = 
@@ -822,7 +823,7 @@ For example, if after the application of the $\pi/2$ RF pulse a gradient is appl
         0 & 0
     \end{bmatrix}
 \end{equation}
-where $S$ is the shift operator which performs $F_n \rightarrow F_{n+1}$ and leaves the longitudinal state unchanged $Z_n \rightarrow Z_n$. 
+% where $S$ is the shift operator which performs $F_n \rightarrow F_{n+1}$ and leaves the longitudinal state unchanged $Z_n \rightarrow Z_n$. 
 Note that the state matrix contains all possible states, which means that for this example $F_{-1} = 0$ was shifted to $F_0^*$.
 
 \hfill

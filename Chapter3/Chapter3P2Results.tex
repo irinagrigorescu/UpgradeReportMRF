@@ -56,6 +56,7 @@ Next, I will describe some of the key features of the simulated signals.
     
     \caption{Example fingerprints for both the bSSFP and FISP dictionaries. In a) and c) we fix $T_2 = 20ms$ and we vary $T_1$ from $200ms$ to $800ms$ with $100ms$ increment, while in b) and d) we fix $T_1 = 100ms$ and we vary $T_2$ from $20ms$ to $80ms$ with $10ms$ increment.}
     \label{fig:mrfDictionaries}
+    % stop checking them against matlab, they ARE FINE!
 \end{figure}
 
 \hfill
@@ -66,7 +67,7 @@ Example fingerprints for the bSSFP dictionary are shown in the first two subplot
 In \textbf{a)} the transverse relaxation time is kept fixed. 
 The difference in shape between the fingerprints is due solely to their $T_1$ relaxation times.
 The $180^o$ inversion pulse makes the fingerprints more easily distinguishable from the beginning:
-a slower longitudinal relaxation time ($T_1 = 800ms$) means that at the beginning of the sequence there is more magnetisation to be flipped in the transverse plane, while a faster longitudinal relaxation time ($T_1 = 200ms$) will cause the opposite effect (1).
+a slower longitudinal relaxation rate ($T_1 = 800ms$) means that at the beginning of the sequence there is more magnetisation to be flipped in the transverse plane, while a faster longitudinal relaxation rate ($T_1 = 200ms$) will cause the opposite effect (1).
 After a while, as the shorter $T_1$s help the magnetisation vector reach equilibrium faster, these fingerprints will have a stronger contribution to the signal and the signal trends will switch (2).
 
 \hfill
@@ -80,7 +81,7 @@ Moreover, as the flip angles are continuously varied, the signal is not allowed 
 
 In \textbf{b)} the longitudinal relaxation time is kept fixed and the difference in shapes between these fingerprints is due to their $T_2$ relaxation times.
 Now, these signals are better discriminated from each other as the flip angles vary (see (1)-(4)): this keeps the signal in the transient phase and does not allow it to reach steady state.
-Moreover, slower transverse relaxation times ($T_2 = 80ms$) will allow for more signal, while faster transverse relaxation times ($T_2 = 20ms$) will have the opposite effect.
+Moreover, a slower transverse relaxation rate ($T_2 = 80ms$) will allow for more signal, while a faster transverse relaxation rate ($T_2 = 20ms$) will have the opposite effect.
 This trend is seen throughout the entire acquisition.
 
 \hfill
@@ -94,9 +95,9 @@ This is a known consequence of using dephasing gradients and is explained in App
 \hfill
 
 In \textbf{c)} the transverse relaxation time is kept fixed. 
-Same as before, the difference in shapes between the fingerprints is due to their $T_1$ relaxation times and the $180^o$ inversion pulse makes the fingerprints more easily distinguishable at the beginning (1).
-After some time, as the magnetisation vector relaxes towards thermal equilibrium and becomes positive, the signal trends will flip (2).
-From this moment on, throughout the entire sequence, the faster longitudinal relaxation time ($T_1 = 200ms$) will give the higher signal, while the slowest longitudinal relaxation time ($T_1 = 800ms$) will give the lowest signal (3), as expected.
+Same as before, the difference in shapes between the fingerprints is due to their $T_1$ relaxation times and the $180^o$ inversion pulse which make the fingerprints more easily distinguishable at the beginning (1).
+After some time, as the magnetisation vector relaxes towards thermal equilibrium and becomes positive, the signal trends flip (2).
+From this moment on, throughout the entire sequence, the faster longitudinal relaxation rate ($T_1 = 200ms$) will give the higher signal, while the slowest longitudinal relaxation rate ($T_1 = 800ms$) will give the lowest signal (3), as expected.
 
 \hfill
 
@@ -108,10 +109,10 @@ This is expected as very small flip angles will cause less magnetisation to be t
 
 \hfill
 
-For the remainder of this work we will only use the bSSFP dictionary.
-This is because the image space simulations were done using a balanced steady state sequence.
-The FISP sequence requires more computational power and it is in our future work.
-Next, we will discuss the motion free and motion corrupted results.
+For the remainder of this work I am only using the bSSFP dictionary.
+This is because the image space simulations are done using a balanced steady state sequence.
+The FISP sequence requires more computational power and it is in my future work.
+Next, I will discuss the motion free and motion corrupted results.
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 \clearpage
@@ -121,7 +122,8 @@ Ten different quantitative maps were generated using the methods described in Se
 The acquisition scheme was a balanced steady state free precession sequence with $N = 500$ repetition blocks, and constant $T_R = 15ms$ and $T_E = 7.5ms$.
 Similar to the dictionary generation part, the only sequence parameters that were varied from one acquisition to the next were the flip angles (Figure~\ref{fig:FAsMaryia}).
 Images from each acquisition block were reconstructed separately on an $128 \times 128$ matrix size using BART's \textsc{nufft} command line tool.
-Then, a vector dot product was computed between the image space signals corresponding to every voxel position in the image dataset and the entire bSSFP dictionary and quantitative maps were created following the method described in Section \ref{method:matching}.
+Then, a vector dot product was performed between the image space signals corresponding to every voxel position in the image dataset and the entire bSSFP dictionary.
+Quantitative maps were created following the method described in Section \ref{method:matching}.
 
 % T1/T2/Score maps no motion vs ground truth
 \begin{figure}[ht]
@@ -177,11 +179,15 @@ Qualitatively, both $T_1$ and $T_2$ maps seem to be most affected when motion ha
 \hfill
 
 To quantify the deviations from the ground truth values, I performed a region of interest analysis.
-This consisted of calculating the mean and standard deviation in the simulated $T_1$ and $T_2$ values obtained in each of the inner tubes of the digital phantom in the motion free and motion corrupted data set and comparing them to the ground truth values.
-The difference in absolute value between the simulated results and the ground truth values are shown in Figure~\ref{fig:GTMinusSimuAbsoluteDifference} for both the $T_1$ maps and the $T_2$ maps.
+This consisted of calculating the mean $T_1$ and $T_2$ values obtained in each of the simulated inner tubes of the digital phantom,
+in both the motion free and the motion corrupted data set and comparing them to the ground truth values.
+The difference in absolute value between the simulated values and the ground truth values are shown in Figure~\ref{fig:GTMinusSimuAbsoluteDifference} for both the $T_1$ maps and the $T_2$ maps (see also Figures \ref{fig:appendixmotion1ROI}, \ref{fig:appendixmotion2ROI} and \ref{fig:appendixmotion3ROI}).
+
+\hfill
+
 The first important feature to observe in these results is that the region of interest positioned in the middle of the phantom is least affected by the motion.
 This is to be expected for motion happening at any time point during the scan as the rotation's axis is going through this middle point and the translation is happening along a line which does not intersect any other structures.
-Next, the figure also shows that reconstructed $T_1$ values are affected the most when the motion happens in the beginning or at the end of the scan, while the $T_2$ values are effected the most when the motion happens at the beginning of the scan.
+Next, the figure also shows that the reconstructed $T_1$ values are affected the most when the motion happens in the beginning or at the end of the scan, while the $T_2$ values are effected the most when the motion happens at the beginning of the scan.
 
 \hfill
 
@@ -189,7 +195,7 @@ The most affected reconstructed values correspond to the $5^{th}$ tube for both 
 To understand why, I plot in Figure~\ref{fig:problematicfingerprints} the dictionary fingerprints corresponding to $T_1$ and $T_2$ values which are close to the problematic tubes.
 Moreover, I highlight the areas where the motion is happening for the three different onsets.
 When $T_2$ is fixed, the fingerprints are very close together, especially in the middle of the sequence.
-This explains why the $T_1$ maps are mostly affected when motion happens in the beginning of the sequence as there is where the dictionary match carries more significance.
+This explains why the $T_1$ maps are mostly affected when motion happens in the beginning of the sequence as that is the point where the dictionary match carries more significance.
 Also, the last 50 repetition blocks in the sequence show a `spread' in the signals, which can explain why the $T_1$ maps can also be affected when motion is happening at the end of the scan.
 When $T_1$ is fixed, the fingerprints are close together in the middle and at the end, which explains why it is more important that the signals are matched correctly at the beginning of the scan and why the $T_2$ maps are mostly affected when that happens.
 

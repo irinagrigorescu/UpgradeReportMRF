@@ -76,17 +76,16 @@ These signals will be fed into a \textbf{reconstruction} block which, based on t
 \textbf{Output. } The output of my proposed generalised framework is a set of reconstructed images and, if the option is enabled, the $x,y,z$ components of the magnetisation vector.
 We have chosen to include the latter because in my experience with simulating \ac{mri} sequences, I have found it to be very useful to have this extra piece of information available to you.
 
-\hfill
+\clearpage
 
 \large \textbf{GPU-Based Parallel Approach to the Bloch Equation Solver} \normalsize
 
-The computational kernel of the \ac{mri} simulator will be based on the solutions of the Bloch equations at every time point in the pulse sequence and for every isochromat in the input object. 
+The computational kernel of the \ac{mri} simulator will initially be based on the solutions of the Bloch equations at every time point in the pulse sequence and for every isochromat in the input object. 
 These solutions will provide a temporal evolution of each isochromat's magnetisation vector under the effect of various \ac{rf} pulses, magnetic field gradients and inhomogeneities in the main magnetic field.
 
 \hfill
 
 Mathematically, the vector expression for the Bloch equation is:
-
 \begin{flalign*}
     \frac{\vec{M}}{dt} &= \gamma \big( \vec{M} \times \vec{B}_{eff} \big) - 
     \begin{bmatrix}
@@ -99,7 +98,7 @@ where
 \begin{flalign*}
     \vec{B}_{eff}(\vec{r},t) &= (xG_x(t) + yG_y(t)+ zG_z(t))\hat{z} + \Delta B (\vec{r}, t) \hat{z} + \vec{B}_{1x}(\vec{r},t) + \vec{B}_{1y}(\vec{r},t) 
 \end{flalign*}
-is the effective magnetic field experienced by the isochromat on position $\vec{r}$ and at time t,
+is the effective magnetic field experienced by the isochromat on position $\vec{r}$ and at time t;
 $G_x, G_y $ and $G_z $ are the imaging gradients,
 $\vec{B}_1$ is the applied RF pulse and 
 $\Delta B$ accounts for off-resonance effects.
@@ -141,10 +140,11 @@ Finally, thermal noise will be added to the complex-valued signal.
 
 \hfill
 
-The proposed \ac{gpu}-based Bloch equation solver will be used to simulate advanced \ac{mri} sequences.
+The proposed \ac{gpu}-based Bloch equation solver will initially be used to simulate simple \ac{mri} sequences.
 To allow for motion simulations, the spatial coordinates of the isochromats will be updated at every calculated time step of the pulse sequence.
 % Simple motion models that can be described analytically will be pre-computed on the \ac{cpu} and then stored in the \ac{gpu} global memory.
 % More complex motion models are also feasible, although they might increase the required GPU memory space.
+To allow for more complex scenarios, I will use the \texttt{ODEINT}\footnote{\url{http://gpgpu.org/2011/08/08/solving-odes-with-cuda}} open source C++ library for solving ordinary differential equations with CUDA.
 In my future work, I am to investigate this further and come up with the best solutions for the remaining time of my PhD.
 
 % Finally, it is my belief that this generalised framework can serve as a guideline for the \ac{mri} simulation community.
